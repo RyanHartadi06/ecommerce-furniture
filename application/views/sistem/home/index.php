@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-12 col-xl-8 mb-4 mb-xl-0">
         <h3 class="font-weight-bold">Hallo Aamir</h3>
-        <h6 class="font-weight-normal mb-0">Selamat datang di aplikasi pencatatan hafalan Al-Qur'an.</span></h6>
+        <h6 class="font-weight-normal mb-0">Selamat datang di aplikasi E-Commerce Furniture.</span></h6>
       </div>
       <div class="col-12 col-xl-4">
         <div class="justify-content-end d-flex">

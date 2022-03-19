@@ -22,9 +22,9 @@
       <div class="content-wrapper d-flex align-items-center auth px-0">
         <div class="row w-100 mx-0">
           <div class="col-lg-4 mx-auto">
-            <div class="auth-form-light text-left py-4 px-4 px-sm-5" style="border-top: 4px solid #48a300;">
+            <div class="auth-form-light text-left py-4 px-4 px-sm-5" style="border-top: 4px solid #8181c3;">
               <div class="brand-logo text-center">
-                <h3 class="text-center" style="color:#48a300;">Login</h3>
+                <h3 class="text-center">Login</h3>
               </div>
               <p class="font-weight-light mb-0" style="font-size:12pt;">Gunakan username / email dan password Anda untuk masuk ke dalam sistem!</p>
               <form id="form_login" class="pt-3" method="POST">
@@ -35,7 +35,7 @@
                   <input type="password" class="form-control form-control-lg" name="password" id="password" placeholder="Password">
                 </div>
                 <div class="mt-3 mb-4">
-                  <button type="submit" class="btn btn-block btn-success font-weight-medium">Login</button>
+                  <button type="submit" class="btn btn-block btn-primary font-weight-medium">Login</button>
                 </div>
                 <div class="my-3 text-right">
                   <a href="javascript:;" class="auth-link text-black text-right">Lupa password?</a>
