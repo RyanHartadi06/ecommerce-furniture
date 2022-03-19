@@ -1,9 +1,9 @@
 <?php 
     defined('BASEPATH') OR exit('No direct script access allowed');
-    class Tipe_hafalan_m extends CI_Model {
+    class Satuan_m extends CI_Model {
       function get_list_count($key="", $status="1"){
           $query = $this->db->query("
-              select count(*) as jml from th_tipe_hafalan 
+              select count(*) as jml from m_satuan 
               where 
                   concat(nama) like '%$key%' and status = '$status'
           ")->row_array();
@@ -12,7 +12,7 @@
 
       function get_list_data($key="",  $limit="", $offset="", $column="", $sort="", $status="1"){
           $query = $this->db->query("
-              select * from th_tipe_hafalan
+              select * from m_satuan
               where 
                   concat(nama) like '%$key%' 
                   and status = '$status'
@@ -25,7 +25,7 @@
       function get_all(){
         $query = $this->db->select('id, nama')
                 ->order_by('nama', 'asc')
-                ->get('th_tipe_hafalan');
+                ->get('m_satuan');
         return $query;
       }
     }

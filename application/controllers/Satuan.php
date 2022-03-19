@@ -1,19 +1,24 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 date_default_timezone_set('Asia/Jakarta');
-class Tipe_hafalan extends CI_Controller {
-  private $nama_menu  = "Tipe Hafalan";     
+class Satuan extends CI_Controller {
+  private $nama_menu  = "Satuan";     
   public function __construct()
   {
     parent::__construct();
+    $this->apl = get_apl();
+    $this->load->model('Menu_m');
     $this->load->model('M_main');
-    $this->load->model('Tipe_hafalan_m');
-    // must_login();
+    $this->load->model('Satuan_m');
+    must_login();
   }
   
   public function index()
   {
-    $data['content'] = "tipe_hafalan/index.php";    
+    $this->Menu_m->role_has_access($this->nama_menu);
+    $data['title'] = $this->nama_menu." | ".$this->apl['nama_sistem'];
+
+    $data['content'] = "satuan/index.php";    
     $this->parser->parse('sistem/template', $data);
   }
   
@@ -27,25 +32,25 @@ class Tipe_hafalan extends CI_Controller {
     
     $page              = array();
     $page['limit']     = $limit;
-    $page['count_row'] = $this->Tipe_hafalan_m->get_list_count($key)['jml'];
+    $page['count_row'] = $this->Satuan_m->get_list_count($key)['jml'];
     $page['current']   = $pg;
     $page['list']      = gen_paging($page);
     $data['paging']    = $page;
-    $data['list']      = $this->Tipe_hafalan_m->get_list_data($key, $limit, $offset, $column, $sort);
+    $data['list']      = $this->Satuan_m->get_list_data($key, $limit, $offset, $column, $sort);
 
-    $this->load->view('sistem/tipe_hafalan/list_data',$data);
+    $this->load->view('sistem/satuan/list_data',$data);
   }
 
   public function load_modal(){
     $id = $this->input->post('id');
     if ($id!=""){
         $data['mode'] = "UPDATE";
-        $data['data'] = $this->M_main->get_where('th_tipe_hafalan','id',$id)->row_array();
+        $data['data'] = $this->M_main->get_where('m_satuan','id',$id)->row_array();
     }else{
         $data['mode'] = "ADD";
         $data['kosong'] = "";
     }
-    $this->load->view('sistem/tipe_hafalan/form_modal',$data);
+    $this->load->view('sistem/satuan/form_modal',$data);
   }
 
   public function save(){
@@ -58,7 +63,7 @@ class Tipe_hafalan extends CI_Controller {
           );
       
           $this->db->where('id',$id);
-          $this->db->update('th_tipe_hafalan', $data_object);
+          $this->db->update('m_satuan', $data_object);
 
           $response['success'] = true;
           $response['message'] = "Data Berhasil Diubah !";     
@@ -68,7 +73,7 @@ class Tipe_hafalan extends CI_Controller {
               'status'=>'1',
               'created_at'=>date('Y-m-d H:i:s')
           );
-          $this->db->insert('th_tipe_hafalan', $data_object);
+          $this->db->insert('m_satuan', $data_object);
           $response['success'] = TRUE;
           $response['message'] = "Data Berhasil Disimpan";
       }
@@ -82,7 +87,7 @@ class Tipe_hafalan extends CI_Controller {
         'deleted_at' => date('Y-m-d H:i:s'),
       );
       $this->db->where('id', $id);
-      $this->db->update('th_tipe_hafalan', $object);
+      $this->db->update('m_satuan', $object);
       
       $response['success'] = true;
       $response['message'] = "Data berhasil dihapus !";
@@ -94,4 +99,4 @@ class Tipe_hafalan extends CI_Controller {
   }
 }
 
-/* End of file Tipe_hafalan.php */
+/* End of file Satuan.php */

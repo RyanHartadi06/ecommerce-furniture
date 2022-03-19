@@ -10,7 +10,6 @@ class Auth extends CI_Controller {
   
   public function index()
 	{
-    is_login();
 		$this->load->view('auth/login');
   }
   
@@ -27,31 +26,37 @@ class Auth extends CI_Controller {
         
         $cek_status = $this->Auth_m->check_auth_login($username, $password);
         if($cek_status->num_rows()!=0){
-          $cek_status = $cek_status->row_array();
-          $status = $cek_status['STATUS_USER'];
+          $users = $cek_status->row_array();
+          $status = $users['status'];
+          $email = $users['email'];
           //cek status (aktif, terblokir)
-          if($status=="BLOCK"){
+          if($status=="3"){
             $response['success'] = false;
             $response['message'] = "Akun Anda diblokir oleh sistem, hubungi pusat bantuan untuk memulihkannya !";
             // insert_log($username, "Login Aplikasi", 'Akun Diblokir', $this->input->ip_address(), $this->agent->browser(), $this->agent->agent_string());
-          }else if($status=="ACTIVE"){
-            $cek_login = $this->Auth_m->auth_by_id($cek_status['ID_USER']);
+          }elseif($status=="2"){
+            $response['success'] = false;
+            $response['message'] = "Anda belum memverifikasi Email yang telah kami kirimkan ke $email !";
+            // insert_log($username, "Login Aplikasi", 'Email Belum Diverifikasi', $this->input->ip_address(), $this->agent->browser(), $this->agent->agent_string());
+          }elseif($status=="1"){
+            $cek_login = $this->Auth_m->auth_by_id($users['id']);
             if($cek_login->num_rows()!=0){
               //user ditemukan
               $data_login=$cek_login->result();
               $ses_array = array(
-                'auth_id_user' => $data_login[0]->ID_USER, 
-                'auth_nama_user' => $data_login[0]->NAME_USER,
-                'auth_username' => $username,
-                'auth_id_role' => $data_login[0]->ID_ROLE, 
-                'auth_nama_role' => $data_login[0]->NAMA_ROLE,
-                'auth_foto' => null,
+                'auth_id_user' => $data_login[0]->id, 
+                'auth_nama_user' => $data_login[0]->nama,
+                'auth_username' => $data_login[0]->username,
+                'auth_email' => $data_login[0]->email,
+                'auth_id_role' => $data_login[0]->id_role, 
+                'auth_nama_role' => $data_login[0]->nama_role,
+                'auth_foto' => $data_login[0]->foto,
                 'auth_is_login' => TRUE,
               );
               $this->session->set_userdata( $ses_array );
           
               $response['success'] = true;
-              $response['message'] = "Selamat Datang ".$data_login[0]->NAME_USER." !";
+              $response['message'] = "Selamat Datang ".$data_login[0]->nama." !";
               $response['page'] = 'Home';
               // insert_log($username, "Login Aplikasi", 'Berhasil Login', $this->input->ip_address(), $this->agent->browser(), $this->agent->agent_string());
             }else{

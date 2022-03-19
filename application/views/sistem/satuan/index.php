@@ -2,7 +2,7 @@
   <div class="col-12">
     <div class="card flat">
       <div class="card-header card-header-blue">
-          <span class="card-title">Tipe Hafalan</span>
+          <span class="card-title">Data Satuan</span>
       </div>
       <div class="card-body">
         <div class="row" style="padding-top:12px;">
@@ -41,4 +41,4 @@
 <input type="hidden" name="hidden_column_name" id="hidden_column_name" value="created_at">
 <input type="hidden" name="hidden_sort_type" id="hidden_sort_type" value="desc">
 <div id="div_modal"></div>
-<script src="<?= base_url('assets/js/pages/tipe_hafalan.js') ?>"></script>
+<script src="<?= base_url('assets/js/pages/satuan.js') ?>"></script>

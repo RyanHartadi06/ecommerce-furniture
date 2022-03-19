@@ -48,7 +48,7 @@
       <div class="col-md-6 mb-4 stretch-card transparent">
         <div class="card card-tale">
           <div class="card-body">
-            <p class="mb-0">Hafalan</p>
+            <p class="mb-0">Dashboard</p>
             <p class="fs-30 mb-0">10</p>
             <span>10.00%</span>
           </div>
@@ -57,7 +57,7 @@
       <div class="col-md-6 mb-4 stretch-card transparent">
         <div class="card card-dark-blue">
           <div class="card-body">
-            <p class="mb-0">Hafalan</p>
+            <p class="mb-0">Dashboard</p>
             <p class="fs-30 mb-0">10</p>
             <span>22.00%</span>
           </div>
@@ -68,7 +68,7 @@
       <div class="col-md-6 mb-4 mb-lg-0 stretch-card transparent">
         <div class="card card-light-blue">
           <div class="card-body">
-            <p class="mb-0">Hafalan</p>
+            <p class="mb-0">Dashboard</p>
             <p class="fs-30 mb-0">10</p>
             <span>2.00%</span>
           </div>
@@ -77,7 +77,7 @@
       <div class="col-md-6 stretch-card transparent">
         <div class="card card-light-danger">
           <div class="card-body">
-            <p class="mb-0">Hafalan</p>
+            <p class="mb-0">Dashboard</p>
             <p class="fs-30 mb-0">10</p>
             <span>0.22%</span>
           </div>
