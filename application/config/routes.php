@@ -56,3 +56,5 @@ $route['translate_uri_dashes'] = FALSE;
 // Custome Route
 $route['master/satuan'] = 'Satuan';
 $route['master/pelanggan'] = 'Pelanggan';
+$route['master/kategori-produk'] = 'Kategori';
+$route['master/produk'] = 'Produk';
