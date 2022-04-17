@@ -55,3 +55,4 @@ $route['translate_uri_dashes'] = FALSE;
 
 // Custome Route
 $route['master/satuan'] = 'Satuan';
+$route['master/pelanggan'] = 'Pelanggan';
