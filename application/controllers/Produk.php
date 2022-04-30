@@ -21,6 +21,35 @@ class Produk extends CI_Controller {
     $data['content'] = "produk/index.php";    
     $this->parser->parse('sistem/template', $data);
   }
+
+  public function create()
+  {
+    $this->Menu_m->role_has_access($this->nama_menu);
+    $data['title'] = $this->nama_menu." | ".$this->apl['nama_sistem'];
+
+    $data['modeform'] = 'ADD';
+    $data['kode'] = $this->M_main->get_no_otomatis_v3('m_produk', 'kode', 'P');
+    $data['jenis'] = $this->M_main->get_all('m_jenis_produk')->result();
+    $data['kategori'] = $this->M_main->get_all('m_kategori_produk')->result();
+    $data['satuan'] = $this->M_main->get_all('m_satuan')->result();
+    $data['content'] = "produk/form.php";    
+    $this->parser->parse('sistem/template', $data);
+  }
+
+  public function edit($id)
+  {
+    $this->Menu_m->role_has_access($this->nama_menu);
+    $data['title'] = $this->nama_menu." | ".$this->apl['nama_sistem'];
+
+    $data['modeform'] = 'UPDATE';
+    $data['data'] = $this->M_main->get_where('m_produk', 'id', $id)->row_array();
+    $data['kode'] = $this->M_main->get_no_otomatis_v3('m_produk', 'kode', 'P');
+    $data['jenis'] = $this->M_main->get_all('m_jenis_produk')->result();
+    $data['kategori'] = $this->M_main->get_all('m_kategori_produk')->result();
+    $data['satuan'] = $this->M_main->get_all('m_satuan')->result();
+    $data['content'] = "produk/form.php";    
+    $this->parser->parse('sistem/template', $data);
+  }
   
   public function fetch_data(){
     $pg     = ($this->input->get("page") != "") ? $this->input->get("page") : 1;
@@ -45,7 +74,7 @@ class Produk extends CI_Controller {
     $id = $this->input->post('id');
     if ($id!=""){
         $data['mode'] = "UPDATE";
-        $data['data'] = $this->M_main->get_where('m_[produk]','id',$id)->row_array();
+        $data['data'] = $this->M_main->get_where('m_produk','id',$id)->row_array();
     }else{
         $data['mode'] = "ADD";
         $data['kosong'] = "";
@@ -57,16 +86,22 @@ class Produk extends CI_Controller {
       $id = $this->input->post('id');
       $kode = strip_tags(trim($this->input->post('kode')));
       $nama = strip_tags(trim($this->input->post('nama')));
-      $no_telp = strip_tags(trim($this->input->post('no_telp')));
-      $alamat = strip_tags(trim($this->input->post('alamat')));
-      $keterangan = strip_tags(trim($this->input->post('keterangan')));
+      $id_jenis = strip_tags(trim($this->input->post('id_jenis')));
+      $id_kategori = strip_tags(trim($this->input->post('id_kategori')));
+      $id_satuan = strip_tags(trim($this->input->post('id_satuan')));
+      $deskripsi = strip_tags(trim($this->input->post('deskripsi')));
+      $harga = strip_tags(trim($this->input->post('harga')));
+      $stok = strip_tags(trim($this->input->post('stok')));
+      
       if($id!=""){
           $data_object = array(
-              'kode'=>$kode,
               'nama'=>$nama,
-              'no_telp'=>$no_telp,
-              'alamat'=>$alamat,
-              'keterangan'=>$keterangan,
+              'deskripsi'=>$deskripsi,
+              'id_jenis_produk'=>$id_jenis,
+              'id_satuan'=>$id_satuan,
+              'id_kategori_produk'=>$id_kategori,
+              'harga'=>$harga,
+              'stok'=>$stok,
               'updated_at'=>date('Y-m-d H:i:s')
           );
       
@@ -76,12 +111,17 @@ class Produk extends CI_Controller {
           $response['success'] = true;
           $response['message'] = "Data Berhasil Diubah !";     
       }else{
+          $id = $this->uuid->v4(false);    
           $data_object = array(
+              'id'=>$id,
               'kode'=>$kode,
               'nama'=>$nama,
-              'no_telp'=>$no_telp,
-              'alamat'=>$alamat,
-              'keterangan'=>$keterangan,
+              'deskripsi'=>$deskripsi,
+              'id_jenis_produk'=>$id_jenis,
+              'id_satuan'=>$id_satuan,
+              'id_kategori_produk'=>$id_kategori,
+              'harga'=>$harga,
+              'stok'=>$stok,
               'status'=>'1',
               'created_at'=>date('Y-m-d H:i:s')
           );
