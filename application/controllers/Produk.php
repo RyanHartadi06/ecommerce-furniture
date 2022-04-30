@@ -70,16 +70,10 @@ class Produk extends CI_Controller {
     $this->load->view('sistem/produk/list_data',$data);
   }
 
-  public function load_modal(){
-    $id = $this->input->post('id');
-    if ($id!=""){
-        $data['mode'] = "UPDATE";
-        $data['data'] = $this->M_main->get_where('m_produk','id',$id)->row_array();
-    }else{
-        $data['mode'] = "ADD";
-        $data['kosong'] = "";
-    }
-    $this->load->view('sistem/produk/form_modal',$data);
+  public function load_image(){
+    $id = $this->input->post('id_produk');
+    $data['foto_produk'] = $this->M_main->get_where('m_produk_image', 'id_produk', $id);
+    $this->load->view('sistem/produk/list_image', $data);
   }
 
   public function save(){
@@ -148,6 +142,25 @@ class Produk extends CI_Controller {
       $response['message'] = "Data tidak ditemukan !";
     }
     echo json_encode($response);
+  }
+
+  public function upload_foto(){
+      $id_produk = $this->input->post('id_produk');
+      $foto = do_upload_file('produk', 'file', 'assets/uploads/produk/', 'jpg|jpeg|png');
+      $path = $foto['file_name'];
+
+      $data_obj = array(
+          'id_produk'   => $id_produk,
+          'image'       => $path,
+          'keterangan'  => null,
+          'status'      => '1',
+          'created_at'  => date('Y-m-d H:i:s'),
+      );
+      $this->db->insert('m_produk_image', $data_obj);
+
+      $response['success'] = true;
+      $response['message'] = "Foto produk berhasil disimpan !";
+      echo json_encode($response);
   }
 }
 

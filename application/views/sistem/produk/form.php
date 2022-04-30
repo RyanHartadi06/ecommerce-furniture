@@ -133,120 +133,7 @@
           <div>
             Foto Produk
             <hr>
-            <div class="row">
-              <div class="col-md-2">
-                <div class="img-produk">
-                  <div class="img-icon-delete">
-                    <i class="fa fa-times-circle"></i>
-                  </div>
-                  <img src="<?= base_url('assets/images/produk/meja.jpg') ?>" alt="">
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="img-produk">
-                  <div class="img-icon-delete">
-                    <i class="fa fa-times-circle"></i>
-                  </div>
-                  <img src="<?= base_url('assets/images/produk/meja.jpg') ?>" alt="">
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="img-produk">
-                  <div class="img-icon-delete">
-                    <i class="fa fa-times-circle"></i>
-                  </div>
-                  <img src="<?= base_url('assets/images/produk/meja.jpg') ?>" alt="">
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="img-produk">
-                  <div class="img-icon-delete">
-                    <i class="fa fa-times-circle"></i>
-                  </div>
-                  <img src="<?= base_url('assets/images/produk/meja.jpg') ?>" alt="">
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="img-produk">
-                  <div class="img-icon-delete">
-                    <i class="fa fa-times-circle"></i>
-                  </div>
-                  <img src="<?= base_url('assets/images/produk/meja.jpg') ?>" alt="">
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="img-produk">
-                  <div class="img-icon-delete">
-                    <i class="fa fa-times-circle"></i>
-                  </div>
-                  <img src="<?= base_url('assets/images/produk/meja.jpg') ?>" alt="">
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="img-produk">
-                  <div class="img-icon-delete">
-                    <i class="fa fa-times-circle"></i>
-                  </div>
-                  <img src="<?= base_url('assets/images/produk/meja.jpg') ?>" alt="">
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="img-produk">
-                  <div class="img-icon-delete">
-                    <i class="fa fa-times-circle"></i>
-                  </div>
-                  <img src="<?= base_url('assets/images/produk/meja.jpg') ?>" alt="">
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="img-produk">
-                  <div class="img-icon-delete">
-                    <i class="fa fa-times-circle"></i>
-                  </div>
-                  <img src="<?= base_url('assets/images/produk/meja.jpg') ?>" alt="">
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="img-produk">
-                  <div class="img-icon-delete">
-                    <i class="fa fa-times-circle"></i>
-                  </div>
-                  <img src="<?= base_url('assets/images/produk/meja.jpg') ?>" alt="">
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="img-produk">
-                  <div class="img-icon-delete">
-                    <i class="fa fa-times-circle"></i>
-                  </div>
-                  <img src="<?= base_url('assets/images/produk/meja.jpg') ?>" alt="">
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="img-produk">
-                  <div class="img-icon-delete">
-                    <i class="fa fa-times-circle"></i>
-                  </div>
-                  <img src="<?= base_url('assets/images/produk/meja.jpg') ?>" alt="">
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="img-produk">
-                  <div class="img-icon-delete">
-                    <i class="fa fa-times-circle"></i>
-                  </div>
-                  <img src="<?= base_url('assets/images/produk/meja.jpg') ?>" alt="">
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="img-produk-plus">
-                  <input type="file" name="file_upload" id="file_upload"/>
-                  <div style="padding:40% 46%; cursor:pointer;" onclick="document.getElementById('file_upload').click()">
-                    <i class="fa fa-plus-circle" style="color:grey; font-size:16pt;"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <div id="foto-produk"></div>
           </div>
           <?php } ?>
 
@@ -262,42 +149,25 @@
 </div>
 <div id="div_modal"></div>
 <script>
-  $(function(){
-      $("#file_upload").on('change', function(e){
-          e.preventDefault();
-          let id = $("#id").val();
-          let file = $("#file_upload").val();
-
-          const formData = new FormData()
-          formData.append('id_produk', id);
-          formData.append('file', file);
-
-          $.ajax({
-						url: base_url + '/Produk/upload_foto',
-						method: 'POST',
-						dataType: 'json',	
-						data: formData,
-						async: true,
-						processData: false,
-						contentType: false,
-						success: function (data) {
-							if (data.success == true) {
-								Toast.fire({
-									icon: 'success',
-									title: data.message
-								});
-							} else {
-								setTimeout(function(){ 
-                  Swal.fire({icon: 'error',title: 'Oops...',text: data.message});
-                }, 1000);
-              }
-						},
-						fail: function (event) {
-							alert(event);
-						}
-					});
-      });
+  $(document).ready(function() {
+    getFotoProduk();
   });
+
+  function getFotoProduk() {
+    var id = $('#id').val();
+    $.ajax({
+      url: base_url + "/Produk/load_image",
+      type: 'POST',
+      dataType: 'html',
+      data: {
+        id_produk : id,
+      },
+      beforeSend: function() {},
+      success: function(result) {
+          $('#foto-produk').html(result);
+      }
+    });
+  }
 
 
   $(document).on('submit', '#formData', function(event) {
