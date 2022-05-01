@@ -7,7 +7,7 @@ class Home extends CI_Controller {
     parent::__construct();
     $this->apl = get_apl();
     $this->load->model('Menu_m');
-    must_login();
+    // must_login();
   }
   
   public function index()
@@ -17,6 +17,22 @@ class Home extends CI_Controller {
 
     $data['content'] = "home/index.php";    
     $this->parser->parse('sistem/template', $data);
+  }
+  
+  public function landing()
+  {
+    $data['title'] = "Home | ".$this->apl['nama_sistem'];
+
+    $data['content'] = "home/index.php";    
+    $this->parser->parse('frontend/template', $data);
+  }
+  
+  public function detail()
+  {
+    $data['title'] = "Detail Produk | ".$this->apl['nama_sistem'];
+
+    $data['content'] = "produk/detail_produk.php";    
+    $this->parser->parse('frontend/template_produk', $data);
   }    
 }
 
