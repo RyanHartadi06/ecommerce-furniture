@@ -2,12 +2,12 @@
   <div class="col-12">
     <div class="card flat">
       <div class="card-header card-header-blue">
-          <span class="card-title">Data Satuan</span>
+          <span class="card-title">Data Produk</span>
       </div>
       <div class="card-body">
         <div class="row" style="padding-top:12px;">
           <div class="col-md-6">
-            <a href="javascript:;" class="btn btn-success mr-1 mb-1" id="btn-create"><i
+            <a href="<?= site_url('Produk/create') ?>" class="btn btn-success mr-1 mb-1" id="btn-create"><i
             class="fa fa-plus-circle"></i> &nbsp;Tambah</a>
           </div>
           <div class="col-md-2">
@@ -41,4 +41,4 @@
 <input type="hidden" name="hidden_column_name" id="hidden_column_name" value="created_at">
 <input type="hidden" name="hidden_sort_type" id="hidden_sort_type" value="desc">
 <div id="div_modal"></div>
-<script src="<?= base_url('assets/js/pages/satuan.js') ?>"></script>
+<script src="<?= base_url('assets/js/pages/produk.js') ?>"></script>

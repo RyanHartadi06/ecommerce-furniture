@@ -16,11 +16,13 @@
     <thead class="tr-head">
       <tr>
         <th width="3%" class="text-center">No. </th>
-        <th width="10%" class="sortable" id="column_kode" data-sort="" onclick="sort_table('#column_kode','kode')">Kode </th>
-        <th width="20%" class="sortable" id="column_nama" data-sort="" onclick="sort_table('#column_nama','nama')">Nama </th>
-        <th width="10%" class="sortable" id="column_no_telp" data-sort="" onclick="sort_table('#column_no_telp','no_telp')">No Telp </th>
-        <th width="10%" class="sortable" id="column_email" data-sort="" onclick="sort_table('#column_email','email')">Email </th>
-        <th width="20%" class="sortable" id="column_alamat" data-sort="" onclick="sort_table('#column_alamat','alamat')">Alamat </th>
+        <th width="10%" class="sortable" id="column_kode" data-sort="" onclick="sort_table('#column_kode','p.kode')">Kode </th>
+        <th width="20%" class="sortable" id="column_nama" data-sort="" onclick="sort_table('#column_nama','p.nama')">Nama </th>
+        <th width="10%" class="sortable" id="column_jenis" data-sort="" onclick="sort_table('#column_jenis','jp.nama')">Jenis </th>
+        <th width="10%" class="sortable" id="column_kategori" data-sort="" onclick="sort_table('#column_kategori','k.nama')">Kategori </th>
+        <th width="10%" class="sortable" id="column_satuan" data-sort="" onclick="sort_table('#column_satuan','s.nama')">Satuan </th>
+        <th width="10%" class="sortable" id="column_harga" data-sort="" onclick="sort_table('#column_harga','p.harga')">Harga </th>
+        <th width="5%" class="sortable" id="column_stok" data-sort="" onclick="sort_table('#column_stok','p.stok')">Stok </th>
         <th class="text-center" width="10%">Aksi</th>
       </tr>
       </thead>
@@ -33,11 +35,13 @@
             <td class="text-center"><?= $no ?>.</td>
             <td><?= $row->kode ?></td>
             <td><?= $row->nama ?></td>
-            <td><?= $row->no_telp ?></td>
-            <td><?= $row->email ?></td>
-            <td><?= $row->alamat ?></td>
+            <td><?= $row->jenis_produk ?></td>
+            <td><?= $row->kategori_produk ?></td>
+            <td><?= $row->satuan ?></td>
+            <td><?= $row->harga ?></td>
+            <td><?= $row->stok ?></td>
             <td class="text-center">
-              <a href="javascript:;" data-id="<?=$row->id?>" data-name="<?=$row->nama?>" class="btn btn-sm btn-warning btn-edit" data-toggle="tooltip" title="Edit Tipe Hafalan"><i style="color:#fff;" class="fa fa-edit"></i></a>
+              <a href="<?= site_url('Produk/edit/'.$row->id) ?>" data-id="<?=$row->id?>" data-name="<?=$row->nama?>" class="btn btn-sm btn-warning" data-toggle="tooltip" title="Edit Tipe Hafalan"><i style="color:#fff;" class="fa fa-edit"></i></a>
               <a href="javascript:;" data-id="<?=$row->id?>" data-name="<?=$row->nama?>" class="btn btn-sm btn-danger btn-delete" data-toggle="tooltip" title="Hapus Tipe Hafalan"><i class="fa fa-trash"></i></a>	    
             </td>
           </tr>
@@ -46,7 +50,7 @@
         }else{
         ?>
         <tr>
-          <td colspan="7">Data tidak ditemukan!</td>
+          <td colspan="9">Data tidak ditemukan!</td>
         </tr>
       <?php } ?>
     </tbody>

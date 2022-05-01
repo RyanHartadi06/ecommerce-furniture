@@ -45,7 +45,7 @@ class M_main extends CI_Model{
 		return $edit_pass;
 	}
 
-	public function getKodeMaster($awal,$clm,$table){
+	public function get_kode_master_v3($awal,$clm,$table){
         $q = $this->db->query("SELECT MAX(RIGHT($clm,3)) AS idmax FROM $table");
         $kd = "";
         if($q->num_rows()>0){
@@ -61,7 +61,7 @@ class M_main extends CI_Model{
         return $kodemax;
 	}
 
-	public function getKodeMaster7($awal,$clm,$table){
+	public function get_kode_master_v7($awal,$clm,$table){
         $q = $this->db->query("SELECT MAX(RIGHT($clm,7)) AS idmax FROM $table");
         $kd = "";
         if($q->num_rows()>0){
@@ -77,7 +77,23 @@ class M_main extends CI_Model{
         return $kodemax;
 	}
 
-	function get_no_otomatis($tbl,$kolom,$awal){
+  function get_no_otomatis_v3($tbl,$kolom,$awal){
+    $q = $this->db->query("SELECT MAX(RIGHT($kolom,3)) AS kd_max FROM $tbl WHERE DATE(created_at)=current_date");
+    $kd = "";
+    if($q->num_rows()>0){
+        $data = $q->row_array();
+        foreach($q->result() as $k){
+            $tmp = intval($k->kd_max)+1;
+            $kd = sprintf("%03s", $tmp);
+        }
+    }else{
+        $kd = "001";
+    }
+    date_default_timezone_set('Asia/Jakarta');
+    return $awal.date('dmyy').$kd;
+  }
+
+	function get_no_otomatis_v4($tbl,$kolom,$awal){
         $q = $this->db->query("SELECT MAX(RIGHT($kolom,4)) AS kd_max FROM $tbl WHERE DATE(created_at)=current_date");
         $kd = "";
         if($q->num_rows()>0){

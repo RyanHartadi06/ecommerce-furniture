@@ -39,7 +39,7 @@
     $t=time();
     // File upload script
     $CI->upload->initialize(array(
-        'upload_path' => '.'.$folder,
+        'upload_path' => './'.$folder,
         'file_name' => $new_name.'_'.$t,
         'overwrite' => false,
         // 'encrypt_name' => true,

@@ -1,11 +1,16 @@
 .table-bordered td {
   /* border: 1px solid #d8dbe0 !important; */
   padding: 8px !important;
+  font-size: 15px !important;
+  color: black;
 }
 .tr-head {
   background-color: #f8f8f9 !important;
   vertical-align: bottom;
   border-bottom: 3px solid #dee2e6;
+}
+.tr-head tr th {
+  font-size: 15px !important;
 }
 .flat{
   border: none !important;
