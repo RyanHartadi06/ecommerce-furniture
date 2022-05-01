@@ -43,12 +43,12 @@ class Pelanggan extends CI_Controller {
 
   public function load_modal(){
     $id = $this->input->post('id');
+    $data['kode'] = $this->M_main->get_kode_master_v3('CS', 'kode', 'm_pelanggan');
     if ($id!=""){
         $data['mode'] = "UPDATE";
-        $data['data'] = $this->M_main->get_where('m_pelanggan','id',$id)->row_array();
+        $data['data'] = $this->M_main->get_where('m_pelanggan', 'id', $id)->row_array();
     }else{
         $data['mode'] = "ADD";
-        $data['kosong'] = "";
     }
     $this->load->view('sistem/pelanggan/form_modal',$data);
   }
@@ -58,6 +58,7 @@ class Pelanggan extends CI_Controller {
       $kode = strip_tags(trim($this->input->post('kode')));
       $nama = strip_tags(trim($this->input->post('nama')));
       $no_telp = strip_tags(trim($this->input->post('no_telp')));
+      $email = strip_tags(trim($this->input->post('email')));
       $alamat = strip_tags(trim($this->input->post('alamat')));
       $keterangan = strip_tags(trim($this->input->post('keterangan')));
       if($id!=""){
@@ -65,6 +66,7 @@ class Pelanggan extends CI_Controller {
               'kode'=>$kode,
               'nama'=>$nama,
               'no_telp'=>$no_telp,
+              'email'=>$email,
               'alamat'=>$alamat,
               'keterangan'=>$keterangan,
               'updated_at'=>date('Y-m-d H:i:s')
@@ -76,18 +78,46 @@ class Pelanggan extends CI_Controller {
           $response['success'] = true;
           $response['message'] = "Data Berhasil Diubah !";     
       }else{
-          $data_object = array(
+          $id = $this->uuid->v4(false);   
+          $get_email = $this->M_main->get_where('users','email',$email)->num_rows();
+
+          if($get_email!=0){
+            $response['success'] = FALSE;
+            $response['message'] = "Maaf, Email sudah terdaftar !"; 
+          }else{
+
+            $id_user = $this->uuid->v4(false);
+            $data_object = array(
+              'id'=>$id,
               'kode'=>$kode,
               'nama'=>$nama,
               'no_telp'=>$no_telp,
+              'email'=>$email,
               'alamat'=>$alamat,
               'keterangan'=>$keterangan,
               'status'=>'1',
+              'id_user'=>$id_user,
               'created_at'=>date('Y-m-d H:i:s')
-          );
-          $this->db->insert('m_pelanggan', $data_object);
-          $response['success'] = TRUE;
-          $response['message'] = "Data Berhasil Disimpan";
+            );
+            $this->db->insert('m_pelanggan', $data_object);
+            
+            // Data User
+            $password = md5('123456');
+            $data_user = array(
+              'id' => $id_user, 
+              'nama'=>$nama,
+              'username'=>$email,
+              'email'=>$email,
+              'password'=>$password,
+              'created_at'=>date('Y-m-d H:i:s'),
+              'status'=>'1',
+              'id_role'=>'PELANGGAN',
+            );
+            $this->db->insert('users', $data_user);   
+
+            $response['success'] = TRUE;
+            $response['message'] = "Data Berhasil Disimpan";
+          }
       }
       echo json_encode($response);   
   }

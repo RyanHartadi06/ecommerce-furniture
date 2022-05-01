@@ -1,5 +1,5 @@
 <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="modalTitleAdd" style="display:none;">Tambah Pelanggan</h5>
@@ -12,9 +12,9 @@
         <div class="modal-body">
           <input type="hidden" name="modeform" id="modeform">
           <input type="hidden" class="form-control" id="id" name="id" value="<?= isset($data) ? $data['id'] : '' ?>"></input>
-          <div class="form-group" col-md-2>
+          <div class="form-group">
             <label for="nama">Kode</label>
-            <input type="text" class="form-control" id="kode" name="kode" placeholder="Kode pelanggan . . ." value="<?= isset($data) ? $data['kode'] : '' ?>" required>
+            <input type="text" class="form-control" id="kode" name="kode" placeholder="Kode pelanggan . . ." value="<?= isset($data) ? $data['kode'] : $kode ?>" readonly>
           </div>
           <div class="form-group">
             <label for="nama">Nama</label>
@@ -25,12 +25,16 @@
             <input type="number" class="form-control" id="no_telp" name="no_telp" placeholder="No Telepon . . ." value="<?= isset($data) ? $data['no_telp'] : '' ?>" required>
           </div>
           <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Email . . ." value="<?= isset($data) ? $data['email'] : '' ?>" required>
+          </div>
+          <div class="form-group">
             <label for="nama">Alamat</label>
             <textarea type="text" class="form-control" id="alamat" name="alamat" placeholder="Alamat lengkap . . ." required><?= isset($data) ? $data['alamat'] : '' ?></textarea>
           </div>
           <div class="form-group">
             <label for="nama">Keterangan</label>
-            <textarea type="text" class="form-control" id="keterangan" name="keterangan" placeholder="Keterangan pelanggan . . ." required><?= isset($data) ? $data['keterangan'] : '' ?></textarea>
+            <textarea type="text" class="form-control" id="keterangan" name="keterangan" placeholder="Keterangan pelanggan . . ."><?= isset($data) ? $data['keterangan'] : '' ?></textarea>
           </div>
         </div>
         <div class="modal-footer">

@@ -151,7 +151,7 @@ class Produk extends CI_Controller {
 
       $data_obj = array(
           'id_produk'   => $id_produk,
-          'image'       => $path,
+          'foto'        => $path,
           'keterangan'  => null,
           'status'      => '1',
           'created_at'  => date('Y-m-d H:i:s'),
@@ -161,6 +161,27 @@ class Produk extends CI_Controller {
       $response['success'] = true;
       $response['message'] = "Foto produk berhasil disimpan !";
       echo json_encode($response);
+  }
+
+  public function delete_foto($id){
+    if($id){
+      $foto_produk = $this->M_main->get_where('m_produk_image', 'id', $id)->row_array();
+      $file = $foto_produk['foto'];
+      // Delete file
+      if (file_exists($file)) {
+        unlink($file);
+      }
+      
+      $this->db->where('id', $id);
+      $this->db->delete('m_produk_image');
+      
+      $response['success'] = true;
+      $response['message'] = "Foto produk berhasil dihapus !";
+    }else{
+      $response['success'] = false;
+      $response['message'] = "Data tidak ditemukan !";
+    }
+    echo json_encode($response);
   }
 }
 

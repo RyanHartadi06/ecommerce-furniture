@@ -45,7 +45,7 @@ class M_main extends CI_Model{
 		return $edit_pass;
 	}
 
-	public function getKodeMaster($awal,$clm,$table){
+	public function get_kode_master_v3($awal,$clm,$table){
         $q = $this->db->query("SELECT MAX(RIGHT($clm,3)) AS idmax FROM $table");
         $kd = "";
         if($q->num_rows()>0){
@@ -61,7 +61,7 @@ class M_main extends CI_Model{
         return $kodemax;
 	}
 
-	public function getKodeMaster7($awal,$clm,$table){
+	public function get_kode_master_v7($awal,$clm,$table){
         $q = $this->db->query("SELECT MAX(RIGHT($clm,7)) AS idmax FROM $table");
         $kd = "";
         if($q->num_rows()>0){

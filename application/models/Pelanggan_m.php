@@ -5,7 +5,7 @@
           $query = $this->db->query("
               select count(*) as jml from m_pelanggan
               where 
-                  concat(nama) like '%$key%' and status = '$status'
+                  concat(nama, no_telp, email, coalesce(alamat, '')) like '%$key%' and status = '$status'
           ")->row_array();
           return $query;
       }
@@ -14,7 +14,7 @@
           $query = $this->db->query("
               select * from m_pelanggan
               where 
-                  concat(nama) like '%$key%' 
+                  concat(nama, no_telp, email, coalesce(alamat, '')) like '%$key%' 
                   and status = '$status'
               order by $column $sort
               limit $limit offset $offset

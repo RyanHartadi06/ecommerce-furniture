@@ -17,9 +17,10 @@
       <tr>
         <th width="3%" class="text-center">No. </th>
         <th width="10%" class="sortable" id="column_kode" data-sort="" onclick="sort_table('#column_kode','kode')">Kode </th>
-        <th width="35%" class="sortable" id="column_nama" data-sort="" onclick="sort_table('#column_nama','nama')">Nama </th>
-        <th width="17%" class="sortable" id="column_no_telp" data-sort="" onclick="sort_table('#column_no_telp','no_telp')">No Telp </th>
-        <th width="25%" class="sortable" id="column_alamat" data-sort="" onclick="sort_table('#column_alamat','alamat')">Alamat </th>
+        <th width="20%" class="sortable" id="column_nama" data-sort="" onclick="sort_table('#column_nama','nama')">Nama </th>
+        <th width="10%" class="sortable" id="column_no_telp" data-sort="" onclick="sort_table('#column_no_telp','no_telp')">No Telp </th>
+        <th width="10%" class="sortable" id="column_email" data-sort="" onclick="sort_table('#column_email','email')">Email </th>
+        <th width="20%" class="sortable" id="column_alamat" data-sort="" onclick="sort_table('#column_alamat','alamat')">Alamat </th>
         <th class="text-center" width="10%">Aksi</th>
       </tr>
       </thead>
@@ -33,6 +34,7 @@
             <td><?= $row->kode ?></td>
             <td><?= $row->nama ?></td>
             <td><?= $row->no_telp ?></td>
+            <td><?= $row->email ?></td>
             <td><?= $row->alamat ?></td>
             <td class="text-center">
               <a href="javascript:;" data-id="<?=$row->id?>" data-name="<?=$row->nama?>" class="btn btn-sm btn-warning btn-edit" data-toggle="tooltip" title="Edit Tipe Hafalan"><i style="color:#fff;" class="fa fa-edit"></i></a>
@@ -44,7 +46,7 @@
         }else{
         ?>
         <tr>
-          <td colspan="3">Data tidak ditemukan!</td>
+          <td colspan="7">Data tidak ditemukan!</td>
         </tr>
       <?php } ?>
     </tbody>
