@@ -29,6 +29,7 @@
   <?php include('layouts/theme_js.php') ?>
   <script>
     var base_url = "<?= site_url() ?>";
+    var site_url = "<?= site_url() ?>";
     var Toast = Swal.mixin({
       toast: true,
       position: 'top-end',

@@ -15,7 +15,10 @@
 
       function get_list_data($key="",  $limit="", $offset="", $column="", $sort="", $status="1"){
           $query = $this->db->query("
-              SELECT p.*, jp.nama AS jenis_produk, kp.nama AS kategori_produk, s.nama AS satuan FROM m_produk p
+              SELECT p.*, jp.nama AS jenis_produk, kp.nama AS kategori_produk, s.nama AS satuan,  (
+                select foto from m_produk_image where id_produk = p.id
+                order by created_at asc limit 1 
+              ) as foto FROM m_produk p
               LEFT JOIN m_jenis_produk jp ON p.id_jenis_produk = jp.id 
               LEFT JOIN m_kategori_produk kp ON p.id_kategori_produk = kp.id
               LEFT JOIN m_satuan s ON p.id_satuan = s.id
@@ -33,5 +36,42 @@
                 ->get('m_produk');
         return $query;
       }
+
+      function get_by_id($id){
+        $query = $this->db->query("
+            SELECT p.*, jp.nama AS jenis_produk, kp.nama AS kategori_produk, s.nama AS satuan, (
+              select foto from m_produk_image where id_produk = p.id
+              order by created_at asc limit 1 
+            ) as foto FROM m_produk p
+            LEFT JOIN m_jenis_produk jp ON p.id_jenis_produk = jp.id 
+            LEFT JOIN m_kategori_produk kp ON p.id_kategori_produk = kp.id
+            LEFT JOIN m_satuan s ON p.id_satuan = s.id
+            WHERE p.id = '$id'
+        ");
+        return $query;
+      }
+
+      function get_produk_by_kategori($id_kategori="", $id_produk=""){
+        $q = "
+          SELECT p.*, jp.nama AS jenis_produk, kp.nama AS kategori_produk, s.nama AS satuan,  (
+            select foto from m_produk_image where id_produk = p.id
+            order by created_at asc limit 1 
+          ) as foto FROM m_produk p
+          LEFT JOIN m_jenis_produk jp ON p.id_jenis_produk = jp.id 
+          LEFT JOIN m_kategori_produk kp ON p.id_kategori_produk = kp.id
+          LEFT JOIN m_satuan s ON p.id_satuan = s.id
+          where p.id_kategori_produk = '$id_kategori'
+          and p.status = '1'
+        ";
+
+        if($id_produk!=""){
+          $q .= " and p.id <> '$id_produk'";
+        }
+        $q .= " order by p.created_at desc";
+        
+        $query = $this->db->query($q);
+        return $query;
+      }
+
     }
 ?>

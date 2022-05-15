@@ -37,5 +37,8 @@
   <!-- END FOOTER -->
   <!-- plugins:js -->
   <?php include('layouts/theme_js.php') ?>
+  <script>
+    var site_url = "<?= site_url() ?>";
+  </script>
 </body>
 </html>

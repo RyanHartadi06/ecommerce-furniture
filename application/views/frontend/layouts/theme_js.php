@@ -1,5 +1,3 @@
-  <!-- Latest jQuery -->
-  <script src="<?= base_url('assets/frontend/js/jquery-1.12.4.min.js') ?>"></script>
   <!-- popper min js -->
   <script src="<?= base_url('assets/frontend/js/popper.min.js') ?>"></script>
   <!-- Latest compiled and minified Bootstrap -->

@@ -10,11 +10,11 @@ class Produk extends CI_Controller {
     $this->load->model('Menu_m');
     $this->load->model('M_main');
     $this->load->model('Produk_m');
-    must_login();
   }
   
   public function index()
   {
+    must_login();
     $this->Menu_m->role_has_access($this->nama_menu);
     $data['title'] = $this->nama_menu." | ".$this->apl['nama_sistem'];
 
@@ -24,6 +24,7 @@ class Produk extends CI_Controller {
 
   public function create()
   {
+    must_login();
     $this->Menu_m->role_has_access($this->nama_menu);
     $data['title'] = $this->nama_menu." | ".$this->apl['nama_sistem'];
 
@@ -38,6 +39,7 @@ class Produk extends CI_Controller {
 
   public function edit($id)
   {
+    must_login();
     $this->Menu_m->role_has_access($this->nama_menu);
     $data['title'] = $this->nama_menu." | ".$this->apl['nama_sistem'];
 
@@ -183,6 +185,38 @@ class Produk extends CI_Controller {
     }
     echo json_encode($response);
   }
+
+  // Ecommerce
+  public function fetch_data_produk(){
+    $pg     = ($this->input->get("page") != "") ? $this->input->get("page") : 1;
+    $key	  = ($this->input->get("search") != "") ? strtoupper(quotes_to_entities($this->input->get("search"))) : "";
+    $limit	= $this->input->get("limit");
+    $offset = ($limit*$pg)-$limit;
+    $column = $this->input->get("sortby");
+    $sort   = $this->input->get("sorttype");
+    
+    $page              = array();
+    $page['limit']     = $limit;
+    $page['count_row'] = $this->Produk_m->get_list_count($key)['jml'];
+    $page['current']   = $pg;
+    $page['list']      = gen_paging($page);
+    $data['paging']    = $page;
+    $data['list']      = $this->Produk_m->get_list_data($key, $limit, $offset, $column, $sort);
+
+    $this->load->view('frontend/produk/list_produk', $data);
+  }
+
+  public function detail ($id){
+    $data['title'] = "Detail Produk | ".$this->apl['nama_sistem'];
+    
+    $produk = $this->Produk_m->get_by_id($id)->row_array();
+    $data['data'] = $produk;
+    $data['produk_serupa'] = $this->Produk_m->get_produk_by_kategori($produk['id_kategori_produk'], $id)->result();
+    $data['foto_produk'] = $this->M_main->get_where('m_produk_image', 'id_produk', $id)->result();
+    $data['content'] = "produk/detail_produk.php";    
+    $this->parser->parse('frontend/template_produk', $data);
+  }
+
 }
 
 /* End of file Produk.php */

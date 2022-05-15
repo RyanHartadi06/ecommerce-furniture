@@ -14,7 +14,7 @@
 </head>
 <body>
   <!-- LOADER -->
-  <?php include('layouts/theme_loader.php') ?>
+  <?php //include('layouts/theme_loader.php') ?>
   <!-- END LOADER -->
   <!-- START HEADER -->
   <?php include('layouts/theme_header.php') ?>
@@ -31,5 +31,8 @@
   <!-- END FOOTER -->
   <!-- plugins:js -->
   <?php include('layouts/theme_js.php') ?>
+  <script>
+    var site_url = "<?= site_url() ?>";
+  </script>
 </body>
 </html>
