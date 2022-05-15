@@ -6,9 +6,9 @@
       <div class="product_wrap">
         <!-- <span class="pr_flash">New</span> -->
         <div class="product_img">
-          <a href="<?= site_url('Home/detail') ?>">
-            <img src="<?= base_url('assets/frontend/images/el_img3.jpg') ?>" alt="el_img3">
-            <img class="product_hover_img" src="<?= base_url('assets/frontend/images/el_hover_img3.jpg') ?>"
+          <a href="<?= site_url('Produk/detail/'.$row->id) ?>">
+            <img style="height:290px; object-fit:cover;" src="<?= base_url($row->foto) ?>" alt="el_img3">
+            <img style="height:290px; object-fit:cover;" class="product_hover_img" src="<?= base_url($row->foto) ?>"
               alt="el_hover_img3">
           </a>
           <div class="product_action_box">
@@ -21,7 +21,7 @@
           </div>
         </div>
         <div class="product_info">
-          <h6 class="product_title"><a href="<?= site_url('Home/detail') ?>"><?= $row->nama ?></a></h6>
+          <h6 class="product_title"><a href="<?= site_url('Produk/detail/'.$row->id) ?>"><?= $row->nama ?></a></h6>
           <div class="product_price">
             <span class="price"><?= rupiah($row->harga) ?></span>
             <!-- <del>$99.00</del> -->

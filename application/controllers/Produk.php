@@ -205,6 +205,18 @@ class Produk extends CI_Controller {
 
     $this->load->view('frontend/produk/list_produk', $data);
   }
+
+  public function detail ($id){
+    $data['title'] = "Detail Produk | ".$this->apl['nama_sistem'];
+    
+    $produk = $this->Produk_m->get_by_id($id)->row_array();
+    $data['data'] = $produk;
+    $data['produk_serupa'] = $this->Produk_m->get_produk_by_kategori($produk['id_kategori_produk'], $id)->result();
+    $data['foto_produk'] = $this->M_main->get_where('m_produk_image', 'id_produk', $id)->result();
+    $data['content'] = "produk/detail_produk.php";    
+    $this->parser->parse('frontend/template_produk', $data);
+  }
+
 }
 
 /* End of file Produk.php */
