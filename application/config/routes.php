@@ -54,4 +54,12 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 // Custome Route
+// Master Data
 $route['master/satuan'] = 'Satuan';
+$route['master/pelanggan'] = 'Pelanggan';
+$route['master/kategori-produk'] = 'Kategori';
+$route['master/produk'] = 'Produk';
+$route['master/jenis-produk'] = 'Jenis_produk';
+
+// Pengaturan
+$route['pengaturan/user'] = 'User';

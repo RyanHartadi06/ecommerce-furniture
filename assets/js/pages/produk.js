@@ -15,7 +15,7 @@ function pageLoad(page=1) {
   var column_name = $('#hidden_column_name').val();
   var sort_type = $('#hidden_sort_type').val();
   $.ajax({
-    url: base_url + "/Satuan/fetch_data",
+    url: base_url + "/Produk/fetch_data",
     type: 'GET',
     dataType: 'html',
     data: {
@@ -53,7 +53,7 @@ function sort_table(id, column){
 
 $('#btn-create').on('click', function() {
     $.ajax({
-        url: base_url + "/Satuan/load_modal",
+        url: base_url + "/Produk/load_modal",
         type: 'POST',
         data : {},
         dataType: 'html',
@@ -67,31 +67,13 @@ $('#btn-create').on('click', function() {
     });
 });
 
-$(document).on('click', '.btn-edit', function(event) {
-  event.preventDefault();
-  var id = $(this).attr('data-id');
-  $.ajax({
-    url: base_url + "/Satuan/load_modal",
-    type: 'POST',
-    dataType: 'html',
-    data:{id:id},
-    beforeSend: function () {},
-    success: function (result) {    
-      $('#div_modal').html(result);
-      $('#modalTitleEdit').show();
-      $('#modeform').val('UPDATE');
-      $('#formModal').modal('show');
-    }
-  });
-});
-
 $(document).on('click', '.btn-delete', function(e) {
   var id = $(this).attr('data-id');
   var title = $(this).attr('data-name');
   var page = $('#hidden_page').val();
 
   Swal.fire({
-    title: 'Hapus Satuan',
+    title: 'Hapus Produk',
     text: "Apakah Anda yakin menghapus data ?",
     icon: 'warning',
     showCancelButton: true,
@@ -105,7 +87,7 @@ $(document).on('click', '.btn-delete', function(e) {
         $.ajax({
           method: 'GET',
           dataType: 'json',
-          url: base_url + "/Satuan/delete/" + id,
+          url: base_url + "/Produk/delete/" + id,
           data: {},
           success: function (data) {
             if (data.success === true) {
@@ -139,7 +121,7 @@ $(document).on('submit', '#formData', function(event) {
   var modeform = $('#modeform').val();
   var page = (modeform=='UPDATE') ? $('#hidden_page').val() : 1;
   $.ajax({
-      url: base_url + "/Satuan/save",
+      url: base_url + "/Produk/save",
       method: 'POST',
       dataType: 'json',	
       data: new FormData($('#formData')[0]),

@@ -15,7 +15,7 @@ function pageLoad(page=1) {
   var column_name = $('#hidden_column_name').val();
   var sort_type = $('#hidden_sort_type').val();
   $.ajax({
-    url: base_url + "/Satuan/fetch_data",
+    url: base_url + "/Pelanggan/fetch_data",
     type: 'GET',
     dataType: 'html',
     data: {
@@ -53,7 +53,7 @@ function sort_table(id, column){
 
 $('#btn-create').on('click', function() {
     $.ajax({
-        url: base_url + "/Satuan/load_modal",
+        url: base_url + "/Pelanggan/load_modal",
         type: 'POST',
         data : {},
         dataType: 'html',
@@ -71,7 +71,7 @@ $(document).on('click', '.btn-edit', function(event) {
   event.preventDefault();
   var id = $(this).attr('data-id');
   $.ajax({
-    url: base_url + "/Satuan/load_modal",
+    url: base_url + "/Pelanggan/load_modal",
     type: 'POST',
     dataType: 'html',
     data:{id:id},
@@ -91,8 +91,8 @@ $(document).on('click', '.btn-delete', function(e) {
   var page = $('#hidden_page').val();
 
   Swal.fire({
-    title: 'Hapus Satuan',
-    text: "Apakah Anda yakin menghapus data ?",
+    title: 'Hapus Pelanggan',
+    text: "Apakah Anda yakin menghapus data " + title + " ?",
     icon: 'warning',
     showCancelButton: true,
     confirmButtonColor: '#d33',
@@ -105,7 +105,7 @@ $(document).on('click', '.btn-delete', function(e) {
         $.ajax({
           method: 'GET',
           dataType: 'json',
-          url: base_url + "/Satuan/delete/" + id,
+          url: base_url + "/Pelanggan/delete/" + id,
           data: {},
           success: function (data) {
             if (data.success === true) {
@@ -139,7 +139,7 @@ $(document).on('submit', '#formData', function(event) {
   var modeform = $('#modeform').val();
   var page = (modeform=='UPDATE') ? $('#hidden_page').val() : 1;
   $.ajax({
-      url: base_url + "/Satuan/save",
+      url: base_url + "/Pelanggan/save",
       method: 'POST',
       dataType: 'json',	
       data: new FormData($('#formData')[0]),
