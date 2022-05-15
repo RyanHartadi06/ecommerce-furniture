@@ -38,13 +38,6 @@
           </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-12">
-          <!-- <div class="widget">
-            <h6 class="widget_title">Download App</h6>
-            <ul class="app_list">
-              <li><a href="#"><img src="<?= base_url('assets/frontend/images/f1.png') ?>" alt="f1" /></a></li>
-              <li><a href="#"><img src="<?= base_url('assets/frontend/images/f2.png') ?>" alt="f2" /></a></li>
-            </ul>
-          </div> -->
           <div class="widget">
             <h6 class="widget_title">Social</h6>
             <ul class="social_icons">
