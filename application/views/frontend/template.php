@@ -14,7 +14,7 @@
 </head>
 <body>
   <!-- LOADER -->
-  <?php include('layouts/theme_loader.php') ?>
+  <?php //include('layouts/theme_loader.php') ?>
   <!-- END LOADER -->
   <!-- START HEADER -->
   <?php include('layouts/theme_header.php') ?>
@@ -25,7 +25,7 @@
   <!-- END MAIN CONTENT -->
   <div class="main_content">
     <!-- START SECTION CATEGORIES -->
-    <?php include('layouts/theme_kategori.php') ?>
+    <?php // include('layouts/theme_kategori.php') ?>
     <!-- END SECTION CATEGORIES -->
     <!-- START SECTION CONTENT -->
     <?php include($content) ?>
