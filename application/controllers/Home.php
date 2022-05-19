@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 class Home extends CI_Controller {
-  private $nama_menu  = "Dashboard";     
+  private $nama_menu  = "Home";     
   public function __construct()
   {
     parent::__construct();
@@ -11,15 +11,6 @@ class Home extends CI_Controller {
   }
   
   public function index()
-  {
-    $this->Menu_m->role_has_access($this->nama_menu);
-    $data['title'] = $this->nama_menu." | ".$this->apl['nama_sistem'];
-
-    $data['content'] = "home/index.php";    
-    $this->parser->parse('sistem/template', $data);
-  }
-  
-  public function landing()
   {
     $data['title'] = "Home | ".$this->apl['nama_sistem'];
 

@@ -37,7 +37,8 @@
                 <div class="mt-3 mb-4">
                   <button type="submit" class="btn btn-block btn-primary font-weight-medium">Login</button>
                 </div>
-                <div class="my-3 text-right">
+                <div class="my-3 text-center">
+                  <a href="<?= site_url() ?>" class="auth-link text-black text-right">Home |</a>
                   <a href="javascript:;" class="auth-link text-black text-right">Lupa password?</a>
                 </div>
                 <!-- <div class="text-center mt-4 font-weight-light" style="font-size:15px;">

@@ -23,7 +23,7 @@
   <div class="middle-header dark_skin">
     <div class="container">
       <div class="nav_block">
-        <a class="navbar-brand" href="index.html">
+        <a class="navbar-brand" href="<?= site_url('/') ?>">
           <img class="logo_light" src="<?= base_url('assets/frontend/images/logo_light.png') ?>" alt="logo">
           <img class="logo_dark" src="<?= base_url('assets/frontend/images/logo_dark.png') ?>" alt="logo">
         </a>
@@ -327,7 +327,7 @@
                     </ul>
                   </div>
                 </li> -->
-                <li><a class="nav-link nav_item" href="<?= site_url("Home/landing") ?>">Home</a></li>
+                <li><a class="nav-link nav_item" href="<?= site_url("/") ?>">Home</a></li>
                 <li><a class="nav-link nav_item" href="#">Rekomendasi Produk</a></li>
                 <li><a class="nav-link nav_item" href="#">About</a></li>
                 <li><a class="nav-link nav_item" href="#">Contact Us</a></li>

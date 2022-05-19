@@ -57,7 +57,7 @@ class Auth extends CI_Controller {
           
               $response['success'] = true;
               $response['message'] = "Selamat Datang ".$data_login[0]->nama." !";
-              $response['page'] = 'Home';
+              $response['page'] = 'Dashboard';
               // insert_log($username, "Login Aplikasi", 'Berhasil Login', $this->input->ip_address(), $this->agent->browser(), $this->agent->agent_string());
             }else{
               //Akun Anda user salah
