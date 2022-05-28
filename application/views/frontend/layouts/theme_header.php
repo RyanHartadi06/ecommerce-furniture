@@ -1,3 +1,7 @@
+<?php
+  $is_login = $this->session->userdata('auth_is_login'); 
+  $role = $this->session->userdata('auth_id_role'); 
+?>
 <header class="header_wrap">
   <div class="top-header">
     <div class="container">
@@ -12,8 +16,12 @@
         <div class="col-md-6">
           <div class="text-center text-md-right">
             <ul class="header_list">
-              <li><a href="#"><i class="ti-user"></i><span>Register</span></a></li>
-              <li><a href="<?= site_url('Auth') ?>"><i class="ti-user"></i><span>Login</span></a></li>
+              <?php if($is_login){ ?>
+                <li><a href="javascript:;" onclick="logout()"><i class="ti-lock"></i><span>Logout</span></a></li>
+              <?php }else{ ?>
+                <li><a href="javascript:;"><i class="ti-user"></i><span>Register</span></a></li>
+                <li><a href="<?= site_url('Auth') ?>"><i class="ti-user"></i><span>Login</span></a></li>
+              <?php } ?>
             </ul>
           </div>
         </div>
@@ -37,38 +45,18 @@
           </form>
         </div>
         <ul class="navbar-nav attr-nav align-items-center">
-          <li><a href="#" class="nav-link"><i class="linearicons-user"></i></a></li>
-          <!-- <li><a href="#" class="nav-link"><i class="linearicons-heart"></i><span class="wishlist_count">0</span></a> -->
-          </li>
-          <li class="dropdown cart_dropdown">
-            <a class="nav-link cart_trigger" href="<?= site_url('order/cart_list') ?>"><i class="linearicons-bag2">
-              </i>
+          <?php
+          if($role=="PELANGGAN"){ ?>
+            <li><a href="<?= site_url('/Account') ?>" class="nav-link"><i class="linearicons-user"></i></a></li>
+          <?php }else if($role=="SUPERADMIN"){ ?>
+            <li><a href="<?= site_url('/dashboard') ?>" class="nav-link"><i class="linearicons-home"></i></a></li>
+          <?php } ?>
+          <!-- <li><a href="#" class="nav-link"><i class="linearicons-heart"></i><span class="wishlist_count">0</span></a></li> -->
+          <li>
+            <a class="nav-link cart_trigger" href="<?= site_url('order/cart_list') ?>">
+              <i class="linearicons-bag2"></i>
               <span class="cart_count">2</span>
             </a>
-            <!-- <div class="cart_box cart_right dropdown-menu dropdown-menu-right">
-              <ul class="cart_list">
-                <li>
-                  <a href="#" class="item_remove"><i class="ion-close"></i></a>
-                  <a href="#"><img src="<?= base_url('assets/frontend/images/cart_thamb1.jpg') ?>"
-                      alt="cart_thumb1">Variable product 001</a>
-                  <span class="cart_quantity"> 1 x <span class="cart_amount"> <span
-                        class="price_symbole">$</span></span>78.00</span>
-                </li>
-                <li>
-                  <a href="#" class="item_remove"><i class="ion-close"></i></a>
-                  <a href="#"><img src="<?= base_url('assets/frontend/images/cart_thamb2.jpg') ?>"
-                      alt="cart_thumb2">Ornare sed consequat</a>
-                  <span class="cart_quantity"> 1 x <span class="cart_amount"> <span
-                        class="price_symbole">$</span></span>81.00</span>
-                </li>
-              </ul>
-              <div class="cart_footer">
-                <p class="cart_total"><strong>Subtotal:</strong> <span class="cart_price"> <span
-                      class="price_symbole">$</span></span>159.00</p>
-                <p class="cart_buttons"><a href="#" class="btn btn-fill-line view-cart">View Cart</a><a href="#"
-                    class="btn btn-fill-out checkout">Checkout</a></p>
-              </div>
-            </div> -->
           </li>
         </ul>
       </div>
@@ -343,3 +331,42 @@
     </div>
   </div>
 </header>
+<script>
+  function logout() {
+    Swal.fire({
+        // title: 'Keluar',
+        text: "Apakah Anda yakin keluar dari aplikasi !",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Logout',
+        cancelButtonText: 'Batal',
+        showLoaderOnConfirm: true,
+        preConfirm: function () {
+            return new Promise(function (resolve) {
+                $.ajax({
+                    method: 'POST',
+                    dataType: 'json',
+                    url: '<?= site_url() ?>' + '/Auth/logout',
+                    success: function (data) {
+                        if (data.success == true) {
+                            Swal.fire('Berhasil',data.message,'success');
+                            swal.hideLoading()
+                            setTimeout(function(){ 
+                              window.location.href = '<?= site_url('/') ?>';
+                            }, 1000);
+                        } else {
+                            Swal.fire({icon: 'error',title: 'Oops...',text: data.message});
+                        }
+                    },
+                    fail: function (e) {
+                        alert(e);
+                    }
+                });
+            });
+        },
+        allowOutsideClick: false
+    });
+  }
+</script>

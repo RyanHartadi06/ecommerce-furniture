@@ -15,14 +15,14 @@ function is_login(){
     $CI =& get_instance();
     $sesi_is_login = $CI->session->userdata('auth_is_login');
     if($sesi_is_login==TRUE){
-        redirect(site_url('Home'));
+        redirect(site_url('/'));
     }
 }
 function must_login(){
     $CI =& get_instance();
     $cek = $CI->session->userdata('auth_is_login');
     if($cek==FALSE){
-        redirect(site_url());
+        redirect(site_url('Auth'));
     }
 }
 function get_hari($hari){
