@@ -9,14 +9,21 @@ class Order extends CI_Controller {
     $this->load->model('Order_m');
   }
 
+  /**
+   * Start Cart Function
+   * 
+   */
   public function cart_list (){
     $data['title'] = "Cart | ".$this->apl['nama_sistem'];
-    
+    $data['content'] = "order/cart.php";    
+    $this->parser->parse('frontend/template_produk', $data);
+  }
+
+  public function get_list_cart(){
     $id_user = $this->session->userdata('auth_id_user');
     $cart = $this->Order_m->get_list_cart($id_user)->result();
     $data['data'] = $cart;
-    $data['content'] = "order/cart.php";    
-    $this->parser->parse('frontend/template_produk', $data);
+    $this->load->view('frontend/order/data-cart', $data);
   }
 
   public function add_cart()
@@ -45,7 +52,90 @@ class Order extends CI_Controller {
 
     echo json_encode($response);   
   }
+
+  public function update_qty($id){
+    if($id){
+      $object = array(
+        'qty' => '0',
+        'updated_at' => date('Y-m-d H:i:s'),
+      );
+      $this->db->where('id', $id);
+      $this->db->update('cart', $object);
       
+      $response['success'] = true;
+      $response['message'] = "Data berhasil disimpan !";
+    }else{
+      $response['success'] = false;
+      $response['message'] = "Data tidak ditemukan !";
+    }
+    echo json_encode($response);
+  }
+
+  public function delete_cart($id){
+    if($id){
+      $this->db->where('id', $id);
+      $this->db->delete('cart');
+      
+      $response['success'] = true;
+      $response['message'] = "Produk berhasil dihapus !";
+    }else{
+      $response['success'] = false;
+      $response['message'] = "Data tidak ditemukan !";
+    }
+    echo json_encode($response);
+  }
+
+  /**
+   * Start Order Function
+   * 
+   */
+  public function order_complete (){
+    $data['title'] = "Order | ".$this->apl['nama_sistem'];
+    $data['content'] = "order/order-complete.php";    
+    $this->parser->parse('frontend/template_produk', $data);
+  }
+
+  public function save()
+  {
+    $id_user = $this->session->userdata('auth_id_user');
+    $keterangan = $this->input->post('keterangan');
+    $order_detail = $this->input->post('order_detail');
+    $order_detail = json_decode($order_detail);
+
+    $id = $this->uuid->v4(false);    
+    $data_object = array(
+      'id'=>$id,
+      'no_invoice'=>null,
+      'tanggal'=>date('Y-m-d'),
+      'id_pelanggan'=>null,
+      'total'=>0,
+      'keterangan'=>$keterangan,  
+      'status'=>'1',
+      'created_at'=>date('Y-m-d H:i:s'),
+      'updated_at'=>date('Y-m-d H:i:s')
+    );
+    $this->db->insert('order', $data_object);
+
+    foreach ($order_detail as $row) {  
+      $id_detail = $this->uuid->v4(false); 
+      $data_detail = array(
+        'id'=>$id_detail,
+        'id_order'=>$id,
+        'id_produk'=>$row->id_produk,
+        'qty'=>$row->qty,
+        'harga'=>$row->harga,
+        'created_at'=>date('Y-m-d H:i:s'),
+        'updated_at'=>date('Y-m-d H:i:s'),
+        // 'id_cart'=>null
+      );
+      $this->db->insert('order_detail', $data_detail);
+    }
+
+    $response['success'] = TRUE;
+    $response['message'] = "Pesanan berhasil disimpan !";
+
+    echo json_encode($response);   
+  }    
 }
 
 /* End of file Order.php */

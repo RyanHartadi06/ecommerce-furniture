@@ -41,11 +41,11 @@
           <!-- <li><a href="#" class="nav-link"><i class="linearicons-heart"></i><span class="wishlist_count">0</span></a> -->
           </li>
           <li class="dropdown cart_dropdown">
-            <a class="nav-link cart_trigger" href="#" data-toggle="dropdown"><i class="linearicons-bag2">
+            <a class="nav-link cart_trigger" href="<?= site_url('order/cart_list') ?>"><i class="linearicons-bag2">
               </i>
               <span class="cart_count">2</span>
             </a>
-            <div class="cart_box cart_right dropdown-menu dropdown-menu-right">
+            <!-- <div class="cart_box cart_right dropdown-menu dropdown-menu-right">
               <ul class="cart_list">
                 <li>
                   <a href="#" class="item_remove"><i class="ion-close"></i></a>
@@ -68,7 +68,7 @@
                 <p class="cart_buttons"><a href="#" class="btn btn-fill-line view-cart">View Cart</a><a href="#"
                     class="btn btn-fill-out checkout">Checkout</a></p>
               </div>
-            </div>
+            </div> -->
           </li>
         </ul>
       </div>
