@@ -87,7 +87,7 @@
               });
 
               setTimeout(function(){ 
-                  window.location.href = site_url + '/' + data.page;
+                  window.location.href = site_url + data.page;
               }, 1000);
             } else {
               Swal.fire({icon: 'error',title: 'Oops...',text: data.message});

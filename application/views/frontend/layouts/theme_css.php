@@ -28,6 +28,13 @@
 <!-- Style CSS -->
 <link rel="stylesheet" href="<?= base_url('assets/frontend/css/style.css') ?>">
 <link rel="stylesheet" href="<?= base_url('assets/frontend/css/responsive.css') ?>">
+<link rel="stylesheet" type="text/css" href="<?= base_url('assets/all/sweetalert2/sweetalert2.min.css') ?>">
 
 <!-- Latest jQuery -->
 <script src="<?= base_url('assets/frontend/js/jquery-1.12.4.min.js') ?>"></script>
+
+<style>
+  .breadcrumb_section.page-title-mini {
+    padding: 50px 0 !important;
+  }
+</style>
