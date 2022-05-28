@@ -31,3 +31,9 @@
 
 <!-- Latest jQuery -->
 <script src="<?= base_url('assets/frontend/js/jquery-1.12.4.min.js') ?>"></script>
+
+<style>
+  .breadcrumb_section.page-title-mini {
+    padding: 50px 0 !important;
+  }
+</style>

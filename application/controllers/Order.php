@@ -9,22 +9,25 @@ class Order extends CI_Controller {
     $this->load->model('Order_m');
   }
 
-  public function get_cart()
-  {
+  public function cart_list (){
+    $data['title'] = "Cart | ".$this->apl['nama_sistem'];
     
+    $id_user = $this->session->userdata('auth_id_user');
+    $cart = $this->Order_m->get_list_cart($id_user)->result();
+    $data['data'] = $cart;
+    $data['content'] = "order/cart.php";    
+    $this->parser->parse('frontend/template_produk', $data);
   }
 
   public function add_cart()
   {
-    $id_role = $this->session->userdata('auth_id_user');
+    $id_user = $this->session->userdata('auth_id_user');
     $id_produk = $this->input->post('id_produk');
     $qty = $this->input->post('qty');
 
     $is_login = $this->session->userdata('auth_is_login');
-    if($is_login){
-      $id = $this->uuid->v4(false);  
+    if($is_login){  
       $data_object = array(
-        'id'=>$id,
         'id_user'=>$id_user,
         'id_produk'=>$id_produk,
         'qty'=>$qty,

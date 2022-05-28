@@ -24,3 +24,12 @@
   <script src="<?= base_url('assets/frontend/js/jquery.elevatezoom.js') ?>"></script>
   <!-- scripts js -->
   <script src="<?= base_url('assets/frontend/js/scripts.js') ?>"></script>
+
+  <script>
+    function formatRupiah(angka){
+      var reverse = angka.toString().split('').reverse().join(''),
+      ribuan = reverse.match(/\d{1,3}/g);
+      ribuan = ribuan.join('.').split('').reverse().join('');
+      return ribuan;
+    }
+  </script>
