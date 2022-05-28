@@ -1,27 +1,8 @@
-<!-- START SECTION BREADCRUMB -->
-<div class="breadcrumb_section bg_gray page-title-mini">
-  <div class="container">
-    <div class="row align-items-center">
-      <div class="col-md-6">
-        <div class="page-title">
-          <h1>My Account</h1>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <ol class="breadcrumb justify-content-md-end">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
-          <li class="breadcrumb-item active">My Account</li>
-        </ol>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- END SECTION BREADCRUMB -->
-
 <!-- START MAIN CONTENT -->
+<hr>
 <div class="main_content">
-  <div class="section">
-    <div class="container">
+  <div class="section" style="padding: 30px 0 !important;">
+    <div style="padding:0px 40px;">
       <div class="row">
         <div class="col-lg-3 col-md-4">
           <div class="dashboard_menu">

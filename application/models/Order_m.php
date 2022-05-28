@@ -16,5 +16,16 @@
         ");
         return $query;
       }
+
+      function get_produk_in_cart($id_produk, $id_user){
+        $query = $this->db->select('*')
+                ->where(array(
+                  'id_produk' => $id_produk,
+                  'id_user' => $id_user,
+                  'is_checkout' => 0
+                ))
+                ->get('cart');
+        return $query;
+      }
     }
 ?>

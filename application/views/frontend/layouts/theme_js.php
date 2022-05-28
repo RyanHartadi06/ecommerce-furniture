@@ -28,13 +28,73 @@
 <script src="<?= base_url('assets/all/sweetalert2/sweetalert2.all.min.js') ?>"></script>
 
 <script>
+  var site_url = '<?= site_url() ?>';
   var Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
     showConfirmButton: false,
     timer: 3000
   });
-  
+
+  $(document).ready(function() {
+    loadNotifikasiCart();
+  })
+
+  function logout() {
+    Swal.fire({
+        // title: 'Keluar',
+        text: "Apakah Anda yakin keluar dari aplikasi !",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Logout',
+        cancelButtonText: 'Batal',
+        showLoaderOnConfirm: true,
+        preConfirm: function () {
+            return new Promise(function (resolve) {
+                $.ajax({
+                    method: 'POST',
+                    dataType: 'json',
+                    url: '<?= site_url() ?>' + '/Auth/logout',
+                    success: function (data) {
+                        if (data.success == true) {
+                            Swal.fire('Berhasil',data.message,'success');
+                            swal.hideLoading()
+                            setTimeout(function(){ 
+                              window.location.href = '<?= site_url('/') ?>';
+                            }, 1000);
+                        } else {
+                            Swal.fire({icon: 'error',title: 'Oops...',text: data.message});
+                        }
+                    },
+                    fail: function (e) {
+                        alert(e);
+                    }
+                });
+            });
+        },
+        allowOutsideClick: false
+    });
+  }
+
+  function loadNotifikasiCart() {
+    $.ajax({
+      url: "<?= site_url() ?>" + "/Order/fetch_data_cart",
+      type: 'GET',
+      dataType: 'json',
+      data: {},
+      beforeSend: function() {},
+      success: function(result) {
+        let data = result.data;
+        if(data.length>0){
+          let html = "<span class='cart_count'>"+ data.length +"</span>"
+          $('#cart-count').html(html);
+        }
+      }
+    });
+  }
+
   function formatRupiah(angka){
     var reverse = angka.toString().split('').reverse().join(''),
     ribuan = reverse.match(/\d{1,3}/g);

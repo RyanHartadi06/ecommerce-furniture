@@ -55,7 +55,7 @@
           <li>
             <a class="nav-link cart_trigger" href="<?= site_url('order/cart_list') ?>">
               <i class="linearicons-bag2"></i>
-              <span class="cart_count">2</span>
+              <span id="cart-count"></span>
             </a>
           </li>
         </ul>
@@ -331,42 +331,3 @@
     </div>
   </div>
 </header>
-<script>
-  function logout() {
-    Swal.fire({
-        // title: 'Keluar',
-        text: "Apakah Anda yakin keluar dari aplikasi !",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Logout',
-        cancelButtonText: 'Batal',
-        showLoaderOnConfirm: true,
-        preConfirm: function () {
-            return new Promise(function (resolve) {
-                $.ajax({
-                    method: 'POST',
-                    dataType: 'json',
-                    url: '<?= site_url() ?>' + '/Auth/logout',
-                    success: function (data) {
-                        if (data.success == true) {
-                            Swal.fire('Berhasil',data.message,'success');
-                            swal.hideLoading()
-                            setTimeout(function(){ 
-                              window.location.href = '<?= site_url('/') ?>';
-                            }, 1000);
-                        } else {
-                            Swal.fire({icon: 'error',title: 'Oops...',text: data.message});
-                        }
-                    },
-                    fail: function (e) {
-                        alert(e);
-                    }
-                });
-            });
-        },
-        allowOutsideClick: false
-    });
-  }
-</script>

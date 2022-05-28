@@ -127,22 +127,6 @@ function loadCart() {
   });
 }
 
-function updateQty(id, qty) {
-  $.ajax({
-    url: "<?= site_url() ?>" + "/Order/update_qty",
-    type: 'POST',
-    dataType: 'html',
-    data: {
-      id: id,
-      qty: qty
-    },
-    beforeSend: function() {},
-    success: function(result) {
-      loadCart();
-    }
-  });
-}
-
 function getTableCart() {
   let cart = [];
   $('#cart-table tr').each(function(index) {
@@ -198,6 +182,7 @@ $(document).on('click', '.btn-delete-cart', function(e) {
           title: data.message
         });
         loadCart();
+        loadNotifikasiCart()
       } else {
         Swal.fire({
           icon: 'error',

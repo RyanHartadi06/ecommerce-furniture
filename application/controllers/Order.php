@@ -7,6 +7,7 @@ class Order extends CI_Controller {
     parent::__construct();
     $this->apl = get_apl();
     $this->load->model('Order_m');
+    $this->load->model('M_main');
   }
 
   /**
@@ -14,6 +15,7 @@ class Order extends CI_Controller {
    * 
    */
   public function cart_list (){
+    must_login();
     $data['title'] = "Cart | ".$this->apl['nama_sistem'];
     $data['content'] = "order/cart.php";    
     $this->parser->parse('frontend/template_produk', $data);
@@ -26,6 +28,14 @@ class Order extends CI_Controller {
     $this->load->view('frontend/order/data-cart', $data);
   }
 
+  public function fetch_data_cart(){
+    $id_user = $this->session->userdata('auth_id_user');
+    $cart = $this->Order_m->get_list_cart($id_user)->result();
+    $response['success'] = TRUE;
+    $response['data'] = $cart;
+    echo json_encode($response);  
+  }
+
   public function add_cart()
   {
     $id_user = $this->session->userdata('auth_id_user');
@@ -34,41 +44,38 @@ class Order extends CI_Controller {
 
     $is_login = $this->session->userdata('auth_is_login');
     if($is_login){  
-      $data_object = array(
-        'id_user'=>$id_user,
-        'id_produk'=>$id_produk,
-        'qty'=>$qty,
-        'is_checkout'=>'0',
-        'created_at'=>date('Y-m-d H:i:s')
-      );
-      $this->db->insert('chart', $data_object);
-  
-      $response['success'] = TRUE;
-      $response['message'] = "Produk berhasil ditambahkan ke dalam keranjang";
+      $cek_produk = $this->Order_m->get_produk_in_cart($id_produk, $id_user);
+      if($cek_produk->num_rows()>0){
+        $produk = $cek_produk->row_array();
+        $qty = $qty + $produk['qty'];
+        $object = array(
+          'qty' => $qty,
+          'updated_at' => date('Y-m-d H:i:s'),
+        );
+        $this->db->where('id', $produk['id']);
+        $this->db->update('cart', $object);
+
+        $response['success'] = TRUE;
+        $response['message'] = "Produk berhasil diupdate ke dalam keranjang";
+      }else{
+        $data_object = array(
+          'id_user'=>$id_user,
+          'id_produk'=>$id_produk,
+          'qty'=>$qty,
+          'is_checkout'=>'0',
+          'created_at'=>date('Y-m-d H:i:s')
+        );
+        $this->db->insert('cart', $data_object);
+
+        $response['success'] = TRUE;
+        $response['message'] = "Produk berhasil ditambahkan ke dalam keranjang";
+      }
     }else{
-      $response['success'] = TRUE;
+      $response['success'] = FALSE;
       $response['message'] = "Maaf, silahkan login terlebih dahulu";
     }
 
     echo json_encode($response);   
-  }
-
-  public function update_qty($id){
-    if($id){
-      $object = array(
-        'qty' => '0',
-        'updated_at' => date('Y-m-d H:i:s'),
-      );
-      $this->db->where('id', $id);
-      $this->db->update('cart', $object);
-      
-      $response['success'] = true;
-      $response['message'] = "Data berhasil disimpan !";
-    }else{
-      $response['success'] = false;
-      $response['message'] = "Data tidak ditemukan !";
-    }
-    echo json_encode($response);
   }
 
   public function delete_cart($id){

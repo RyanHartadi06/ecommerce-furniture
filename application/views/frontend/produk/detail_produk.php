@@ -1,7 +1,6 @@
 <!-- START SECTION BREADCRUMB -->
 <div class="breadcrumb_section bg_gray page-title-mini">
   <div class="container">
-    <!-- STRART CONTAINER -->
     <div class="row align-items-center">
       <div class="col-md-6">
         <div class="page-title">
@@ -16,7 +15,7 @@
         </ol>
       </div>
     </div>
-  </div><!-- END CONTAINER-->
+  </div>
 </div>
 <!-- END SECTION BREADCRUMB -->
 <div class="section">
@@ -25,8 +24,8 @@
       <div class="col-lg-6 col-md-6 mb-4 mb-md-0">
         <div class="product-image">
           <div class="product_img_box">
-            <img id="product_img" src='<?= base_url($data['foto']) ?>'
-              data-zoom-image="<?= base_url($data['foto']) ?>" alt="product_img1" />
+            <img id="product_img" src='<?= base_url($data['foto']) ?>' data-zoom-image="<?= base_url($data['foto']) ?>"
+              alt="product_img1" />
             <a href="#" class="product_img_zoom" title="Zoom">
               <span class="linearicons-zoom-in"></span>
             </a>
@@ -36,13 +35,13 @@
             <?php 
             $no = 0;
             foreach ($foto_produk as $fp) { $no++; ?>
-              <div class="item">
-                <a href="#" class="product_gallery_item <?= ($no==1) ? 'active' : '' ?>"
-                  data-image="<?= base_url($fp->foto) ?>"
-                  data-zoom-image="<?= base_url($fp->foto) ?>">
-                  <img style="width:120px; height:120px; object-fit:cover;" src="<?= base_url($fp->foto) ?>" alt="product_small_img1" />
-                </a>
-              </div>
+            <div class="item">
+              <a href="#" class="product_gallery_item <?= ($no==1) ? 'active' : '' ?>"
+                data-image="<?= base_url($fp->foto) ?>" data-zoom-image="<?= base_url($fp->foto) ?>">
+                <img style="width:120px; height:120px; object-fit:cover;" src="<?= base_url($fp->foto) ?>"
+                  alt="product_small_img1" />
+              </a>
+            </div>
             <?php } ?>
           </div>
         </div>
@@ -53,10 +52,6 @@
             <h4 class="product_title"><a href="#"><?= $data['nama'] ?></a></h4>
             <div class="product_price">
               <span class="price"><?= rupiah($data['harga']) ?></span>
-              <!-- <del>$55.25</del>
-              <div class="on_sale">
-                <span>35% Off</span>
-              </div> -->
             </div>
             <div class="rating_wrap">
               <div class="rating">
@@ -70,21 +65,24 @@
           </div>
           <hr />
           <p><?= $data['deskripsi'] ?></p>
-          <div class="cart_extra">
-            <div class="cart-product-quantity">
-              <div class="quantity">
-                <input type="button" value="-" class="minus">
-                <input type="text" name="quantity" value="1" title="Qty" class="qty" size="4">
-                <input type="button" value="+" class="plus">
+          <form id="form-cart">
+            <div class="cart_extra">
+              <input type="hidden" name="id_produk" value="<?= $data['id'] ?>">
+              <div class="cart-product-quantity">
+                <div class="quantity">
+                  <input type="button" value="-" class="minus">
+                  <input type="text" name="qty" value="1" title="Qty" class="qty" size="4">
+                  <input type="button" value="+" class="plus">
+                </div>
+              </div>
+              <div class="cart_btn">
+                <button type="submit" class="btn btn-fill-out btn-addtocart" type="button">
+                  <i class="icon-basket-loaded"></i> Tambah ke keranjang
+                </button>
+                <a class="add_wishlist" href="javascript:;"><i class="icon-heart"></i></a>
               </div>
             </div>
-            <div class="cart_btn">
-              <button class="btn btn-fill-out btn-addtocart" type="button"><i class="icon-basket-loaded"></i> Add to
-                cart</button>
-              <!-- <a class="add_compare" href="#"><i class="icon-shuffle"></i></a> -->
-              <a class="add_wishlist" href="#"><i class="icon-heart"></i></a>
-            </div>
-          </div>
+          </form>
           <hr />
           <ul class="product-meta">
             <li>SKU: <a href="#"><?= $data['kode'] ?></a></li>
@@ -118,10 +116,6 @@
               <a class="nav-link active" id="Description-tab" data-toggle="tab" href="#Description" role="tab"
                 aria-controls="Description" aria-selected="true">Description</a>
             </li>
-            <!-- <li class="nav-item">
-              <a class="nav-link" id="Additional-info-tab" data-toggle="tab" href="#Additional-info" role="tab"
-                aria-controls="Additional-info" aria-selected="false">Additional info</a>
-            </li> -->
             <li class="nav-item">
               <a class="nav-link" id="Reviews-tab" data-toggle="tab" href="#Reviews" role="tab" aria-controls="Reviews"
                 aria-selected="false">Reviews (2)</a>
@@ -131,26 +125,6 @@
             <div class="tab-pane fade show active" id="Description" role="tabpanel" aria-labelledby="Description-tab">
               <p><?= $data['deskripsi'] ?></p>
             </div>
-            <!-- <div class="tab-pane fade" id="Additional-info" role="tabpanel" aria-labelledby="Additional-info-tab">
-              <table class="table table-bordered">
-                <tr>
-                  <td>Capacity</td>
-                  <td>5 Kg</td>
-                </tr>
-                <tr>
-                  <td>Color</td>
-                  <td>Black, Brown, Red,</td>
-                </tr>
-                <tr>
-                  <td>Water Resistant</td>
-                  <td>Yes</td>
-                </tr>
-                <tr>
-                  <td>Material</td>
-                  <td>Artificial Leather</td>
-                </tr>
-              </table>
-            </div> -->
             <div class="tab-pane fade" id="Reviews" role="tabpanel" aria-labelledby="Reviews-tab">
               <div class="comments">
                 <h5 class="product_tab_title">2 Review For <span>Blue Dress For Woman</span></h5>
@@ -254,8 +228,8 @@
               <div class="product_img">
                 <a href="<?= site_url('Produk/detail/'.$ps->id) ?>">
                   <img style="height:290px; object-fit:cover;" src="<?= base_url($ps->foto) ?>" alt="el_img3">
-                  <img style="height:290px; object-fit:cover;" class="product_hover_img" src="<?= base_url($ps->foto) ?>"
-                    alt="el_hover_img3">
+                  <img style="height:290px; object-fit:cover;" class="product_hover_img"
+                    src="<?= base_url($ps->foto) ?>" alt="el_hover_img3">
                 </a>
                 <div class="product_action_box">
                   <ul class="list_none pr_action_btn">
@@ -288,3 +262,33 @@
     </div>
   </div>
 </div>
+<script>
+$(document).on('submit', '#form-cart', function(event) {
+  event.preventDefault();
+  var formData = new FormData($('#form-cart')[0]);
+
+  $.ajax({
+    url: '<?= site_url() ?>' + '/Order/add_cart',
+    method: 'POST',
+    dataType: 'json',
+    data: formData,
+    async: true,
+    processData: false,
+    contentType: false,
+    success: function(data) {
+      if (data.success == true) {
+        Toast.fire({
+          icon: 'success',
+          title: data.message
+        });
+        loadNotifikasiCart();
+      } else {
+        window.location.href = site_url + "/Auth";
+      }
+    },
+    fail: function(event) {
+      alert(event);
+    }
+  });
+});
+</script>
