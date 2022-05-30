@@ -11,7 +11,37 @@ class Order extends CI_Controller {
   }
 
   /**
-   * Start Cart Function
+   * Function Admin
+   * 
+   */
+  public function index (){
+    must_login();
+    $data['title'] = "Order | ".$this->apl['nama_sistem'];
+    $data['content'] = "order/index.php";    
+    $this->parser->parse('sistem/template', $data);
+  }
+
+  public function fetch_data(){
+    $pg     = ($this->input->get("page") != "") ? $this->input->get("page") : 1;
+    $key	  = ($this->input->get("search") != "") ? strtoupper(quotes_to_entities($this->input->get("search"))) : "";
+    $limit	= $this->input->get("limit");
+    $offset = ($limit*$pg)-$limit;
+    $column = $this->input->get("sortby");
+    $sort   = $this->input->get("sorttype");
+    
+    $page              = array();
+    $page['limit']     = $limit;
+    $page['count_row'] = $this->Order_m->get_list_count($key)['jml'];
+    $page['current']   = $pg;
+    $page['list']      = gen_paging($page);
+    $data['paging']    = $page;
+    $data['list']      = $this->Order_m->get_list_data($key, $limit, $offset, $column, $sort);
+
+    $this->load->view('sistem/order/list_data',$data);
+  }
+
+  /**
+   * Start  Function Cart Customer
    * 
    */
   public function cart_list (){
