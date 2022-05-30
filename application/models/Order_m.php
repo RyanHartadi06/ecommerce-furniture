@@ -21,6 +21,31 @@
           return $query;
       }
 
+      function get_pesanan_by_id($id_order){
+        $query = $this->db->query("
+            SELECT o.*, p.kode AS kode_pelanggan, p.nama AS nama_pelanggan, p.no_telp, p.alamat FROM orders o
+            LEFT JOIN m_pelanggan p ON o.id_pelanggan = p.id
+            WHERE o.id = '$id_order'
+        ");
+        return $query;
+      }
+
+      function get_list_pesanan_detail($id_order){
+        $query = $this->db->query("
+            SELECT od.*, p.nama AS nama_produk, jp.nama AS jenis_produk, kp.nama AS kategori_produk, s.nama AS satuan FROM order_detail od
+            LEFT JOIN m_produk p ON od.id_produk = p.id
+            LEFT JOIN m_jenis_produk jp ON p.id_jenis_produk = jp.id
+            LEFT JOIN m_kategori_produk kp ON p.id_kategori_produk = kp.id
+            LEFT JOIN m_satuan s ON p.id_satuan = s.id
+            WHERE od.id_order = '$id_order'
+        ");
+        return $query;
+      }
+
+      /**
+       * Function Cart
+       * 
+       *  */ 
       function get_list_cart($id_user){
         $query = $this->db->query("
             SELECT c.*, d.kode, d.nama, d.harga, (

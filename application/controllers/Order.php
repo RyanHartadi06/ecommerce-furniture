@@ -21,6 +21,16 @@ class Order extends CI_Controller {
     $this->parser->parse('sistem/template', $data);
   }
 
+  public function detail_pesanan ($id){
+    must_login();
+    $data['title'] = "Order | ".$this->apl['nama_sistem'];
+
+    $data['order'] = $this->Order_m->get_pesanan_by_id($id)->row_array();
+    $data['order_detail'] = $this->Order_m->get_list_pesanan_detail($id)->result();
+    $data['content'] = "order/detail_order.php";    
+    $this->parser->parse('sistem/template', $data);
+  }
+
   public function fetch_data(){
     $pg     = ($this->input->get("page") != "") ? $this->input->get("page") : 1;
     $key	  = ($this->input->get("search") != "") ? strtoupper(quotes_to_entities($this->input->get("search"))) : "";
