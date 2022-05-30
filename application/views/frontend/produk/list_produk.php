@@ -13,10 +13,10 @@
           </a>
           <div class="product_action_box">
             <ul class="list_none pr_action_btn">
-              <li class="add-to-cart"><a href="#"><i class="icon-basket-loaded"></i> Add To Cart</a></li>
+              <!-- <li class="add-to-cart"><a href="#"><i class="icon-basket-loaded"></i> Add To Cart</a></li>
               <li><a href="javascript:;" class="popup-ajax"><i class="icon-magnifier-add"></i></a>
               </li>
-              <li><a href="#"><i class="icon-heart"></i></a></li>
+              <li><a href="#"><i class="icon-heart"></i></a></li> -->
             </ul>
           </div>
         </div>

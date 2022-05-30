@@ -9,7 +9,7 @@
         <div class="col-md-6">
           <div class="d-flex align-items-center justify-content-center justify-content-md-start">
             <ul class="contact_detail text-center text-lg-left">
-              <li><i class="ti-mobile"></i><span>123-456-7890</span></li>
+              <li><i class="ti-mobile"></i><span>+62 813 3426 4234</span></li>
             </ul>
           </div>
         </div>
@@ -17,10 +17,10 @@
           <div class="text-center text-md-right">
             <ul class="header_list">
               <?php if($is_login){ ?>
-                <li><a href="javascript:;" onclick="logout()"><i class="ti-lock"></i><span>Logout</span></a></li>
+              <li><a href="javascript:;" onclick="logout()"><i class="ti-lock"></i><span>Logout</span></a></li>
               <?php }else{ ?>
-                <li><a href="javascript:;"><i class="ti-user"></i><span>Register</span></a></li>
-                <li><a href="<?= site_url('Auth') ?>"><i class="ti-user"></i><span>Login</span></a></li>
+              <li><a href="<?= site_url('Auth/register') ?>"><i class="ti-user"></i><span>Register</span></a></li>
+              <li><a href="<?= site_url('Auth') ?>"><i class="ti-user"></i><span>Login</span></a></li>
               <?php } ?>
             </ul>
           </div>
@@ -37,9 +37,10 @@
         </a>
         <div class="product_search_form search_form_btn">
           <!-- Pencarian -->
-          <form>
+          <form id="form-pencarian" action="<?= site_url('Produk/search') ?>">
             <div class="input-group">
-              <input class="form-control" placeholder="Search Product..." required="" type="text">
+              <input class="form-control" id="keyword_produk" name="keyword" placeholder="Cari Produk . . ."
+               type="text" value="<?= (isset($_GET['keyword'])) ? $_GET['keyword'] : '' ?>">
               <button type="submit" class="search_btn3"><i class="ti-search"></i></button>
             </div>
           </form>
@@ -47,9 +48,9 @@
         <ul class="navbar-nav attr-nav align-items-center">
           <?php
           if($role=="PELANGGAN"){ ?>
-            <li><a href="<?= site_url('/Account') ?>" class="nav-link"><i class="linearicons-user"></i></a></li>
+          <li><a href="<?= site_url('/Account') ?>" class="nav-link"><i class="linearicons-user"></i></a></li>
           <?php }else if($role=="SUPERADMIN"){ ?>
-            <li><a href="<?= site_url('/dashboard') ?>" class="nav-link"><i class="linearicons-home"></i></a></li>
+          <li><a href="<?= site_url('/dashboard') ?>" class="nav-link"><i class="linearicons-home"></i></a></li>
           <?php } ?>
           <!-- <li><a href="#" class="nav-link"><i class="linearicons-heart"></i><span class="wishlist_count">0</span></a></li> -->
           <li>
@@ -65,8 +66,8 @@
   <div class="bottom_header dark_skin main_menu_uppercase border-top">
     <div class="container">
       <div class="row align-items-center">
-        <div class="col-lg-3 col-md-4 col-sm-6 col-3">
-          <!-- Kategori -->
+        <!-- Kategori -->
+        <!-- <div class="col-lg-3 col-md-4 col-sm-6 col-3">
           <div class="categories_wrap">
             <button type="button" data-toggle="collapse" data-target="#navCatContent" aria-expanded="false"
               class="categories_btn categories_menu">
@@ -290,8 +291,9 @@
               <div class="more_categories">More Categories</div>
             </div>
           </div>
-        </div>
-        <div class="col-lg-9 col-md-8 col-sm-6 col-9">
+        </div> -->
+        <!-- End Kateori -->
+        <div class="col-lg-11 col-md-8 col-sm-6 col-12">
           <nav class="navbar navbar-expand-lg">
             <button class="navbar-toggler side_navbar_toggler" type="button" data-toggle="collapse"
               data-target="#navbarSidetoggle" aria-expanded="false">
@@ -321,13 +323,20 @@
                 <li><a class="nav-link nav_item" href="#">Contact Us</a></li>
               </ul>
             </div>
-            <div class="contact_phone contact_support">
+            <!-- <div class="contact_phone contact_support">
               <i class="linearicons-phone-wave"></i>
               <span>123-456-7689</span>
-            </div>
+            </div> -->
           </nav>
         </div>
       </div>
     </div>
   </div>
 </header>
+<script>
+// $(document).on('submit', '#form-pencarian', function(event) {
+//     event.preventDefault();
+//     var q = $('#keyword_produk').val();
+
+// });
+</script>

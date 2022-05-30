@@ -217,6 +217,13 @@ class Produk extends CI_Controller {
     $this->parser->parse('frontend/template_produk', $data);
   }
 
+  public function search (){
+    $data['title'] = "Cari Produk | ".$this->apl['nama_sistem'];
+    $q = $this->input->get("keyword");
+    $data['keyword'] = $q; 
+    $data['content'] = "produk/pencarian.php";    
+    $this->parser->parse('frontend/template_produk', $data);
+  }
 }
 
 /* End of file Produk.php */
