@@ -23,9 +23,45 @@
   <!-- Content -->
   <div class="section">
     <div class="container">
-      <div id="div-cart">
-
+      <div id="div-cart"></div>
+      <!-- Total -->
+      <div class="row">
+        <div class="col-12">
+          <div class="medium_divider"></div>
+          <div class="divider center_icon"><i class="ti-shopping-cart-full"></i></div>
+          <div class="medium_divider"></div>
+        </div>
       </div>
+      <div class="row">
+        <div class="col-md-6"></div>
+        <div class="col-md-6">
+          <div class="border p-3 p-md-4">
+            <div class="heading_s1 mb-3">
+              <h6>Total Keranjang</h6>
+            </div>
+            <div class="table-responsive">
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td class="cart_total_label">Jumlah</td>
+                    <td class="cart_total_amount">
+                      <span id="total-items">0</span> Items
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="cart_total_label">Total</td>
+                    <td class="cart_total_amount">
+                      <strong><span id="total-cart">0</span></strong>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <a href="javascript:;" onclick="checkout()" class="btn btn-fill-out">CheckOut</a>
+          </div>
+        </div>
+      </div>
+      <!-- End Total -->
     </div>
   </div>
   <!-- End Content -->
@@ -108,130 +144,4 @@
     </div>
   </div>
 </div>
-
-<script>
-$(document).ready(function() {
-  loadCart();
-})
-
-function loadCart() {
-  $.ajax({
-    url: "<?= site_url() ?>" + "/Order/get_list_cart",
-    type: 'GET',
-    dataType: 'html',
-    data: {},
-    beforeSend: function() {},
-    success: function(result) {
-      $('#div-cart').html(result);
-    }
-  });
-}
-
-function getTableCart() {
-  let cart = [];
-  $('#cart-table tr').each(function(index) {
-    var id_cart = $(this).find("td .cart-id").val();
-    var id_produk = $(this).find("td .product-id").val();
-    var nama = $(this).find("td .product-name").val();
-    var qty = $(this).find("td .qty").val();
-    var harga = $(this).find("td .product-price").val();
-
-    if (index != 0) {
-      cart.push({
-        id_cart: id_cart,
-        id_produk: id_produk,
-        nama: nama,
-        qty: qty,
-        harga: harga,
-      })
-    }
-  });
-
-  return cart;
-}
-
-function checkout() {
-  let cart = getTableCart();
-  let total = 0;
-  $("#order-table tbody tr").remove();
-  cart.forEach(el => {
-    total += parseInt(el.qty * el.harga);
-    let html = "<tr>" +
-      "<td>" + el.nama + "<span class='product-qty'> x " + el.qty + "</span></td>" +
-      "<td>Rp " + formatRupiah(parseInt(el.qty * el.harga)) + "</td>" +
-      "</tr>";
-    $('#order-table').append(html);
-  });
-
-  $('#order-detail-json').val(JSON.stringify(cart));
-  $('#total-order').text("Rp " + formatRupiah(total));
-  $('#modal-checkout').modal('show');
-}
-
-$(document).on('click', '.btn-delete-cart', function(e) {
-  var id = $(this).attr('data-id');
-  $.ajax({
-    method: 'GET',
-    dataType: 'json',
-    url: "<?= site_url() ?>" + "/Order/delete_cart/" + id,
-    data: {},
-    success: function(data) {
-      if (data.success === true) {
-        Toast.fire({
-          icon: 'success',
-          title: data.message
-        });
-        loadCart();
-        loadNotifikasiCart()
-      } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: data.message
-        });
-      }
-    },
-    fail: function(e) {
-      alert(e);
-    }
-  });
-});
-
-$(document).on('submit', '#form-checkout', function(event) {
-  event.preventDefault();
-  var order_detail = $('#order-detail-json').val();
-  var formData = new FormData($('#form-checkout')[0]);
-  formData.append('order_detail', order_detail);
-
-  $.ajax({
-    url: '<?= site_url() ?>' + '/Order/save',
-    method: 'POST',
-    dataType: 'json',
-    data: formData,
-    async: true,
-    processData: false,
-    contentType: false,
-    success: function(data) {
-      if (data.success == true) {
-        Toast.fire({
-          icon: 'success',
-          title: data.message
-        });
-        $('#modal-checkout').modal('hide');
-        setTimeout(function(){ 
-          window.location.href = "<?= site_url() ?>" + "/Order/order_complete";
-        }, 1000);
-      } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: data.message
-        });
-      }
-    },
-    fail: function(event) {
-      alert(event);
-    }
-  });
-});
-</script>
+<script src="<?= base_url('assets/js/pages/cart.js') ?>"></script>

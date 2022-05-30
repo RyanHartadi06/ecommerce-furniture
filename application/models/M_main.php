@@ -90,7 +90,7 @@ class M_main extends CI_Model{
         $kd = "001";
     }
     date_default_timezone_set('Asia/Jakarta');
-    return $awal.date('dmyy').$kd;
+    return $awal.date('dmY').$kd;
   }
 
 	function get_no_otomatis_v4($tbl,$kolom,$awal){
@@ -106,7 +106,7 @@ class M_main extends CI_Model{
             $kd = "0001";
         }
         date_default_timezone_set('Asia/Jakarta');
-        return $awal.date('dmyy').$kd;
+        return $awal.date('dmY').$kd;
     }
 }
 /* End of file M_main.php */

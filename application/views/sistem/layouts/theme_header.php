@@ -8,7 +8,7 @@
       <span class="icon-menu"></span>
     </button>
     <ul class="navbar-nav navbar-nav-right">
-      <li class="nav-item dropdown">
+      <!-- <li class="nav-item dropdown">
         <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
           <i class="icon-bell mx-0"></i>
           <span class="count"></span>
@@ -55,17 +55,17 @@
             </div>
           </a>
         </div>
-      </li>
+      </li> -->
       <li class="nav-item nav-profile dropdown">
         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
           <img style="border:1px solid #eee;" src="<?= base_url('assets/images/icons/user.png') ?>" alt="profile"/>
           <span class="ml-1" style="font-size: 13px; font-weight:500; color:#333;"><?= $this->session->userdata("auth_nama_user"); ?></span>
         </a>
         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-          <a class="dropdown-item">
+          <!-- <a class="dropdown-item">
             <i class="ti-settings text-primary"></i>
             Settings
-          </a>
+          </a> -->
           <a class="dropdown-item" href="javascript:;" onclick="logout()">
             <i class="ti-power-off text-primary"></i>
             Logout

@@ -11,7 +11,47 @@ class Order extends CI_Controller {
   }
 
   /**
-   * Start Cart Function
+   * Function Admin
+   * 
+   */
+  public function index (){
+    must_login();
+    $data['title'] = "Order | ".$this->apl['nama_sistem'];
+    $data['content'] = "order/index.php";    
+    $this->parser->parse('sistem/template', $data);
+  }
+
+  public function detail_pesanan ($id){
+    must_login();
+    $data['title'] = "Order | ".$this->apl['nama_sistem'];
+
+    $data['order'] = $this->Order_m->get_pesanan_by_id($id)->row_array();
+    $data['order_detail'] = $this->Order_m->get_list_pesanan_detail($id)->result();
+    $data['content'] = "order/detail_order.php";    
+    $this->parser->parse('sistem/template', $data);
+  }
+
+  public function fetch_data(){
+    $pg     = ($this->input->get("page") != "") ? $this->input->get("page") : 1;
+    $key	  = ($this->input->get("search") != "") ? strtoupper(quotes_to_entities($this->input->get("search"))) : "";
+    $limit	= $this->input->get("limit");
+    $offset = ($limit*$pg)-$limit;
+    $column = $this->input->get("sortby");
+    $sort   = $this->input->get("sorttype");
+    
+    $page              = array();
+    $page['limit']     = $limit;
+    $page['count_row'] = $this->Order_m->get_list_count($key)['jml'];
+    $page['current']   = $pg;
+    $page['list']      = gen_paging($page);
+    $data['paging']    = $page;
+    $data['list']      = $this->Order_m->get_list_data($key, $limit, $offset, $column, $sort);
+
+    $this->load->view('sistem/order/list_data',$data);
+  }
+
+  /**
+   * Start  Function Cart Customer
    * 
    */
   public function cart_list (){
@@ -104,24 +144,35 @@ class Order extends CI_Controller {
 
   public function save()
   {
+    date_default_timezone_set('Asia/Jakarta');
     $id_user = $this->session->userdata('auth_id_user');
     $keterangan = $this->input->post('keterangan');
     $order_detail = $this->input->post('order_detail');
     $order_detail = json_decode($order_detail);
+    
+    $pelanggan = $this->M_main->get_where('m_pelanggan', 'id_user', $id_user)->row_array();
+    $no_inv = $this->M_main->get_no_otomatis_v3('orders', 'no_invoice', 'INV');
+    $id_pelanggan = $pelanggan['id'];
+
+    // Total 
+    $total = 0;
+    foreach ($order_detail as $row) {  
+      $total += ($row->qty*$row->harga);
+    }
 
     $id = $this->uuid->v4(false);    
     $data_object = array(
       'id'=>$id,
-      'no_invoice'=>null,
+      'no_invoice'=>$no_inv,
       'tanggal'=>date('Y-m-d'),
-      'id_pelanggan'=>null,
-      'total'=>0,
+      'id_pelanggan'=>$id_pelanggan,
+      'total'=>$total,
       'keterangan'=>$keterangan,  
       'status'=>'1',
       'created_at'=>date('Y-m-d H:i:s'),
       'updated_at'=>date('Y-m-d H:i:s')
     );
-    $this->db->insert('order', $data_object);
+    $this->db->insert('orders', $data_object);
 
     foreach ($order_detail as $row) {  
       $id_detail = $this->uuid->v4(false); 
@@ -133,10 +184,18 @@ class Order extends CI_Controller {
         'harga'=>$row->harga,
         'created_at'=>date('Y-m-d H:i:s'),
         'updated_at'=>date('Y-m-d H:i:s'),
-        // 'id_cart'=>null
+        'id_cart'=>$row->id_cart
       );
       $this->db->insert('order_detail', $data_detail);
+    
+      // update cart
+      $this->db->where('id', $row->id_cart);
+      $this->db->update('cart', array(
+        'qty' => $row->qty,
+        'is_checkout' => 1
+      ));
     }
+
 
     $response['success'] = TRUE;
     $response['message'] = "Pesanan berhasil disimpan !";
