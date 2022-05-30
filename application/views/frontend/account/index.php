@@ -37,7 +37,7 @@
                   <h3>Dashboard</h3>
                 </div>
                 <div class="card-body">
-                  <p>Dari dasboard akun Anda. Anda dapat dengan mudah memeriksa & melihat pesanan terbaru Anda, mengelola alamat pengiriman dan penagihan, serta mengedit kata sandi dan detail akun Anda.
+                  <p>Dari dasboard akun Anda. Anda dapat dengan mudah memeriksa & melihat pesanan terbaru Anda, serta mengedit kata sandi dan detail akun Anda.
                   </p>
                 </div>
               </div>
@@ -67,7 +67,7 @@
                               <td>#<?= $row->no_invoice ?></td>
                               <td><?= $row->tanggal ?></td>
                               <td><?= rupiah($row->total) ?></td>
-                              <td><?= $row->status ?></td>
+                              <td><?= $row->nama_status ?></td>
                               <td><a href="#" class="btn btn-fill-out btn-sm">View</a></td>
                             </tr>
                         <?php  }

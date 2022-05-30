@@ -27,6 +27,7 @@ class Order extends CI_Controller {
 
     $data['order'] = $this->Order_m->get_pesanan_by_id($id)->row_array();
     $data['order_detail'] = $this->Order_m->get_list_pesanan_detail($id)->result();
+    $data['order_status'] = $this->Order_m->get_status()->result();
     $data['content'] = "order/detail_order.php";    
     $this->parser->parse('sistem/template', $data);
   }
@@ -201,7 +202,26 @@ class Order extends CI_Controller {
     $response['message'] = "Pesanan berhasil disimpan !";
 
     echo json_encode($response);   
-  }    
+  }
+  
+  public function update_status()
+  {
+    $id = $this->input->post('id');
+    $status = $this->input->post('status');
+    
+    date_default_timezone_set('Asia/Jakarta');
+    $object = array(
+      'status' => $status,
+      'updated_at' => date('Y-m-d H:i:s'),
+    );
+    $this->db->where('id', $id);
+    $this->db->update('orders', $object);
+
+    $response['success'] = TRUE;
+    $response['message'] = "Status pesanan berhasil diupdate";
+    echo json_encode($response);   
+  }
+  
 }
 
 /* End of file Order.php */

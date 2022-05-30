@@ -41,7 +41,7 @@
             <td><?= $row->no_telp ?></td>
             <td><?= $row->alamat ?></td>
             <td class="text-right"><?= rupiah($row->total) ?></td>
-            <td class="text-center"><?= $row->status ?></td>
+            <td class="text-center"><?= $row->nama_status ?></td>
             <td class="text-center">
               <a href="<?= site_url('Order/detail_pesanan/'.$row->id) ?>" data-id="<?=$row->id?>" data-name="<?=$row->nama_pelanggan?>" class="btn btn-sm btn-info btn-detail" data-toggle="tooltip" title="Detail Order"><i class="fa fa-eye"></i></a>	    
               <!-- <a href="javascript:;" data-id="<?=$row->id?>" data-name="<?=$row->nama_pelanggan?>" class="btn btn-sm btn-warning btn-edit" data-toggle="tooltip" title="Edit Order"><i style="color:#fff;" class="fa fa-edit"></i></a> -->
