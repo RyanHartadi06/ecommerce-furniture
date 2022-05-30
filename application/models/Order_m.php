@@ -71,5 +71,28 @@
                 ->get('cart');
         return $query;
       }
+
+      /**
+       * Function Recommendation
+       * 
+       */
+      function get_rating_produk(){
+        $query = $this->db->query("
+            SELECT p.nama AS nama_produk, pr.rating, us.username FROM produk_rating pr
+            LEFT JOIN m_produk p ON pr.id_produk = p.id
+            LEFT JOIN users us ON pr.id_user = us.id     
+            ORDER BY us.username ASC           
+        ");
+        return $query;
+      }
+
+      function get_pesanan_by_pelanggan($id_user){
+        $query = $this->db->query("
+            SELECT o.*, p.kode AS kode_pelanggan, p.nama AS nama_pelanggan, p.no_telp, p.alamat FROM orders o
+            LEFT JOIN m_pelanggan p ON o.id_pelanggan = p.id
+            WHERE p.id_user = '$id_user'
+        ");
+        return $query;
+      }
     }
 ?>
