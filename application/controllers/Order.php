@@ -144,24 +144,35 @@ class Order extends CI_Controller {
 
   public function save()
   {
+    date_default_timezone_set('Asia/Jakarta');
     $id_user = $this->session->userdata('auth_id_user');
     $keterangan = $this->input->post('keterangan');
     $order_detail = $this->input->post('order_detail');
     $order_detail = json_decode($order_detail);
+    
+    $pelanggan = $this->M_main->get_where('m_pelanggan', 'id_user', $id_user)->row_array();
+    $no_inv = $this->M_main->get_no_otomatis_v3('orders', 'no_invoice', 'INV');
+    $id_pelanggan = $pelanggan['id'];
+
+    // Total 
+    $total = 0;
+    foreach ($order_detail as $row) {  
+      $total += ($row->qty*$row->harga);
+    }
 
     $id = $this->uuid->v4(false);    
     $data_object = array(
       'id'=>$id,
-      'no_invoice'=>null,
+      'no_invoice'=>$no_inv,
       'tanggal'=>date('Y-m-d'),
-      'id_pelanggan'=>null,
-      'total'=>0,
+      'id_pelanggan'=>$id_pelanggan,
+      'total'=>$total,
       'keterangan'=>$keterangan,  
       'status'=>'1',
       'created_at'=>date('Y-m-d H:i:s'),
       'updated_at'=>date('Y-m-d H:i:s')
     );
-    $this->db->insert('order', $data_object);
+    $this->db->insert('orders', $data_object);
 
     foreach ($order_detail as $row) {  
       $id_detail = $this->uuid->v4(false); 
@@ -173,10 +184,18 @@ class Order extends CI_Controller {
         'harga'=>$row->harga,
         'created_at'=>date('Y-m-d H:i:s'),
         'updated_at'=>date('Y-m-d H:i:s'),
-        // 'id_cart'=>null
+        'id_cart'=>$row->id_cart
       );
       $this->db->insert('order_detail', $data_detail);
+    
+      // update cart
+      $this->db->where('id', $row->id_cart);
+      $this->db->update('cart', array(
+        'qty' => $row->qty,
+        'is_checkout' => 1
+      ));
     }
+
 
     $response['success'] = TRUE;
     $response['message'] = "Pesanan berhasil disimpan !";
