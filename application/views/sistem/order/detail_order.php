@@ -1,14 +1,15 @@
 <style>
-  .order-table tr, td {
-    padding: 8px !important;
-  }
+.order-table tr,
+td {
+  padding: 8px !important;
+}
 </style>
 <div class="row">
   <div class="col-12">
     <div class="card flat">
       <div class="card-header card-header-blue">
         <span class="card-title">Detail Order</span>
-        <a class="float-right btn btn-primary" href="javascript:;">Update Status</a>
+        <a class="float-right btn btn-primary" onclick="loadModalStatus()" href="javascript:;">Update Status</a>
       </div>
       <div class="card-body">
         <div class="order_review">
@@ -47,7 +48,7 @@
               <tr>
                 <td>Status</td>
                 <td>:</td>
-                <td><?= $order['status'] ?></td>
+                <td><?= $order['nama_status'] ?></td>
               </tr>
             </table>
           </div>
@@ -74,14 +75,14 @@
                   $no++; 
                   $total += ($row->qty*$row->harga);
                 ?>
-                  <tr>
-                    <td class="text-center"><?= $no ?>.</td>
-                    <td><?= $row->nama_produk ?></td>
-                    <td class="text-center"><?= $row->satuan ?></td>
-                    <td class="text-center"><?= $row->qty ?></td>
-                    <td class="text-right"><?= rupiah($row->harga) ?></td>
-                    <td class="text-right"><?= rupiah($row->qty * $row->harga) ?></td>
-                  </tr>
+                <tr>
+                  <td class="text-center"><?= $no ?>.</td>
+                  <td><?= $row->nama_produk ?></td>
+                  <td class="text-center"><?= $row->satuan ?></td>
+                  <td class="text-center"><?= $row->qty ?></td>
+                  <td class="text-right"><?= rupiah($row->harga) ?></td>
+                  <td class="text-right"><?= rupiah($row->qty * $row->harga) ?></td>
+                </tr>
                 <?php } ?>
               </tbody>
               <tfoot>
@@ -99,9 +100,80 @@
 
         <hr>
         <div class="text-right">
-          <a href="<?= site_url('Order') ?>" class="btn btn-secondary">Kembali</a>           
+          <a href="<?= site_url('Order') ?>" class="btn btn-secondary">Kembali</a>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<!-- Modal Status -->
+<div class="modal fade" id="modal-status" tabindex="-1" role="dialog" aria-labelledby="formModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Update Status</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="form-status" action="" method="POST">
+        <div class="modal-body">
+          <input type="hidden" class="form-control" id="id" name="id" value="<?= $order['id'] ?>"></input>
+          <div class="form-group">
+            <label for="nama">Status</label>
+            <select class="form-control" name="status" id="status" required>
+              <option value="">Pilih status</option>
+              <?php foreach ($order_status as $st) { ?>
+              <option value="<?= $st->id ?>"><?= $st->keterangan ?></option>
+              <?php } ?>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+function loadModalStatus() {
+  $('#modal-status').modal('show');
+}
+
+$(document).on('submit', '#form-status', function(event) {
+  event.preventDefault();
+  $.ajax({
+    url: base_url + "/Order/update_status",
+    method: 'POST',
+    dataType: 'json',
+    data: new FormData($('#form-status')[0]),
+    async: true,
+    processData: false,
+    contentType: false,
+    success: function(data) {
+      if (data.success == true) {
+        Toast.fire({
+          icon: 'success',
+          title: data.message
+        });
+        $('#modal-status').modal('hide');
+        location.reload();
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: data.message
+        });
+      }
+    },
+    fail: function(event) {
+      alert(event);
+    }
+  });
+});
+</script>

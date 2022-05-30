@@ -12,8 +12,9 @@
 
       function get_list_data($key="",  $limit="", $offset="", $column="", $sort="", $status="1"){
           $query = $this->db->query("
-              SELECT o.*, p.kode AS kode_pelanggan, p.nama AS nama_pelanggan, p.no_telp, p.alamat FROM orders o
+              SELECT o.*, p.kode AS kode_pelanggan, p.nama AS nama_pelanggan, p.no_telp, p.alamat, os.keterangan as nama_status FROM orders o
               LEFT JOIN m_pelanggan p ON o.id_pelanggan = p.id
+              LEFT JOIN order_status os ON o.status = os.id
               WHERE concat(o.no_invoice, p.nama) like '%$key%' 
               order by $column $sort
               limit $limit offset $offset
@@ -23,8 +24,9 @@
 
       function get_pesanan_by_id($id_order){
         $query = $this->db->query("
-            SELECT o.*, p.kode AS kode_pelanggan, p.nama AS nama_pelanggan, p.no_telp, p.alamat FROM orders o
+            SELECT o.*, p.kode AS kode_pelanggan, p.nama AS nama_pelanggan, p.no_telp, p.alamat, os.keterangan as nama_status FROM orders o
             LEFT JOIN m_pelanggan p ON o.id_pelanggan = p.id
+            LEFT JOIN order_status os ON o.status = os.id
             WHERE o.id = '$id_order'
         ");
         return $query;
@@ -88,11 +90,20 @@
 
       function get_pesanan_by_pelanggan($id_user){
         $query = $this->db->query("
-            SELECT o.*, p.kode AS kode_pelanggan, p.nama AS nama_pelanggan, p.no_telp, p.alamat FROM orders o
+            SELECT o.*, p.kode AS kode_pelanggan, p.nama AS nama_pelanggan, p.no_telp, p.alamat, os.keterangan as nama_status FROM orders o
             LEFT JOIN m_pelanggan p ON o.id_pelanggan = p.id
+            LEFT JOIN order_status os ON o.status = os.id
             WHERE p.id_user = '$id_user'
         ");
         return $query;
       }
+
+      function get_status(){
+        $query = $this->db->select('id, keterangan')
+                ->order_by('id', 'asc')
+                ->get('order_status');
+        return $query;
+      }
+
     }
 ?>
