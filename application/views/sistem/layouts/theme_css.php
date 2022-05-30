@@ -10,3 +10,12 @@
 <link rel="stylesheet" type="text/css" href="<?= base_url('assets/all/datepicker/bootstrap-datepicker3.min.css') ?>">
 <!-- JS -->
 <script src="<?= base_url('assets/vendors/js/vendor.bundle.base.js') ?>"></script>
+
+<style>
+  .sidebar .nav.sub-menu {
+    padding: 0.25rem 0 0 2.07rem !important;
+  }
+
+  /* Warna Asli
+  #FF324D  */
+</style>
