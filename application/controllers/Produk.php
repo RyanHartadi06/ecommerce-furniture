@@ -224,6 +224,12 @@ class Produk extends CI_Controller {
     $data['content'] = "produk/pencarian.php";    
     $this->parser->parse('frontend/template_produk', $data);
   }
+  
+  public function rekomendasi (){
+    $data['title'] = "Rekomendasi Produk | ".$this->apl['nama_sistem']; 
+    $data['content'] = "produk/rekomendasi.php";    
+    $this->parser->parse('frontend/template_produk', $data);
+  }
 }
 
 /* End of file Produk.php */
