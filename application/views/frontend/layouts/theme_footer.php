@@ -5,22 +5,23 @@
         <div class="col-lg-6 col-md-12 col-sm-12">
           <div class="widget">
             <div class="footer_logo">
-              <a href="#"><img src="<?= base_url('assets/frontend/images/logo_dark.png') ?>" alt="logo" /></a>
+              <a href="#"><img src="<?= base_url('assets/images/logo---.png') ?>" alt="logo" /></a>
             </div>
-            <p class="mb-3">If you are going to use of Lorem Ipsum need to be sure there isn't anything hidden of text
+            <p class="mb-3">Mebel Anggita Jaya adalah usaha yang bergerak dalam bidang penjualan mebel dan juga spesial jasa pembuatan jok kursi dan sofa.  Selain itu juga menerima pesanan pembuatan jok mobil dan motor.
             </p>
             <ul class="contact_info">
               <li>
                 <i class="ti-location-pin"></i>
-                <p>123 Street, Old Trafford, NewYork, USA</p>
+                <p>Jl. Niken Gandini No. 72 Singosaren, Kecamatan Jenangan, Kabupaten Ponorogo, Jawa Timur, 63492,
+                Indonesia</p>
               </li>
               <li>
                 <i class="ti-email"></i>
-                <a href="mailto:info@sitename.com">info@sitename.com</a>
+                <a href="mailto:info@sitename.com">priscadewi08@gmail.com</a>
               </li>
               <li>
                 <i class="ti-mobile"></i>
-                <p>+ 457 789 789 65</p>
+                <p>+62 813 3426 4234</p>
               </li>
             </ul>
           </div>

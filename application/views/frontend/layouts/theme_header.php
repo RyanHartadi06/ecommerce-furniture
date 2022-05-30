@@ -32,8 +32,8 @@
     <div class="container">
       <div class="nav_block">
         <a class="navbar-brand" href="<?= site_url('/') ?>">
-          <img class="logo_light" src="<?= base_url('assets/frontend/images/logo_light.png') ?>" alt="logo">
-          <img class="logo_dark" src="<?= base_url('assets/frontend/images/logo_dark.png') ?>" alt="logo">
+          <img class="logo_light" src="<?= base_url('assets/images/logo---.png') ?>" alt="logo">
+          <img class="logo_dark" src="<?= base_url('assets/images/logo---.png') ?>" alt="logo">
         </a>
         <div class="product_search_form search_form_btn">
           <!-- Pencarian -->

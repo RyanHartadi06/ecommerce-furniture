@@ -1,6 +1,6 @@
 <!-- SITE TITLE -->
 <!-- Favicon Icon -->
-<link rel="shortcut icon" type="image/x-icon" href="<?= base_url('assets/frontend/images/favicon.png') ?>">
+<link rel="shortcut icon" type="image/x-icon" href="<?= base_url('assets/images/logo-.png') ?>">
 <!-- Animation CSS -->
 <link rel="stylesheet" href="<?= base_url('assets/frontend/css/animate.css') ?>">
 <!-- Latest Bootstrap min CSS -->
