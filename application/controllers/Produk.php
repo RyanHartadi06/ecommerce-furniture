@@ -230,17 +230,23 @@ class Produk extends CI_Controller {
     $data['title'] = "Rekomendasi Produk | ".$this->apl['nama_sistem'];
 
     $username = $this->session->userdata('auth_username');
+    $is_login = $this->session->userdata('auth_is_login');
     $produk = $this->Order_m->get_rating_produk()->result_array();
     
     $matrix=array();
     foreach ($produk as $row) {
       $matrix[$row['username']][$row['nama_produk']]=$row['rating'];  
     }
+
+    $result = array();
+    if($is_login){
+      $this->load->library('SistemRekomendasi');
+      $rec = new $this->sistemrekomendasi;
+      $result = $rec->getRecommendation($matrix, $username);
+    }
  
-    $this->load->library('SistemRekomendasi');
-    $rec = new $this->sistemrekomendasi;
     // print_r($rec->getRecommendation($matrix, $username));
-    $data['rekomendasi'] = $rec->getRecommendation($matrix, $username);
+    $data['rekomendasi'] = $result;
     $data['content'] = "produk/rekomendasi.php";    
     $this->parser->parse('frontend/template_produk', $data);
   }

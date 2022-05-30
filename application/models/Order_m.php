@@ -86,5 +86,13 @@
         return $query;
       }
 
+      function get_pesanan_by_pelanggan($id_user){
+        $query = $this->db->query("
+            SELECT o.*, p.kode AS kode_pelanggan, p.nama AS nama_pelanggan, p.no_telp, p.alamat FROM orders o
+            LEFT JOIN m_pelanggan p ON o.id_pelanggan = p.id
+            WHERE p.id_user = '$id_user'
+        ");
+        return $query;
+      }
     }
 ?>

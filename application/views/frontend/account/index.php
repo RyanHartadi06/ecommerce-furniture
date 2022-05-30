@@ -15,14 +15,14 @@
                 <a class="nav-link" id="orders-tab" data-toggle="tab" href="#orders" role="tab" aria-controls="orders"
                   aria-selected="false"><i class="ti-shopping-cart-full"></i>Orders</a>
               </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a class="nav-link" id="address-tab" data-toggle="tab" href="#address" role="tab"
                   aria-controls="address" aria-selected="true"><i class="ti-location-pin"></i>My Address</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" id="account-detail-tab" data-toggle="tab" href="#account-detail" role="tab"
                   aria-controls="account-detail" aria-selected="true"><i class="ti-id-badge"></i>Account details</a>
-              </li>
+              </li> -->
               <li class="nav-item">
                 <a class="nav-link" href="javascript:;" onclick="logout()"><i class="ti-lock"></i>Logout</a>
               </li>
@@ -37,11 +37,7 @@
                   <h3>Dashboard</h3>
                 </div>
                 <div class="card-body">
-                  <p>From your account dashboard. you can easily check &amp; view your <a href="javascript:void(0);"
-                      onclick="$('#orders-tab').trigger('click')">recent orders</a>, manage your <a
-                      href="javascript:void(0);" onclick="$('#address-tab').trigger('click')">shipping and billing
-                      addresses</a> and <a href="javascript:void(0);"
-                      onclick="$('#account-detail-tab').trigger('click')">edit your password and account details.</a>
+                  <p>Dari dasboard akun Anda. Anda dapat dengan mudah memeriksa & melihat pesanan terbaru Anda, mengelola alamat pengiriman dan penagihan, serta mengedit kata sandi dan detail akun Anda.
                   </p>
                 </div>
               </div>
@@ -57,27 +53,29 @@
                       <thead>
                         <tr>
                           <th>Order</th>
-                          <th>Date</th>
-                          <th>Status</th>
+                          <th>Tanggal</th>
                           <th>Total</th>
-                          <th>Actions</th>
+                          <th>Status</th>
+                          <th>Aksi</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>#1234</td>
-                          <td>March 15, 2020</td>
-                          <td>Processing</td>
-                          <td>$78.00 for 1 item</td>
-                          <td><a href="#" class="btn btn-fill-out btn-sm">View</a></td>
-                        </tr>
-                        <tr>
-                          <td>#2366</td>
-                          <td>June 20, 2020</td>
-                          <td>Completed</td>
-                          <td>$81.00 for 1 item</td>
-                          <td><a href="#" class="btn btn-fill-out btn-sm">View</a></td>
-                        </tr>
+                        <?php 
+                        if(count($order)>0){
+                          foreach ($order as $row) { ?>
+                            <tr>
+                              <td>#<?= $row->no_invoice ?></td>
+                              <td><?= $row->tanggal ?></td>
+                              <td><?= rupiah($row->total) ?></td>
+                              <td><?= $row->status ?></td>
+                              <td><a href="#" class="btn btn-fill-out btn-sm">View</a></td>
+                            </tr>
+                        <?php  }
+                        }else{ ?>
+                            <tr>
+                              <td colspan="5">Pesanan tidak ditemukan !</td>
+                            </tr>
+                        <?php } ?>
                       </tbody>
                     </table>
                   </div>

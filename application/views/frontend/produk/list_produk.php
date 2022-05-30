@@ -7,8 +7,8 @@
         <!-- <span class="pr_flash">New</span> -->
         <div class="product_img">
           <a href="<?= site_url('Produk/detail/'.$row->id) ?>">
-            <img style="height:290px; object-fit:cover;" src="<?= base_url($row->foto) ?>" alt="el_img3">
-            <img style="height:290px; object-fit:cover;" class="product_hover_img" src="<?= base_url($row->foto) ?>"
+            <img style="height:290px; object-fit:cover;" src="<?= ($row->foto!="") ? base_url($row->foto) : base_url('assets/images/icons/no-product.png') ?>" alt="el_img3">
+            <img style="height:290px; object-fit:cover;" class="product_hover_img" src="<?= ($row->foto!="") ? base_url($row->foto) : base_url('assets/images/icons/no-product.png') ?>"
               alt="el_hover_img3">
           </a>
           <div class="product_action_box">
