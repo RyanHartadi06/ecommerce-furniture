@@ -38,12 +38,13 @@
                   <button type="submit" class="btn btn-block btn-primary font-weight-medium">Login</button>
                 </div>
                 <div class="my-3 text-center">
-                  <a href="<?= site_url() ?>" class="auth-link text-black text-right">Home |</a>
-                  <a href="javascript:;" class="auth-link text-black text-right">Lupa password?</a>
+                  <!-- <a href="<?= site_url() ?>" class="auth-link text-black text-right">Home</a> -->
+                  <!-- <a href="javascript:;" class="auth-link text-black text-right">Lupa password?</a> -->
                 </div>
-                <!-- <div class="text-center mt-4 font-weight-light" style="font-size:15px;">
-                  Belum punya akun? <a href="javascript:;" class="text-primary">Register</a>
-                </div> -->
+                <div class="text-center mt-5 font-weight-light" style="font-size:15px;">
+                <a href="<?= site_url() ?>" class="auth-link text-black text-right">Home</a> |
+                  Belum punya akun? <a href="<?= site_url('Auth/register') ?>" class="text-primary">Register</a>
+                </div>
               </form>
             </div>
             <div class="text-center mt-1">

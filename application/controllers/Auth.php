@@ -5,6 +5,7 @@ class Auth extends CI_Controller {
   public function __construct()
   {
     parent::__construct();
+    $this->load->model('M_main');
 		$this->load->model('Auth_m');
   }
   
@@ -13,6 +14,11 @@ class Auth extends CI_Controller {
 		$this->load->view('auth/login');
   }
   
+  public function register()
+	{
+		$this->load->view('auth/register');
+  }
+
   public function login()
   {
       $this->form_validation->set_rules('username', 'username', 'trim|required');
@@ -69,6 +75,70 @@ class Auth extends CI_Controller {
           //Akun Anda user salah
           $response['success'] = false;
           $response['message'] = "Username atau password salah !";
+        }
+      }
+      echo json_response($response);
+  }
+
+  public function daftar_akun()
+  {
+      $this->form_validation->set_rules('username', 'username', 'trim|required');
+      $this->form_validation->set_rules('password', 'password', 'trim|required');
+      if ($this->form_validation->run() == FALSE){
+        $response['success'] = false;
+        $response['message'] = "Harap lengkapi bidang yang kosong !";
+      }else{
+        $nama = strip_tags($this->input->post('nama'));
+        $email = strip_tags($this->input->post('email'));
+        $alamat = strip_tags($this->input->post('alamat'));
+        $no_telp = strip_tags($this->input->post('no_telp'));
+        $username = strip_tags($this->input->post('username'));
+        $password = md5(strip_tags($this->input->post('password')));
+
+        $get_email = $this->M_main->get_where('users', 'email', $email)->num_rows();
+        $get_username = $this->M_main->get_where('users', 'username', $username)->num_rows();
+        if($get_email!=0){
+          $response['success'] = FALSE;
+          $response['message'] = "Maaf, Email sudah terdaftar !"; 
+        }else if($get_username!=0){
+          $response['success'] = FALSE;
+          $response['message'] = "Maaf, Username sudah terdaftar !"; 
+        }else{
+          // Insert User
+          $id_user = $this->uuid->v4(false);    
+          $data_object = array(
+            'id'=>$id_user,
+            'nama'=>$nama,
+            'username'=>$username,
+            'email'=>$email,
+            'password'=>$password,
+            'id_role'=>'PELANGGAN',
+            'status'=>'1',
+            'created_at'=>date('Y-m-d H:i:s'),
+            'updated_at'=>date('Y-m-d H:i:s')
+          );
+          $this->db->insert('users', $data_object);
+
+          // Insert Pelanggan
+          $id = $this->uuid->v4(false);    
+          $kode = $this->M_main->get_kode_master_v3('CS', 'kode', 'm_pelanggan');
+          $data_object = array(
+            'id'=>$id,
+            'kode'=>$kode,
+            'nama'=>$nama,
+            'no_telp'=>$no_telp,
+            'email'=>$email,
+            'alamat'=>$alamat,
+            'status'=>'1',
+            'id_user'=>$id_user,
+            'created_at'=>date('Y-m-d H:i:s')
+          );
+          
+          $this->session->set_flashdata('success', 'Registrasi berhasil, silahkan login menggunakan username/email dan password anda ! <a href="'.site_url('Auth').'">login</a>');
+          $this->db->insert('m_pelanggan', $data_object);      
+
+          $response['success'] = TRUE;
+          $response['message'] = "Registrasi akun berhasil!";
         }
       }
       echo json_response($response);
