@@ -10,6 +10,7 @@ class Produk extends CI_Controller {
     $this->load->model('Menu_m');
     $this->load->model('M_main');
     $this->load->model('Produk_m');
+    $this->load->model('Order_m');
   }
   
   public function index()
@@ -226,7 +227,20 @@ class Produk extends CI_Controller {
   }
   
   public function rekomendasi (){
-    $data['title'] = "Rekomendasi Produk | ".$this->apl['nama_sistem']; 
+    $data['title'] = "Rekomendasi Produk | ".$this->apl['nama_sistem'];
+
+    $username = $this->session->userdata('auth_username');
+    $produk = $this->Order_m->get_rating_produk()->result_array();
+    
+    $matrix=array();
+    foreach ($produk as $row) {
+      $matrix[$row['username']][$row['nama_produk']]=$row['rating'];  
+    }
+ 
+    $this->load->library('SistemRekomendasi');
+    $rec = new $this->sistemrekomendasi;
+    // print_r($rec->getRecommendation($matrix, $username));
+    $data['rekomendasi'] = $rec->getRecommendation($matrix, $username);
     $data['content'] = "produk/rekomendasi.php";    
     $this->parser->parse('frontend/template_produk', $data);
   }

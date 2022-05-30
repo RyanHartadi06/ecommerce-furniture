@@ -71,5 +71,20 @@
                 ->get('cart');
         return $query;
       }
+
+      /**
+       * Function Recommendation
+       * 
+       */
+      function get_rating_produk(){
+        $query = $this->db->query("
+            SELECT p.nama AS nama_produk, pr.rating, us.username FROM produk_rating pr
+            LEFT JOIN m_produk p ON pr.id_produk = p.id
+            LEFT JOIN users us ON pr.id_user = us.id     
+            ORDER BY us.username ASC           
+        ");
+        return $query;
+      }
+
     }
 ?>
