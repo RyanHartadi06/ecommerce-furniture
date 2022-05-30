@@ -208,7 +208,8 @@ class Order extends CI_Controller {
   {
     $id = $this->input->post('id');
     $status = $this->input->post('status');
-
+    
+    date_default_timezone_set('Asia/Jakarta');
     $object = array(
       'status' => $status,
       'updated_at' => date('Y-m-d H:i:s'),
