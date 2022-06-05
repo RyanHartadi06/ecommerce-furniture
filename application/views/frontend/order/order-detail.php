@@ -23,14 +23,32 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <div class="row">
-            <div class="col-md-6">
-              <h5>Order</h5>
+
+          <div class="tab-style3">
+            <ul class="nav nav-tabs" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" id="order-tab" data-toggle="tab" href="#order-pane" role="tab"
+                  aria-controls="order-pane" aria-selected="true">Detail Order</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="rating-tab" data-toggle="tab" href="#rating-pane" role="tab"
+                  aria-controls="rating-pane" aria-selected="false">Ulasan</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="tab-content shop_info_tab">
+            <div class="tab-pane fade show active" id="order-pane" role="tabpanel" aria-labelledby="order-tab">
+                tes1
             </div>
-            <div class="col-md-6 text-right">
-              <a href="javascript:history.go(-1);" class="btn btn-fill-out">Kembali</a>
+            <div class="tab-pane fade" id="rating-pane" role="tabpanel" aria-labelledby="rating-tab">
+              tes 2
             </div>
           </div>
+
+
+          <h5>Order</h5>
+          <!-- <a href="<?= site_url('/') ?>" class="btn btn-fill-out">Kembali Ke Home</a> -->
 
           <br>
           <div class="order_review1">
@@ -62,11 +80,10 @@
             <br>
             <h5 class="mb-4">Ulasan Produk</h5>
             <form action="" id="form-ulasan">
-              <input type="hidden" name="id_order" value="<?= $order['id'] ?>">
               <input type="hidden" id="count_order" value="<?= count($order_detail) ?>">
               <?php foreach ($order_detail as $row) { ?>
               <div class="card mb-4">
-                <input type="hidden" name="id_produk_detail[]" value="<?= $row->id ?>">
+                <input type="hidden" name="id_produk[]" value="<?= $row->id_produk ?>">
                 <div class="card-header">
                   <div class="row">
                     <div class="col-md-6">
@@ -79,20 +96,20 @@
                   </div>
                 </div>
                 <div class="card-body">
-                  <?php if($row->rating!=""){ ?>
-                  <div style="color:#333;">
-                    Rating :
-                    <div class="rating_wrap">
-                      <div class="rating">
-                        <div class="product_rate" style="width:<?= $row->rating*20 ?>%"></div>
-                      </div>
-                    </div>
-                    <br>
-                    Ulasan :
-                    <p><?= ($row->ulasan!="") ? $row->ulasan : '-' ?></p>
-                  </div>
-                  <?php }else{ ?>
                   <div class="form-group col-12">
+                    <?php if($row->rating!=""){ ?>
+                    <div style="color:#333;">
+                      Rating :
+                      <div class="rating_wrap">
+                        <div class="rating">
+                          <div class="product_rate" style="width:<?= $row->rating*20 ?>%"></div>
+                        </div>
+                      </div>
+                      <br>
+                      Ulasan :
+                      <p><?= ($row->ulasan!="") ? $row->ulasan : '-' ?></p>
+                    </div>
+                    <?php }else{ ?>
                     <div class="star_rating">
                       <span class="ratings" data-value="1"><i class="far fa-star"></i></span>
                       <span class="ratings" data-value="2"><i class="far fa-star"></i></span>
@@ -101,12 +118,12 @@
                       <span class="ratings" data-value="5"><i class="far fa-star"></i></span>
                       <input name="rating[]" class="input_rating" type="hidden" value="0">
                     </div>
+                    <div class="form-group col-12">
+                      <textarea placeholder="Ulasan produk . . ." class="form-control" name="ulasan[]"
+                        rows="3"></textarea>
+                    </div>
+                    <?php } ?>
                   </div>
-                  <div class="form-group col-12">
-                    <textarea placeholder="Ulasan produk . . ." class="form-control" name="ulasan[]"
-                      rows="3"></textarea>
-                  </div>
-                  <?php } ?>
                 </div>
               </div>
               <?php } ?>
