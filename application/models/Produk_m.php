@@ -73,5 +73,22 @@
         return $query;
       }
 
+      function get_produk_by_kode($kode=""){
+        $q = "
+            SELECT p.*, jp.nama AS jenis_produk, kp.nama AS kategori_produk, s.nama AS satuan,  (
+              select foto from m_produk_image where id_produk = p.id
+              order by created_at asc limit 1 
+            ) as foto FROM m_produk p
+            LEFT JOIN m_jenis_produk jp ON p.id_jenis_produk = jp.id 
+            LEFT JOIN m_kategori_produk kp ON p.id_kategori_produk = kp.id
+            LEFT JOIN m_satuan s ON p.id_satuan = s.id
+            WHERE p.kode = '$kode'
+            AND p.status = '1'
+        ";
+
+        $query = $this->db->query($q);
+        return $query;
+      }
+
     }
 ?>
