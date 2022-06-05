@@ -235,7 +235,7 @@ class Produk extends CI_Controller {
     
     $matrix=array();
     foreach ($produk as $row) {
-      $matrix[$row['username']][$row['nama_produk']]=$row['rating'];  
+      $matrix[$row['username']][$row['kode']]=$row['rating'];  
     }
 
     $result = array();
@@ -246,7 +246,14 @@ class Produk extends CI_Controller {
     }
  
     // print_r($rec->getRecommendation($matrix, $username));
-    $data['rekomendasi'] = $result;
+
+    $produk_result = array();
+    foreach ($result as $key => $value) {
+      $get_produk = $this->Produk_m->get_produk_by_kode($key)->row_array(); 
+      $produk_result[]=$get_produk;
+    }
+
+    $data['rekomendasi'] = $produk_result;
     $data['content'] = "produk/rekomendasi.php";    
     $this->parser->parse('frontend/template_produk', $data);
   }
