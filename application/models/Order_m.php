@@ -32,15 +32,24 @@
         return $query;
       }
 
-      function get_list_pesanan_detail($id_order){
-        $query = $this->db->query("
-            SELECT od.*, p.nama AS nama_produk, jp.nama AS jenis_produk, kp.nama AS kategori_produk, s.nama AS satuan FROM order_detail od
+      function get_list_pesanan_detail($id_order, $id_user=""){
+        $q = "
+            SELECT od.*, p.nama AS nama_produk, jp.nama AS jenis_produk, kp.nama AS kategori_produk, s.nama AS satuan, 
+            r.rating, r.ulasan, r.anonim FROM order_detail od
             LEFT JOIN m_produk p ON od.id_produk = p.id
             LEFT JOIN m_jenis_produk jp ON p.id_jenis_produk = jp.id
             LEFT JOIN m_kategori_produk kp ON p.id_kategori_produk = kp.id
             LEFT JOIN m_satuan s ON p.id_satuan = s.id
-            WHERE od.id_order = '$id_order'
-        ");
+            LEFT JOIN (
+              SELECT odt.id_produk, pr.rating, pr.ulasan, pr.anonim FROM produk_rating pr
+              LEFT JOIN order_detail odt ON odt.id = pr.id_produk_detail
+              WHERE odt.id_order = '$id_order'
+              AND pr.id_user = '$id_user'
+            ) r ON od.id_produk = r.id_produk
+            WHERE od.id_order = '$id_order'    
+        ";
+
+        $query = $this->db->query($q);
         return $query;
       }
 
@@ -81,9 +90,10 @@
       function get_rating_produk(){
         $query = $this->db->query("
             SELECT p.kode, p.nama AS nama_produk, pr.rating, us.username FROM produk_rating pr
-            LEFT JOIN m_produk p ON pr.id_produk = p.id
+            LEFT JOIN order_detail od ON pr.id_produk_detail = od.id
+            LEFT JOIN m_produk p ON od.id_produk = p.id
             LEFT JOIN users us ON pr.id_user = us.id     
-            ORDER BY us.username ASC           
+            ORDER BY us.username ASC        
         ");
         return $query;
       }

@@ -143,6 +143,15 @@ class Order extends CI_Controller {
     $this->parser->parse('frontend/template_produk', $data);
   }
 
+  public function order_detail ($id_order){
+    $data['title'] = "Order Detail | ".$this->apl['nama_sistem'];
+    $id_user = $this->session->userdata('auth_id_user');
+    $data['order'] = $this->Order_m->get_pesanan_by_id($id_order)->row_array();
+    $data['order_detail'] = $this->Order_m->get_list_pesanan_detail($id_order, $id_user)->result();
+    $data['content'] = "order/order-detail.php";    
+    $this->parser->parse('frontend/template_produk', $data);
+  }
+
   public function save()
   {
     date_default_timezone_set('Asia/Jakarta');
