@@ -67,7 +67,7 @@
           <p><?= $data['deskripsi'] ?></p>
           <form id="form-cart">
             <div class="cart_extra">
-              <input type="text" id="id_produk" name="id_produk" value="<?= $data['id'] ?>">
+              <input type="hidden" id="id_produk" name="id_produk" value="<?= $data['id'] ?>">
               <div class="cart-product-quantity">
                 <div class="quantity">
                   <input type="button" value="-" class="minus">

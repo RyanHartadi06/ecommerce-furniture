@@ -29,6 +29,13 @@
             ");
             return $query;
         }
+
+        function get_all(){
+          $query = $this->db->select('id, nama, username, email')
+                  ->order_by('nama', 'asc')
+                  ->get('users');
+          return $query;
+        }
     }
     /* End of file User_m.php */    
 ?>

@@ -89,11 +89,12 @@
        */
       function get_rating_produk(){
         $query = $this->db->query("
-            SELECT p.kode, p.nama AS nama_produk, pr.rating, us.username FROM produk_rating pr
+            SELECT p.kode, p.nama AS nama_produk, sum(pr.rating) AS rating, us.username FROM produk_rating pr
             LEFT JOIN order_detail od ON pr.id_produk_detail = od.id
             LEFT JOIN m_produk p ON od.id_produk = p.id
-            LEFT JOIN users us ON pr.id_user = us.id     
-            ORDER BY us.username ASC        
+            LEFT JOIN users us ON pr.id_user = us.id
+            GROUP BY p.kode, p.nama, us.username     
+            ORDER BY us.username ASC
         ");
         return $query;
       }
