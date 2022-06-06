@@ -9,7 +9,11 @@ td {
     <div class="card flat">
       <div class="card-header card-header-blue">
         <span class="card-title">Detail Order</span>
-        <a class="float-right btn btn-primary" onclick="loadModalStatus()" href="javascript:;">Update Status</a>
+        <?php 
+        $id_role = $this->session->userdata("auth_id_role");
+        if($id_role=='ADMIN'){ ?>
+          <a class="float-right btn btn-primary" onclick="loadModalStatus()" href="javascript:;">Update Status</a>
+        <?php } ?>
       </div>
       <div class="card-body">
         <div class="order_review">
