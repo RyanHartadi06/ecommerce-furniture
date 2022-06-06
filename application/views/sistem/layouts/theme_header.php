@@ -58,14 +58,18 @@
       </li> -->
       <li class="nav-item nav-profile dropdown">
         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-          <img style="border:1px solid #eee;" src="<?= base_url('assets/images/icons/user.png') ?>" alt="profile"/>
+          <?php if($this->session->userdata("auth_foto")!=""){ ?>
+            <img src="<?=base_url()?>/<?= $this->session->userdata("auth_foto") ?>" class="image-responsive" alt="">
+          <?php }else{ ?>
+            <img style="border:1px solid #eee;" src="<?= base_url('assets/images/icons/user.png') ?>" alt="profile"/>
+          <?php } ?>
           <span class="ml-1" style="font-size: 13px; font-weight:500; color:#333;"><?= $this->session->userdata("auth_nama_user"); ?></span>
         </a>
         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-          <!-- <a class="dropdown-item">
-            <i class="ti-settings text-primary"></i>
-            Settings
-          </a> -->
+          <a href="<?= site_url('Profile') ?>" class="dropdown-item">
+            <i class="ti-user text-primary"></i>
+            Profile
+          </a>
           <a class="dropdown-item" href="javascript:;" onclick="logout()">
             <i class="ti-power-off text-primary"></i>
             Logout
