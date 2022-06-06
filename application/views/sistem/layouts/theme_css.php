@@ -1,4 +1,4 @@
-<link rel="shortcut icon" href="<?= base_url('assets/images/favicon.png') ?>" />
+<link rel="shortcut icon" href="<?= base_url('assets/images/logo--.png') ?>" />
 <link rel="stylesheet" href="<?= base_url('assets/css/vertical-layout-light/style.css') ?>">
 <link rel="stylesheet" href="<?= base_url('assets/css/vertical-layout-light/custom.style.css') ?>">
 <link rel="stylesheet" href="<?= base_url('assets/css/bootstrap.min.css') ?>">
