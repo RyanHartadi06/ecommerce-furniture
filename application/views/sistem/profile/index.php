@@ -84,8 +84,8 @@
     <div class="profile-sidebar card">
       <div class="profile-userpic">
         <center>
-          <?php if($user_profile['foto_user_profile']!=""){ ?>
-          <img src="<?=base_url()?>/<?= $user_profile['foto_user_profile'] ?>" class="image-responsive" alt="">
+          <?php if($user['foto']!=""){ ?>
+          <img src="<?=base_url()?>/<?= $user['foto'] ?>" class="image-responsive" alt="">
           <?php }else{ ?>
           <img src="<?=base_url()?>assets/images/icons/user.png" class="image-responsive" alt="">
           <?php } ?>
@@ -93,7 +93,7 @@
       </div>
       <div class="profile-usertitle">
         <div class="profile-usertitle-name">
-          <?= $user_profile['nama_user_profile'] ?>
+          <?= $user['nama'] ?>
         </div>
         <div class="profile-usertitle-job">
           <?=$this->session->userdata('auth_nama_role');?>
@@ -135,7 +135,7 @@
                   <div class="col-md-12">
                     <input type="text" id="nama_user" name="nama_user" class="form-control"
                       placeholder="Masukkan Nama User . . . " autocomplete="off"
-                      value="<?= $user_profile['nama_user_profile'] ?>" required>
+                      value="<?= $user['nama'] ?>" required>
                   </div>
                 </div>
                 <div class="col-md-12">
