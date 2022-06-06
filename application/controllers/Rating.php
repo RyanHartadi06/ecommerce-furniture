@@ -7,6 +7,7 @@ class Rating extends CI_Controller {
     parent::__construct();
     $this->apl = get_apl();
     $this->load->model('Order_m');
+    $this->load->model('Rating_m');
     $this->load->model('M_main');
   }
 
@@ -60,6 +61,27 @@ class Rating extends CI_Controller {
     echo json_encode($response);   
   }
 
+  public function fetch_data_ulasan(){
+    $pg     = ($this->input->get("page") != "") ? $this->input->get("page") : 1;
+    $limit	= $this->input->get("limit");
+    $offset = ($limit*$pg)-$limit;
+    $column = $this->input->get("sortby");
+    $sort   = $this->input->get("sorttype");
+    $id_produk = $this->input->get("id_produk");
+    $func_name = $this->input->get("func_name");
+    
+    $page              = array();
+    $page['load_func_name'] = $func_name;
+    $page['limit']     = $limit;
+    $page['count_row'] = $this->Rating_m->get_list_count($id_produk)['jml'];
+    $page['current']   = $pg;
+    $page['list']      = gen_paging($page);
+    $data['paging']    = $page;
+    $data['list']      = $this->Rating_m->get_list_data($id_produk, $limit, $offset, $column, $sort);
+
+    $this->load->view('frontend/produk/list_ulasan', $data);
+  }
+  
 }
 
 /* End of file Rating.php */
