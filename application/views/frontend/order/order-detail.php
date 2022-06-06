@@ -4,13 +4,13 @@
     <div class="row align-items-center">
       <div class="col-md-6">
         <div class="page-title">
-          <h3>Penilaian Produk</h3>
+          <h3>Order Detail</h3>
         </div>
       </div>
       <div class="col-md-6">
         <ol class="breadcrumb justify-content-md-end">
           <li class="breadcrumb-item"><a href="#">Home</a></li>
-          <li class="breadcrumb-item active">Penilaian Produk</li>
+          <li class="breadcrumb-item active">Order Detail</li>
         </ol>
       </div>
     </div>
@@ -19,7 +19,7 @@
 
 <!-- START MAIN CONTENT -->
 <div class="main_content">
-  <div class="section">
+  <div class="section" style="padding: 30px 0 !important;">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
@@ -30,178 +30,163 @@
                 <a class="nav-link active" id="order-tab" data-toggle="tab" href="#order-pane" role="tab"
                   aria-controls="order-pane" aria-selected="true">Detail Order</a>
               </li>
+              <?php if($order['status']=='4'){ ?>
+              <!-- Pesanan Selesai -->
               <li class="nav-item">
                 <a class="nav-link" id="rating-tab" data-toggle="tab" href="#rating-pane" role="tab"
                   aria-controls="rating-pane" aria-selected="false">Ulasan</a>
               </li>
+              <?php } ?>
             </ul>
           </div>
 
           <div class="tab-content shop_info_tab">
             <div class="tab-pane fade show active" id="order-pane" role="tabpanel" aria-labelledby="order-tab">
-                tes1
+              <!-- Detail Produk -->
+              <div class="order_review1" style="border:1px solid #dedede; padding:30px; border-radius:5px;">
+                <div class="row">
+                  <div class="col-md-6">
+                    <h5 class="mb-4">Order</h5>
+                  </div>
+                  <div class="col-md-6 text-right">
+                  <?php if($order['status']=='3'){ ?>
+                    <!-- Beri penilaian -->
+                    <a href="<?= site_url('Rating/penilaian/'.$order['id']) ?>" class="text-white btn btn-warning">Terima Pesanan</a>
+                  <?php } ?>
+                  </div>
+                </div>
+                <br>
+                <div class="table-responsive">
+                  <table class="table order-table">
+                    <tr>
+                      <td style="width:15%;">No Invoice </td>
+                      <td style="width:3%;">: </td>
+                      <td style="width:75%;"><?= $order['no_invoice'] ?></td>
+                    </tr>
+                    <tr>
+                      <td>Nama</td>
+                      <td>:</td>
+                      <td><?= $order['nama_pelanggan'] ?> (<?= $order['kode_pelanggan'] ?>)</td>
+                    </tr>
+                    <tr>
+                      <td>Tanggal</td>
+                      <td>:</td>
+                      <td><?= $order['tanggal'] ?></td>
+                    </tr>
+                    <tr>
+                      <td>No Telepon</td>
+                      <td>:</td>
+                      <td><?= $order['no_telp'] ?></td>
+                    </tr>
+                    <tr>
+                      <td>Alamat</td>
+                      <td>:</td>
+                      <td><?= $order['alamat'] ?></td>
+                    </tr>
+                    <tr>
+                      <td>Catatan/Keterangan</td>
+                      <td>:</td>
+                      <td><?= $order['keterangan'] ?></td>
+                    </tr>
+                    <tr>
+                      <td>Status</td>
+                      <td>:</td>
+                      <td><?= $order['nama_status'] ?></td>
+                    </tr>
+                  </table>
+                </div>
+
+                <br>
+                <h5>Produk Dibeli</h5>
+                <br>
+                <div class="table-responsive">
+                  <table class="table" id="order-table">
+                    <thead class="tr-head">
+                      <tr>
+                        <th class="text-center">No.</th>
+                        <th>Produk</th>
+                        <th class="text-center">Satuan</th>
+                        <th class="text-center">Qty</th>
+                        <th class="text-right">Harga</th>
+                        <th class="text-right">Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php 
+                        $no = 0;
+                        $total = 0;
+                        foreach ($order_detail as $row) { 
+                          $no++; 
+                          $total += ($row->qty*$row->harga);
+                        ?>
+                      <tr>
+                        <td class="text-center"><?= $no ?>.</td>
+                        <td><?= $row->nama_produk ?></td>
+                        <td class="text-center"><?= $row->satuan ?></td>
+                        <td class="text-center"><?= $row->qty ?></td>
+                        <td class="text-right"><?= rupiah($row->harga) ?></td>
+                        <td class="text-right"><?= rupiah($row->qty * $row->harga) ?></td>
+                      </tr>
+                      <?php } ?>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colspan="4"></td>
+                        <td class="text-right"><b>Total</b></td>
+                        <td class="text-right">
+                          <span id="total-order"><?= rupiah($total) ?></span>
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+              <!-- End Detail Produk -->
             </div>
             <div class="tab-pane fade" id="rating-pane" role="tabpanel" aria-labelledby="rating-tab">
-              tes 2
-            </div>
-          </div>
-
-
-          <h5>Order</h5>
-          <!-- <a href="<?= site_url('/') ?>" class="btn btn-fill-out">Kembali Ke Home</a> -->
-
-          <br>
-          <div class="order_review1">
-            <div class="table-responsive">
-              <table class="table order-table">
-                <tr>
-                  <td style="width:15%;">No Invoice </td>
-                  <td style="width:3%;">: </td>
-                  <td style="width:75%;"><?= $order['no_invoice'] ?></td>
-                </tr>
-                <tr>
-                  <td>Nama</td>
-                  <td>:</td>
-                  <td><?= $order['nama_pelanggan'] ?> (<?= $order['kode_pelanggan'] ?>)</td>
-                </tr>
-                <tr>
-                  <td>Tanggal</td>
-                  <td>:</td>
-                  <td><?= $order['tanggal'] ?></td>
-                </tr>
-                <tr>
-                  <td>Status</td>
-                  <td>:</td>
-                  <td><?= $order['nama_status'] ?></td>
-                </tr>
-              </table>
-            </div>
-
-            <br>
-            <h5 class="mb-4">Ulasan Produk</h5>
-            <form action="" id="form-ulasan">
-              <input type="hidden" id="count_order" value="<?= count($order_detail) ?>">
-              <?php foreach ($order_detail as $row) { ?>
-              <div class="card mb-4">
-                <input type="hidden" name="id_produk[]" value="<?= $row->id_produk ?>">
-                <div class="card-header">
-                  <div class="row">
-                    <div class="col-md-6">
-                      <h5><?= $row->nama_produk ?></h5>
-                      <h6>Total : <?= rupiah($row->qty*$row->harga) ?></h6>
-                    </div>
-                    <div class="col-md-6 text-right">
-                      <span><?= $row->qty ?> x <?= rupiah($row->harga) ?></span>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-body">
-                  <div class="form-group col-12">
-                    <?php if($row->rating!=""){ ?>
-                    <div style="color:#333;">
-                      Rating :
-                      <div class="rating_wrap">
-                        <div class="rating">
-                          <div class="product_rate" style="width:<?= $row->rating*20 ?>%"></div>
+              <!-- Ulasan -->
+              <div class="order_review1">
+                <h5 class="mb-4">Ulasan Produk</h5>
+                <form action="" id="form-ulasan">
+                  <input type="hidden" id="count_order" value="<?= count($order_detail) ?>">
+                  <?php foreach ($order_detail as $row) { ?>
+                  <div class="card mb-4">
+                    <input type="hidden" name="id_produk[]" value="<?= $row->id_produk ?>">
+                    <div class="card-header">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <h5><?= $row->nama_produk ?></h5>
+                          <h6>Total : <?= rupiah($row->qty*$row->harga) ?></h6>
+                        </div>
+                        <div class="col-md-6 text-right">
+                          <span><?= $row->qty ?> x <?= rupiah($row->harga) ?></span>
                         </div>
                       </div>
-                      <br>
-                      Ulasan :
-                      <p><?= ($row->ulasan!="") ? $row->ulasan : '-' ?></p>
                     </div>
-                    <?php }else{ ?>
-                    <div class="star_rating">
-                      <span class="ratings" data-value="1"><i class="far fa-star"></i></span>
-                      <span class="ratings" data-value="2"><i class="far fa-star"></i></span>
-                      <span class="ratings" data-value="3"><i class="far fa-star"></i></span>
-                      <span class="ratings" data-value="4"><i class="far fa-star"></i></span>
-                      <span class="ratings" data-value="5"><i class="far fa-star"></i></span>
-                      <input name="rating[]" class="input_rating" type="hidden" value="0">
+                    <div class="card-body">
+                      <div class="form-group col-12">
+                        <div style="color:#333;">
+                          Rating :
+                          <div class="rating_wrap">
+                            <div class="rating">
+                              <div class="product_rate" style="width:<?= $row->rating*20 ?>%"></div>
+                            </div>
+                          </div>
+                          <br>
+                          Ulasan :
+                          <p><?= ($row->ulasan!="") ? $row->ulasan : '-' ?></p>
+                        </div>
+                      </div>
                     </div>
-                    <div class="form-group col-12">
-                      <textarea placeholder="Ulasan produk . . ." class="form-control" name="ulasan[]"
-                        rows="3"></textarea>
-                    </div>
-                    <?php } ?>
                   </div>
-                </div>
+                  <?php } ?>
+                </form>
               </div>
-              <?php } ?>
-              <?php if($row->rating==""){ ?>
-              <div class="text-right">
-                <button class="btn btn-primary">Beri Ulasan</button>
-              </div>
-              <?php } ?>
-            </form>
+              <!-- End Ulasan -->
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-<script>
-$(document).on('click', '.ratings', function(event) {
-  event.preventDefault();
-  var value = $(this).attr('data-value');
-  $(this).parents('.star_rating').find(".input_rating").val(value);
-});
-
-function getValidRating() {
-  var countOrder = $("#count_order").val();
-  var jml = 0;
-  $(".input_rating").each(function() {
-    let value = $(this).val();
-    if (value > 0) {
-      jml++;
-    }
-  });
-
-  return (countOrder == jml) ? true : false;
-}
-
-$(document).on('submit', '#form-ulasan', function(event) {
-  event.preventDefault();
-  var formData = new FormData($('#form-ulasan')[0]);
-
-  var valid = getValidRating();
-  console.log("valid", getValidRating());
-  if (valid) {
-    $.ajax({
-      url: site_url + '/Rating/save_ulasan',
-      method: 'POST',
-      dataType: 'json',
-      data: formData,
-      async: true,
-      processData: false,
-      contentType: false,
-      success: function(data) {
-        if (data.success == true) {
-          Toast.fire({
-            icon: 'success',
-            title: data.message
-          });
-          setTimeout(function() {
-            location.reload();
-          }, 1000);
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: data.message
-          });
-        }
-      },
-      fail: function(event) {
-        alert(event);
-      }
-    });
-  } else {
-    Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: "Mohon untuk memberikan rating untuk setiap produk !"
-    });
-  }
-});
-</script>

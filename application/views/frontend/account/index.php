@@ -69,8 +69,11 @@
                               <td><?= rupiah($row->total) ?></td>
                               <td><?= $row->nama_status ?></td>
                               <td class="text-center">
-                                <a href="<?= site_url('Rating/penilaian/'.$row->id) ?>" style="color:#fff;" class="btn btn-warning btn-sm">Terima</a>
-                                <a href="javascript:;" class="btn btn-fill-out btn-sm">Lihat</a>
+                                <?php if($row->status=='3'){ ?>
+                                  <!-- Dikirim -->
+                                  <a href="<?= site_url('Rating/penilaian/'.$row->id) ?>" style="color:#fff;" class="btn btn-warning btn-sm">Terima</a>
+                                <?php } ?>
+                                <a href="<?= site_url('Order/order_detail/'.$row->id) ?>" class="btn btn-fill-out btn-sm">Lihat</a>
                               </td>
                             </tr>
                         <?php  }
