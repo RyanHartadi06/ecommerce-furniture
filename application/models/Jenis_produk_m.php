@@ -22,6 +22,7 @@
 
       function get_all(){
         $query = $this->db->select('id, nama')
+                ->where('status', '1')
                 ->order_by('nama', 'asc')
                 ->get('m_jenis_produk');
         return $query;
