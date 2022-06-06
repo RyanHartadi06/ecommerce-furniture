@@ -38,9 +38,9 @@
                   </div>
                   <div class="rating_wrap">
                     <div class="rating">
-                      <div class="product_rate" style="width:87%"></div>
+                      <div class="product_rate" style="width:<?= $p['rata_rata_rating']*20 ?>%"></div>
                     </div>
-                    <span class="rating_num">(0)</span>
+                    <span class="rating_num">(<?= $p['total_rating'] ?>)</span>
                   </div>
                   <div class="pr_desc">
                     <p></p>
