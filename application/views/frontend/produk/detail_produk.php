@@ -67,7 +67,7 @@
           <p><?= $data['deskripsi'] ?></p>
           <form id="form-cart">
             <div class="cart_extra">
-              <input type="hidden" name="id_produk" value="<?= $data['id'] ?>">
+              <input type="hidden" id="id_produk" name="id_produk" value="<?= $data['id'] ?>">
               <div class="cart-product-quantity">
                 <div class="quantity">
                   <input type="button" value="-" class="minus">
@@ -114,11 +114,11 @@
           <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
               <a class="nav-link active" id="Description-tab" data-toggle="tab" href="#Description" role="tab"
-                aria-controls="Description" aria-selected="true">Description</a>
+                aria-controls="Description" aria-selected="true">Deskripsi</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" id="Reviews-tab" data-toggle="tab" href="#Reviews" role="tab" aria-controls="Reviews"
-                aria-selected="false">Reviews (2)</a>
+                aria-selected="false">Ulasan</a>
             </li>
           </ul>
           <div class="tab-content shop_info_tab">
@@ -127,80 +127,8 @@
             </div>
             <div class="tab-pane fade" id="Reviews" role="tabpanel" aria-labelledby="Reviews-tab">
               <div class="comments">
-                <h5 class="product_tab_title">2 Review For <span>Blue Dress For Woman</span></h5>
-                <ul class="list_none comment_list mt-4">
-                  <li>
-                    <div class="comment_img">
-                      <img src="<?= base_url('assets/frontend/images/user1.jpg') ?>" alt="user1" />
-                    </div>
-                    <div class="comment_block">
-                      <div class="rating_wrap">
-                        <div class="rating">
-                          <div class="product_rate" style="width:80%"></div>
-                        </div>
-                      </div>
-                      <p class="customer_meta">
-                        <span class="review_author">Alea Brooks</span>
-                        <span class="comment-date">March 5, 2018</span>
-                      </p>
-                      <div class="description">
-                        <p>Lorem Ipsumin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum
-                          auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh
-                          vulputate</p>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="comment_img">
-                      <img src="<?= base_url('assets/frontend/images/user2.jpg') ?>" alt="user2" />
-                    </div>
-                    <div class="comment_block">
-                      <div class="rating_wrap">
-                        <div class="rating">
-                          <div class="product_rate" style="width:60%"></div>
-                        </div>
-                      </div>
-                      <p class="customer_meta">
-                        <span class="review_author">Grace Wong</span>
-                        <span class="comment-date">June 17, 2018</span>
-                      </p>
-                      <div class="description">
-                        <p>It is a long established fact that a reader will be distracted by the readable content of a
-                          page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less
-                          normal distribution of letters</p>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-              <div class="review_form field_form">
-                <h5>Add a review</h5>
-                <form class="row mt-3">
-                  <div class="form-group col-12">
-                    <div class="star_rating">
-                      <span data-value="1"><i class="far fa-star"></i></span>
-                      <span data-value="2"><i class="far fa-star"></i></span>
-                      <span data-value="3"><i class="far fa-star"></i></span>
-                      <span data-value="4"><i class="far fa-star"></i></span>
-                      <span data-value="5"><i class="far fa-star"></i></span>
-                    </div>
-                  </div>
-                  <div class="form-group col-12">
-                    <textarea required="required" placeholder="Your review *" class="form-control" name="message"
-                      rows="4"></textarea>
-                  </div>
-                  <div class="form-group col-md-6">
-                    <input required="required" placeholder="Enter Name *" class="form-control" name="name" type="text">
-                  </div>
-                  <div class="form-group col-md-6">
-                    <input required="required" placeholder="Enter Email *" class="form-control" name="email"
-                      type="email">
-                  </div>
-
-                  <div class="form-group col-12">
-                    <button type="submit" class="btn btn-fill-out" name="submit" value="Submit">Submit Review</button>
-                  </div>
-                </form>
+                <h5 class="product_tab_title">Review untuk <span><?= $data['nama'] ?></span></h5>
+                <div id="list-ulasan"></div>
               </div>
             </div>
           </div>
@@ -263,6 +191,32 @@
   </div>
 </div>
 <script>
+$(document).ready(function() {
+  getUlasan(1);
+})
+
+function getUlasan(page=1) {
+  var limit = 5;
+  var id_produk = $('#id_produk').val();
+  $.ajax({
+    url: "<?= site_url() ?>" + "/Rating/fetch_data_ulasan",
+    type: 'GET',
+    dataType: 'html',
+    data: {
+      page : page,
+      sortby : 'created_at',
+      sorttype : 'desc',
+      limit : limit,
+      id_produk : id_produk,
+      func_name : 'getUlasan'
+    },
+    beforeSend: function() {},
+    success: function(result) {
+      $('#list-ulasan').html(result);
+    }
+  });
+}
+
 $(document).on('submit', '#form-cart', function(event) {
   event.preventDefault();
   var formData = new FormData($('#form-cart')[0]);

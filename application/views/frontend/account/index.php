@@ -56,7 +56,7 @@
                           <th>Tanggal</th>
                           <th>Total</th>
                           <th>Status</th>
-                          <th>Aksi</th>
+                          <th class="text-center">Aksi</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -68,7 +68,13 @@
                               <td><?= $row->tanggal ?></td>
                               <td><?= rupiah($row->total) ?></td>
                               <td><?= $row->nama_status ?></td>
-                              <td><a href="#" class="btn btn-fill-out btn-sm">View</a></td>
+                              <td class="text-center">
+                                <?php if($row->status=='3'){ ?>
+                                  <!-- Dikirim -->
+                                  <a href="<?= site_url('Rating/penilaian/'.$row->id) ?>" style="color:#fff;" class="btn btn-warning btn-sm">Terima</a>
+                                <?php } ?>
+                                <a href="<?= site_url('Order/order_detail/'.$row->id) ?>" class="btn btn-fill-out btn-sm">Lihat</a>
+                              </td>
                             </tr>
                         <?php  }
                         }else{ ?>

@@ -70,7 +70,7 @@ class User extends CI_Controller {
         $nama = strip_tags(trim($this->input->post('nama_user')));
         $username = strip_tags(trim($this->input->post('username')));
         $email = strip_tags(trim($this->input->post('email')));
-        $password = md5(strip_tags($this->input->post('password')));
+        $password = strip_tags($this->input->post('password'));
         $hak_akses = strip_tags(trim($this->input->post('hak_akses')));
         $id_user = strip_tags(trim($this->input->post('id')));
 
@@ -92,7 +92,7 @@ class User extends CI_Controller {
                   'nama'=>$nama,
                   'username'=>$username,
                   'email'=>$email,
-                  'password'=>$password,
+                  'password'=>md5($password),
                   'created_at'=>date('Y-m-d H:i:s'),
                   'status'=>'1',
                   'id_role'=>$hak_akses,
@@ -107,6 +107,8 @@ class User extends CI_Controller {
             if($password==""){
               $us =  $this->M_main->get_where('users', 'id', $id_user)->row_array();
               $password = $us['password'];
+            }else{
+              $password = md5($password);
             }
             
             $data_object = array(  

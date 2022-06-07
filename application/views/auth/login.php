@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>E-commerce Furniture</title>
   <!-- plugins:css -->
-  <link rel="shortcut icon" href="<?= base_url('assets/images/logo-.png') ?>" />
+  <link rel="shortcut icon" href="<?= base_url('assets/images/logo--.png') ?>" />
   <link rel="stylesheet" href="<?= base_url('assets/vendors/feather/feather.css') ?>">
   <link rel="stylesheet" href="<?= base_url('assets/vendors/ti-icons/css/themify-icons.css') ?>">
   <link rel="stylesheet" href="<?= base_url('assets/vendors/css/vendor.bundle.base.css') ?>">

@@ -11,6 +11,7 @@ class Produk extends CI_Controller {
     $this->load->model('M_main');
     $this->load->model('Produk_m');
     $this->load->model('Order_m');
+    $this->load->model('User_m');
   }
   
   public function index()
@@ -232,10 +233,19 @@ class Produk extends CI_Controller {
     $username = $this->session->userdata('auth_username');
     $is_login = $this->session->userdata('auth_is_login');
     $produk = $this->Order_m->get_rating_produk()->result_array();
+    $user = $this->User_m->get_all()->result_array();
     
     $matrix=array();
     foreach ($produk as $row) {
-      $matrix[$row['username']][$row['nama_produk']]=$row['rating'];  
+      $matrix[$row['username']][$row['kode']]=$row['rating'];  
+    }
+
+    foreach ($user as $u) {
+      if(isset($matrix[$u['username']])){
+        // No Action
+      }else{
+        $matrix[$u['username']] = array();
+      }
     }
 
     $result = array();
@@ -246,7 +256,14 @@ class Produk extends CI_Controller {
     }
  
     // print_r($rec->getRecommendation($matrix, $username));
-    $data['rekomendasi'] = $result;
+
+    $produk_result = array();
+    foreach ($result as $key => $value) {
+      $get_produk = $this->Produk_m->get_produk_by_kode($key)->row_array(); 
+      $produk_result[]=$get_produk;
+    }
+
+    $data['rekomendasi'] = $produk_result;
     $data['content'] = "produk/rekomendasi.php";    
     $this->parser->parse('frontend/template_produk', $data);
   }

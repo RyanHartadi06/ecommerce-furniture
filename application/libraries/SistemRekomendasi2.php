@@ -74,7 +74,7 @@ class SistemRekomendasi2 {
   }
   
   
-  public function getRecommendations($preferences, $person)
+  public function getRecommendation($preferences, $person)
   {
       $total = array();
       $simSums = array();

@@ -73,5 +73,29 @@
         return $query;
       }
 
+      function get_produk_by_kode($kode=""){
+        $q = "
+            SELECT p.*, jp.nama AS jenis_produk, kp.nama AS kategori_produk, s.nama AS satuan,  (
+              select foto from m_produk_image where id_produk = p.id
+              order by created_at asc limit 1 
+            ) as foto, COALESCE(r.total_rating, 0) AS total_rating, COALESCE(r.rata_rata_rating, 0) AS rata_rata_rating FROM m_produk p
+            LEFT JOIN m_jenis_produk jp ON p.id_jenis_produk = jp.id 
+            LEFT JOIN m_kategori_produk kp ON p.id_kategori_produk = kp.id
+            LEFT JOIN m_satuan s ON p.id_satuan = s.id
+            LEFT JOIN (
+              SELECT p.kode, sum(pr.rating) AS total_rating, TRUNCATE(avg(pr.rating), 1) AS rata_rata_rating FROM produk_rating pr
+              LEFT JOIN order_detail od ON pr.id_produk_detail = od.id
+              LEFT JOIN m_produk p ON od.id_produk = p.id
+              LEFT JOIN users us ON pr.id_user = us.id
+              GROUP BY p.kode
+            ) r ON p.kode = r.kode
+            WHERE p.kode = '$kode'
+            AND p.status = '1'
+        ";
+
+        $query = $this->db->query($q);
+        return $query;
+      }
+
     }
 ?>

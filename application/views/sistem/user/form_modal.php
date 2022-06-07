@@ -69,6 +69,9 @@
               <?= (isset($data_user)) ? '' : 'required'; ?>>
             <span id="pass-message"></span>
           </div>
+          <?php if($mode=='UPDATE'){ ?>
+            <small>*Kosongkan password jika tidak ingin merubah password</small>
+          <?php } ?>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
