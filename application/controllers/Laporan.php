@@ -59,6 +59,38 @@ class Laporan extends CI_Controller {
     $this->load->view('sistem/laporan/data_penjualan',$data);
   }
 
+  public function fetch_laporan_produk_terjual(){
+    $pg     = ($this->input->get("page") != "") ? $this->input->get("page") : 1;
+    $key	  = ($this->input->get("search") != "") ? strtoupper(quotes_to_entities($this->input->get("search"))) : "";
+    $limit	= $this->input->get("limit");
+    $offset = ($limit*$pg)-$limit;
+    $sortby = $this->input->get("sortby");
+    $sorttype = $this->input->get("sorttype");
+    $tanggal_awal = $this->input->get("tanggal_awal");
+    $tanggal_akhir = $this->input->get("tanggal_akhir");
+
+    $filter = array(
+      'with_pagination' => true,
+      'tanggal_awal' => format_date($tanggal_awal, 'Y-m-d'),
+      'tanggal_akhir' => format_date($tanggal_akhir, 'Y-m-d'),
+      'sortby' => $sortby,
+      'sorttype' => $sorttype,
+      'offset' => $offset,
+      'limit' => $limit,
+      'q' => $key,
+    );
+    
+    $page              = array();
+    $page['limit']     = $limit;
+    $page['count_row'] = $this->Laporan_m->get_count_laporan_produk_terjual($filter)['jml'];
+    $page['current']   = $pg;
+    $page['list']      = gen_paging($page);
+    $data['paging']    = $page;
+    $data['list']      = $this->Laporan_m->get_laporan_produk_terjual($filter);
+
+    $this->load->view('sistem/laporan/data_produk_terjual',$data);
+  }
+
 }
 
 /* End of file Laporan.php */
