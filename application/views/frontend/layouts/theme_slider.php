@@ -2,7 +2,7 @@
   <div id="carouselExampleControls" class="carousel slide carousel-fade light_arrow" data-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item background_bg active"
-        data-img-src="<?= base_url('assets/frontend/images/banner16.jpg') ?>">
+        data-img-src="<?= base_url('assets/frontend/images/banner3.jpeg') ?>">
         <div class="banner_slide_content banner_content_inner">
           <div class="container">
             <div class="row">
@@ -19,7 +19,7 @@
           </div>
         </div>
       </div>
-      <div class="carousel-item background_bg" data-img-src="<?= base_url('assets/frontend/images/banner16.jpg') ?>">
+      <div class="carousel-item background_bg" data-img-src="<?= base_url('assets/frontend/images/banner2.jpeg') ?>">
         <div class="banner_slide_content banner_content_inner">
           <div class="container">
             <div class="row">
@@ -36,7 +36,7 @@
           </div>
         </div>
       </div>
-      <div class="carousel-item background_bg" data-img-src="<?= base_url('assets/frontend/images/banner16.jpg') ?>">
+      <div class="carousel-item background_bg" data-img-src="<?= base_url('assets/frontend/images/banner1.jpeg') ?>">
         <div class="banner_slide_content banner_content_inner">
           <div class="container">
             <div class="row">
