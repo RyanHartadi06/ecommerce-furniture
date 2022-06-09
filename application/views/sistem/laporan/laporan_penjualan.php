@@ -2,7 +2,7 @@
   <div class="col-12">
     <div class="card flat">
       <div class="card-header card-header-blue">
-        <span class="card-title">Laporan Pesanan</span>
+        <span class="card-title">Laporan Penjualan</span>
       </div>
       <div class="card-body">
         <div class="row" style="padding-top:12px;">
@@ -35,9 +35,14 @@
   </div>
 </div>
 <!-- DATA SORT -->
-<input type="hidden" name="hidden_id_th" id="hidden_id_th" value="#column_created">
+<input type="hidden" name="hidden_id_th" id="hidden_id_th" value="#column_tanggal">
 <input type="hidden" name="hidden_page" id="hidden_page" value="1">
-<input type="hidden" name="hidden_column_name" id="hidden_column_name" value="created_at">
+<input type="hidden" name="hidden_column_name" id="hidden_column_name" value="tanggal">
 <input type="hidden" name="hidden_sort_type" id="hidden_sort_type" value="desc">
 <div id="div_modal"></div>
+<script>
+  $('.date-picker').datepicker({
+    autoclose: true,
+  }) 
+</script>
 <script src="<?= base_url('assets/js/pages/laporan_penjualan.js') ?>"></script>

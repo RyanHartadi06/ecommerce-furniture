@@ -16,12 +16,13 @@
     <thead class="tr-head">
       <tr>
         <th width="3%" class="text-center">No. </th>
-        <th width="10%" class="sortable" id="column_invoice" data-sort="" onclick="sort_table('#column_invoice','o.no_invoice')">No Invoice </th>
-        <th width="10%" class="sortable" id="column_tanggal" data-sort="" onclick="sort_table('#column_tanggal','o.tanggal')">Tanggal </th>
-        <th width="10%" class="sortable" id="column_nama_produk" data-sort="" onclick="sort_table('#column_nama','pd.nama')">Nama </th>
-        <th width="10%" class="text-right">Qty </th>
+        <th width="10%" class="sortable" id="column_invoice" data-sort="" onclick="sort_table('#column_invoice','no_invoice')">No Invoice </th>
+        <th width="10%" class="sortable text-center" id="column_tanggal" data-sort="" onclick="sort_table('#column_tanggal','tanggal')">Tanggal </th>
+        <th width="15%" class="sortable" id="column_nama_produk" data-sort="" onclick="sort_table('#column_nama_produk','nama_produk')">Produk </th>
+        <th width="10%" class="sortable" id="column_pelanggan" data-sort="" onclick="sort_table('#column_pelanggan','nama_pelanggan')">Pelanggan </th>
+        <th width="5%" class="text-center">Qty </th>
         <th width="10%" class="text-right">Harga </th>
-        <th width="10%" class="text-right">Pelanggan </th>
+        <th width="10%" class="text-right">Total </th>
       </tr>
       </thead>
       <tbody>
@@ -32,20 +33,19 @@
           <tr>
             <td class="text-center"><?= $no ?>.</td>
             <td><?= $row->no_invoice ?></td>
-            <td><?= $row->tanggal ?></td>
+            <td class="text-center"><?= format_date($row->tanggal, 'd/m/Y') ?></td>
             <td><?= $row->nama_produk ?></td>
-            <td><?= $row->qty ?></td>
+            <td><?= $row->nama_pelanggan ?></td>
+            <td class="text-center"><?= $row->qty ?></td>
             <td class="text-right"><?= rupiah($row->harga) ?></td>
-            <td>
-              <?= $row->nama_pelanggan ?> <small>(<?= $row->kode_pelanggan ?>)</small>
-            </td>
+            <td class="text-right"><?= rupiah($row->qty*$row->harga) ?></td>
           </tr>
         <?php 
           }
         }else{
         ?>
         <tr>
-          <td colspan="9">Data tidak ditemukan!</td>
+          <td colspan="8">Data tidak ditemukan!</td>
         </tr>
       <?php } ?>
     </tbody>

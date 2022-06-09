@@ -5,6 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         function get_count_laporan_penjualan($filter=array()){
           $tgl_awal = $filter['tanggal_awal'];
           $tgl_akhir = $filter['tanggal_akhir'];
+          $key = $filter['q'];
   
           $q = "
             SELECT count(*) as jml FROM orders o
@@ -12,7 +13,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             LEFT JOIN m_produk pd ON od.id_produk = pd.id
             LEFT JOIN m_pelanggan p ON o.id_pelanggan = p.id
             LEFT JOIN order_status os ON o.status = os.id
-            WHERE o.tanggal BETWEEN '$tgl_awal' AND '$tgl_akhir';
+            WHERE concat(o.no_invoice, pd.nama, p.nama) like '%$key%' 
+            AND o.tanggal BETWEEN '$tgl_awal' AND '$tgl_akhir';
           "; 
         
           $query = $this->db->query($q)->row_array();
@@ -27,16 +29,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $sorttype = $filter['sorttype'];
             $offset = $filter['offset'];
             $limit = $filter['limit'];
+            $key = $filter['q']; 
           
             $q = "
               select * from (
-                SELECT od.*, p.kode AS kode_pelanggan, p.nama AS nama_pelanggan, os.keterangan as nama_status,
+                SELECT od.*, o.no_invoice, o.tanggal, p.kode AS kode_pelanggan, p.nama AS nama_pelanggan, os.keterangan as nama_status,
                 pd.kode AS kode_produk, pd.nama AS nama_produk FROM orders o
                 LEFT JOIN order_detail od ON o.id = od.id_order
                 LEFT JOIN m_produk pd ON od.id_produk = pd.id
                 LEFT JOIN m_pelanggan p ON o.id_pelanggan = p.id
                 LEFT JOIN order_status os ON o.status = os.id
-                WHERE o.tanggal BETWEEN '$tgl_awal' AND '$tgl_akhir' 
+                WHERE concat(o.no_invoice, pd.nama, p.nama) like '%$key%'
+                AND o.tanggal BETWEEN '$tgl_awal' AND '$tgl_akhir' 
               )x
             "; 
   

@@ -45,6 +45,7 @@ class Laporan extends CI_Controller {
       'sorttype' => $sorttype,
       'offset' => $offset,
       'limit' => $limit,
+      'q' => $key,
     );
     
     $page              = array();

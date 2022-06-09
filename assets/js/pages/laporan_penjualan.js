@@ -39,3 +39,21 @@ function pageLoad(page=1) {
     }
   });
 }
+
+function sort_table(id, column){
+  var sort = $(id).attr("data-sort");
+  $('#hidden_id_th').val(id);
+  $('#hidden_column_name').val(column);
+  
+  if(sort=="asc"){
+      sort = 'desc';
+  }else if(sort=="desc"){
+      sort = 'asc';
+  }else{
+      sort = 'asc';
+  }
+  $('#hidden_sort_type').val(sort);
+  $('#hidden_page').val(1);
+  pageLoad(1);
+}
+
