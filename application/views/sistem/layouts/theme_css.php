@@ -10,6 +10,7 @@
 <link rel="stylesheet" type="text/css" href="<?= base_url('assets/all/datepicker/bootstrap-datepicker3.min.css') ?>">
 <!-- JS -->
 <script src="<?= base_url('assets/vendors/js/vendor.bundle.base.js') ?>"></script>
+<script src="<?= base_url('assets/all/datepicker/bootstrap-datepicker.min.js') ?>"></script>
 
 <style>
   .sidebar .nav.sub-menu {
