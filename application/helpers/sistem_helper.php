@@ -211,8 +211,8 @@ function insert_log($username = "", $action = "", $catatan = "", $ip_address = "
     $CI->db->insert("log_aktivitas", $data);
 }
 
-function rupiah($angka){	
-	$hasil_rupiah = "Rp " . number_format($angka,0,',','.');
+function rupiah($angka, $prefix="Rp "){	
+	$hasil_rupiah = $prefix . number_format($angka,0,',','.');
 	return $hasil_rupiah;
 }
 

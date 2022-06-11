@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 limit $limit offset $offset
               ";
             }else{
-              $q .= " order by o.tanggal desc ";
+              $q .= " order by x.tanggal desc ";
             }
           
             $query = $this->db->query($q);
@@ -107,7 +107,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 limit $limit offset $offset
               ";
             }else{
-              $q .= " order by o.tanggal desc ";
+              $q .= " order by x.tanggal desc ";
             }
           
             $query = $this->db->query($q);
