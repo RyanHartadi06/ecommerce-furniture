@@ -1,5 +1,11 @@
 <!-- START MAIN CONTENT -->
+<style>
+  .tab-profile .nav-link.active {
+    background: #dedede !important;
+  }
+</style>
 <hr>
+<input type="hidden" name="id_user" id="id_user" value="<?= $this->session->userdata('auth_id_user'); ?>">
 <div class="main_content">
   <div class="section" style="padding: 30px 0 !important;">
     <div style="padding:0px 40px;">
@@ -37,9 +43,8 @@
                   <h3>Dashboard</h3>
                 </div>
                 <div class="card-body">
-                  <p>Dari dasboard akun Anda. Anda dapat dengan mudah memeriksa & melihat pesanan terbaru Anda, serta
-                    mengedit kata sandi dan detail akun Anda.
-                  </p>
+                  <h3 class="font-weight-bold">Hallo <?= $this->session->userdata("auth_nama_user"); ?></h3>
+                  <h6 class="font-weight-normal mb-0">Selamat datang di aplikasi E-Commerce Mebel Anggita Jaya.</span></h6>
                 </div>
               </div>
             </div>
@@ -111,49 +116,78 @@
               <!-- End Alamat -->
             </div>
             <div class="tab-pane fade" id="account-detail" role="tabpanel" aria-labelledby="account-detail-tab">
+              <!-- Profile -->
               <div class="card">
                 <div class="card-header">
-                  <h3>Account Details</h3>
+                  <h3>Profile</h3>
                 </div>
                 <div class="card-body">
-                  <p>Already have an account? <a href="#">Log in instead!</a></p>
-                  <form method="post" name="enq">
-                    <div class="row">
-                      <div class="form-group col-md-6">
-                        <label>First Name <span class="required">*</span></label>
-                        <input required="" class="form-control" name="name" type="text">
+                  <!--  -->
+                  <div class="mb-4">
+                    <ul class="nav nav-tabs tab-profile" role="tablist">
+                      <li class="nav-item nav-tabs-item">
+                        <a class="nav-link nav-tabs-link active show" data-toggle="tab" href="#tab_profile" role="tab"
+                          aria-controls="home" aria-selected="true">
+                          <i class="fa fa-address-card"></i> Data User
+                        </a>
+                      </li>
+                      <li class="nav-item nav-tabs-item">
+                        <a class="nav-link nav-tabs-link" data-toggle="tab" href="#tab_ubah_password" role="tab"
+                          aria-controls="messages" aria-selected="false">
+                          <i class="fa fa-key"></i> Ubah Password</a>
+                      </li>
+                    </ul>
+                    <div class="tab-content">
+                      <div class="tab-pane active show" id="tab_profile" role="tabpanel">
+                        <!-- form Profile -->
+                        <form action="" id="form-profile">
+                          <div class="form-group">
+                            <label class="control-label col-md-3">Nama User</label>
+                            <div class="col-md-12">
+                              <input type="text" id="nama_user" name="nama_user" class="form-control"
+                                placeholder="Masukkan Nama User . . . " autocomplete="off" value="<?= $user['nama'] ?>"
+                                required>
+                            </div>
+                          </div>
+                          <div class="col-md-12">
+                            <hr>
+                            <button class="btn btn-primary" type="submit">Simpan</button>
+                          </div>
+                        </form>
+                        <!-- end form Profile -->
                       </div>
-                      <div class="form-group col-md-6">
-                        <label>Last Name <span class="required">*</span></label>
-                        <input required="" class="form-control" name="phone">
-                      </div>
-                      <div class="form-group col-md-12">
-                        <label>Display Name <span class="required">*</span></label>
-                        <input required="" class="form-control" name="dname" type="text">
-                      </div>
-                      <div class="form-group col-md-12">
-                        <label>Email Address <span class="required">*</span></label>
-                        <input required="" class="form-control" name="email" type="email">
-                      </div>
-                      <div class="form-group col-md-12">
-                        <label>Current Password <span class="required">*</span></label>
-                        <input required="" class="form-control" name="password" type="password">
-                      </div>
-                      <div class="form-group col-md-12">
-                        <label>New Password <span class="required">*</span></label>
-                        <input required="" class="form-control" name="npassword" type="password">
-                      </div>
-                      <div class="form-group col-md-12">
-                        <label>Confirm Password <span class="required">*</span></label>
-                        <input required="" class="form-control" name="cpassword" type="password">
-                      </div>
-                      <div class="col-md-12">
-                        <button type="submit" class="btn btn-fill-out" name="submit" value="Submit">Save</button>
+                      <div class="tab-pane" id="tab_ubah_password" role="tabpanel">
+                        <!-- form ubah password -->
+                        <form action="" id="form-password">
+                          <div class="form-group">
+                            <label class="control-label col-md-3">Password Baru</label>
+                            <div class="col-md-12">
+                              <input type="password" id="password" name="password" class="form-control"
+                                placeholder="Masukkan Password Baru" autocomplete="off" required>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label col-md-3">Ulang Password Baru</label>
+                            <div class="col-md-12">
+                              <input type="password" id="konfirm_password" name="konfirm_password" class="form-control"
+                                placeholder="Masukkan Ulang Password Baru" autocomplete="off"
+                                onkeyup="validate_password()" required>
+                              <span id="pass-message" style=""></span>
+                            </div>
+                          </div>
+                          <div class="col-md-12">
+                            <hr>
+                            <button class="btn btn-primary" id="submit-reset" type="submit">Simpan</button>
+                          </div>
+                        </form>
+                        <!-- end form ubah password -->
                       </div>
                     </div>
-                  </form>
+                  </div>
+                  <!--  -->
                 </div>
               </div>
+              <!-- End Profile -->
             </div>
           </div>
         </div>
@@ -164,9 +198,13 @@
 <div id="div_modal"></div>
 <script>
 $(document).ready(function() {
-    getAlamat();
+  getAlamat();
 })
 
+/**
+ * Function Alamat
+ * 
+ */
 function getAlamat() {
   $.ajax({
     url: "<?= site_url() ?>" + "/Account/get_alamat",
@@ -231,14 +269,14 @@ $(document).on('click', '.btn-delete-alamat', function(e) {
     confirmButtonText: 'Hapus',
     cancelButtonText: 'Batal',
     showLoaderOnConfirm: true,
-    preConfirm: function () {
-      return new Promise(function (resolve) {
+    preConfirm: function() {
+      return new Promise(function(resolve) {
         $.ajax({
           method: 'GET',
           dataType: 'json',
           url: "<?= site_url() ?>" + "/Account/delete_alamat/" + id,
           data: {},
-          success: function (data) {
+          success: function(data) {
             if (data.success === true) {
               $('#modal-alamat').modal('hide');
               Toast.fire({
@@ -255,7 +293,7 @@ $(document).on('click', '.btn-delete-alamat', function(e) {
               });
             }
           },
-          fail: function (e) {
+          fail: function(e) {
             alert(e);
           }
         });
@@ -269,30 +307,179 @@ $(document).on('click', '.btn-delete-alamat', function(e) {
 $(document).on('submit', '#form-alamat', function(event) {
   event.preventDefault();
   var modeform = $('#modeform').val();
-  var page = (modeform=='UPDATE') ? $('#hidden_page').val() : 1;
+  var page = (modeform == 'UPDATE') ? $('#hidden_page').val() : 1;
   $.ajax({
-      url: "<?= site_url() ?>" + "/Account/save_alamat",
-      method: 'POST',
-      dataType: 'json',	
-      data: new FormData($('#form-alamat')[0]),
-      async: true,
-      processData: false,
-      contentType: false,
-      success: function (data) {
-        if (data.success == true) {
-            Toast.fire({
-                icon: 'success',
-                title: data.message
-            });
-            $('#modal-alamat').modal('hide');
-            getAlamat();
-        } else {
-            Swal.fire({icon: 'error',title: 'Oops...',text: data.message});
-        }
-      },
-      fail: function (event) {
-          alert(event);
+    url: "<?= site_url() ?>" + "/Account/save_alamat",
+    method: 'POST',
+    dataType: 'json',
+    data: new FormData($('#form-alamat')[0]),
+    async: true,
+    processData: false,
+    contentType: false,
+    success: function(data) {
+      if (data.success == true) {
+        Toast.fire({
+          icon: 'success',
+          title: data.message
+        });
+        $('#modal-alamat').modal('hide');
+        getAlamat();
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: data.message
+        });
       }
+    },
+    fail: function(event) {
+      alert(event);
+    }
   });
 });
+
+/**
+ * Function Profile
+ * 
+ */
+
+$('#form-password').submit(function(event) {
+  event.preventDefault();
+  var id_user = $('#id_user').val();
+  var formData = new FormData($('#form-password')[0])
+  formData.append('id_user', id_user);
+
+  Swal.fire({
+    title: 'Ubah Password',
+    text: "Apakah Anda yakin mengubah password !",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3498db',
+    cancelButtonColor: '#95a5a6',
+    confirmButtonText: 'Simpan',
+    cancelButtonText: 'Batal',
+    showLoaderOnConfirm: true,
+    preConfirm: function() {
+      return new Promise(function(resolve) {
+        $.ajax({
+          url: '<?= site_url() ?>' + '/Profile/update_password',
+          method: 'POST',
+          dataType: 'json',
+          data: formData,
+          async: true,
+          processData: false,
+          contentType: false,
+          success: function(data) {
+            if (data.success == true) {
+              const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+              });
+
+              Toast.fire({
+                icon: 'success',
+                title: data.message
+              })
+              swal.hideLoading()
+              setTimeout(function() {
+                location.reload();
+              }, 1000);
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: data.message
+              });
+            }
+          },
+          fail: function(event) {
+            alert(event);
+          }
+        });
+      });
+    },
+    allowOutsideClick: false
+  });
+  event.preventDefault();
+});
+
+$('#form-profile').submit(function(event) {
+  event.preventDefault();
+  var id_user = $('#id_user').val();
+  var formData = new FormData($('#form-profile')[0])
+  formData.append('id_user', id_user);
+
+  Swal.fire({
+    title: 'Ubah Profile',
+    text: "Apakah Anda yakin mengubah profile !",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3498db',
+    cancelButtonColor: '#95a5a6',
+    confirmButtonText: 'Simpan',
+    cancelButtonText: 'Batal',
+    showLoaderOnConfirm: true,
+    preConfirm: function() {
+      return new Promise(function(resolve) {
+        $.ajax({
+          url: '<?= site_url() ?>' + '/Profile/update_profile',
+          method: 'POST',
+          dataType: 'json',
+          data: formData,
+          async: true,
+          processData: false,
+          contentType: false,
+          success: function(data) {
+            if (data.success == true) {
+              const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+              });
+
+              Toast.fire({
+                icon: 'success',
+                title: data.message
+              })
+              swal.hideLoading()
+              setTimeout(function() {
+                location.reload();
+              }, 1000);
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: data.message
+              });
+            }
+          },
+          fail: function(event) {
+            alert(event);
+          }
+        });
+      });
+    },
+    allowOutsideClick: false
+  });
+  event.preventDefault();
+});
+
+function validate_password() {
+  var pass = $('#password').val();
+  var confirm_pass = $('#konfirm_password').val();
+  if (pass != confirm_pass) {
+    $('#pass-message').show();
+    $('#pass-message').text('Password tidak cocok !');
+    $('#pass-message').css('color', 'red');
+    $('#submit-reset').prop('disabled', true);
+  } else {
+    $('#pass-message').hide();
+    $('#pass-message').text('');
+    $('#pass-message').css('color', 'white');
+    $('#submit-reset').prop('disabled', false);
+  }
+}
 </script>

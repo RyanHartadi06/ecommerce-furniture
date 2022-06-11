@@ -17,8 +17,10 @@ class Account extends CI_Controller {
     must_login();
     $id_user = $this->session->userdata('auth_id_user');
     $pelanggan = $this->M_main->get_where('m_pelanggan','id_user',$id_user)->row_array();
-
+    $data_user = $this->M_main->get_where('users', 'id', $id_user)->row_array();
+    
     $data['title'] = "Account | ".$this->apl['nama_sistem'];
+    $data['user'] = $data_user;    
     $data['order'] = $this->Order_m->get_pesanan_by_pelanggan($id_user)->result();
     $data['content'] = "account/index.php";    
     $this->parser->parse('frontend/template_produk', $data);
