@@ -15,14 +15,14 @@
                 <a class="nav-link" id="orders-tab" data-toggle="tab" href="#orders" role="tab" aria-controls="orders"
                   aria-selected="false"><i class="ti-shopping-cart-full"></i>Orders</a>
               </li>
-              <!-- <li class="nav-item">
+              <li class="nav-item">
                 <a class="nav-link" id="address-tab" data-toggle="tab" href="#address" role="tab"
-                  aria-controls="address" aria-selected="true"><i class="ti-location-pin"></i>My Address</a>
+                  aria-controls="address" aria-selected="true"><i class="ti-location-pin"></i>Alamat</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" id="account-detail-tab" data-toggle="tab" href="#account-detail" role="tab"
-                  aria-controls="account-detail" aria-selected="true"><i class="ti-id-badge"></i>Account details</a>
-              </li> -->
+                  aria-controls="account-detail" aria-selected="true"><i class="ti-id-badge"></i>Profile</a>
+              </li>
               <li class="nav-item">
                 <a class="nav-link" href="javascript:;" onclick="logout()"><i class="ti-lock"></i>Logout</a>
               </li>
@@ -37,7 +37,8 @@
                   <h3>Dashboard</h3>
                 </div>
                 <div class="card-body">
-                  <p>Dari dasboard akun Anda. Anda dapat dengan mudah memeriksa & melihat pesanan terbaru Anda, serta mengedit kata sandi dan detail akun Anda.
+                  <p>Dari dasboard akun Anda. Anda dapat dengan mudah memeriksa & melihat pesanan terbaru Anda, serta
+                    mengedit kata sandi dan detail akun Anda.
                   </p>
                 </div>
               </div>
@@ -63,24 +64,26 @@
                         <?php 
                         if(count($order)>0){
                           foreach ($order as $row) { ?>
-                            <tr>
-                              <td>#<?= $row->no_invoice ?></td>
-                              <td><?= $row->tanggal ?></td>
-                              <td><?= rupiah($row->total) ?></td>
-                              <td><?= $row->nama_status ?></td>
-                              <td class="text-center">
-                                <?php if($row->status=='3'){ ?>
-                                  <!-- Dikirim -->
-                                  <a href="<?= site_url('Rating/penilaian/'.$row->id) ?>" style="color:#fff;" class="btn btn-warning btn-sm">Terima</a>
-                                <?php } ?>
-                                <a href="<?= site_url('Order/order_detail/'.$row->id) ?>" class="btn btn-fill-out btn-sm">Lihat</a>
-                              </td>
-                            </tr>
+                        <tr>
+                          <td>#<?= $row->no_invoice ?></td>
+                          <td><?= $row->tanggal ?></td>
+                          <td><?= rupiah($row->total) ?></td>
+                          <td><?= $row->nama_status ?></td>
+                          <td class="text-center">
+                            <?php if($row->status=='3'){ ?>
+                            <!-- Dikirim -->
+                            <a href="<?= site_url('Rating/penilaian/'.$row->id) ?>" style="color:#fff;"
+                              class="btn btn-warning btn-sm">Terima</a>
+                            <?php } ?>
+                            <a href="<?= site_url('Order/order_detail/'.$row->id) ?>"
+                              class="btn btn-fill-out btn-sm">Lihat</a>
+                          </td>
+                        </tr>
                         <?php  }
                         }else{ ?>
-                            <tr>
-                              <td colspan="5">Pesanan tidak ditemukan !</td>
-                            </tr>
+                        <tr>
+                          <td colspan="5">Pesanan tidak ditemukan !</td>
+                        </tr>
                         <?php } ?>
                       </tbody>
                     </table>
@@ -89,32 +92,23 @@
               </div>
             </div>
             <div class="tab-pane fade" id="address" role="tabpanel" aria-labelledby="address-tab">
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="card mb-3 mb-lg-0">
-                    <div class="card-header">
-                      <h3>Billing Address</h3>
+              <!-- Alamat -->
+              <div class="card">
+                <div class="card-header">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <h3>Alamat</h3>
                     </div>
-                    <div class="card-body">
-                      <address>House #15<br>Road #1<br>Block #C <br>Angali <br> Vedora <br>1212</address>
-                      <p>New York</p>
-                      <a href="#" class="btn btn-fill-out">Edit</a>
+                    <div class="col-md-6 text-right">
+                      <a class="btn btn-sm btn-primary" id="btn-add-alamat" href="javascript:;">Tambah</a>
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-6">
-                  <div class="card">
-                    <div class="card-header">
-                      <h3>Shipping Address</h3>
-                    </div>
-                    <div class="card-body">
-                      <address>House #15<br>Road #1<br>Block #C <br>Angali <br> Vedora <br>1212</address>
-                      <p>New York</p>
-                      <a href="#" class="btn btn-fill-out">Edit</a>
-                    </div>
-                  </div>
+                <div class="card-body">
+                  <div id="list-alamat"></div>
                 </div>
               </div>
+              <!-- End Alamat -->
             </div>
             <div class="tab-pane fade" id="account-detail" role="tabpanel" aria-labelledby="account-detail-tab">
               <div class="card">
@@ -167,3 +161,138 @@
     </div>
   </div>
 </div>
+<div id="div_modal"></div>
+<script>
+$(document).ready(function() {
+    getAlamat();
+})
+
+function getAlamat() {
+  $.ajax({
+    url: "<?= site_url() ?>" + "/Account/get_alamat",
+    type: 'GET',
+    dataType: 'html',
+    data: {},
+    beforeSend: function() {},
+    success: function(result) {
+      $('#list-alamat').html(result);
+    }
+  });
+}
+
+$('#btn-add-alamat').on('click', function() {
+  $.ajax({
+    url: "<?= site_url() ?>" + "/Account/load_modal_alamat",
+    type: 'POST',
+    data: {},
+    dataType: 'html',
+    beforeSend: function() {},
+    success: function(result) {
+      $('#div_modal').html(result);
+      $('#modalTitleAdd').show();
+      $('#modeform').val('ADD');
+      $('#modal-alamat').modal('show');
+    }
+  });
+});
+
+$(document).on('click', '.btn-edit-alamat', function(event) {
+  event.preventDefault();
+  var id = $(this).attr('data-id');
+  $.ajax({
+    url: "<?= site_url() ?>" + "/Account/load_modal_alamat",
+    type: 'POST',
+    dataType: 'html',
+    data: {
+      id: id
+    },
+    beforeSend: function() {},
+    success: function(result) {
+      $('#div_modal').html(result);
+      $('#modalTitleEdit').show();
+      $('#modeform').val('UPDATE');
+      $('#modal-alamat').modal('show');
+    }
+  });
+});
+
+$(document).on('click', '.btn-delete-alamat', function(e) {
+  var id = $(this).attr('data-id');
+  var title = $(this).attr('data-name');
+  var page = $('#hidden_page').val();
+
+  Swal.fire({
+    title: 'Hapus Alamat',
+    text: "Apakah Anda yakin menghapus alamat ?",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#95a5a6',
+    confirmButtonText: 'Hapus',
+    cancelButtonText: 'Batal',
+    showLoaderOnConfirm: true,
+    preConfirm: function () {
+      return new Promise(function (resolve) {
+        $.ajax({
+          method: 'GET',
+          dataType: 'json',
+          url: "<?= site_url() ?>" + "/Account/delete_alamat/" + id,
+          data: {},
+          success: function (data) {
+            if (data.success === true) {
+              $('#modal-alamat').modal('hide');
+              Toast.fire({
+                icon: 'success',
+                title: data.message
+              });
+              swal.hideLoading()
+              getAlamat();
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: data.message
+              });
+            }
+          },
+          fail: function (e) {
+            alert(e);
+          }
+        });
+      });
+    },
+    allowOutsideClick: false
+  });
+  e.preventDefault();
+});
+
+$(document).on('submit', '#form-alamat', function(event) {
+  event.preventDefault();
+  var modeform = $('#modeform').val();
+  var page = (modeform=='UPDATE') ? $('#hidden_page').val() : 1;
+  $.ajax({
+      url: "<?= site_url() ?>" + "/Account/save_alamat",
+      method: 'POST',
+      dataType: 'json',	
+      data: new FormData($('#form-alamat')[0]),
+      async: true,
+      processData: false,
+      contentType: false,
+      success: function (data) {
+        if (data.success == true) {
+            Toast.fire({
+                icon: 'success',
+                title: data.message
+            });
+            $('#modal-alamat').modal('hide');
+            getAlamat();
+        } else {
+            Swal.fire({icon: 'error',title: 'Oops...',text: data.message});
+        }
+      },
+      fail: function (event) {
+          alert(event);
+      }
+  });
+});
+</script>
