@@ -44,5 +44,12 @@
   $('.date-picker').datepicker({
     autoclose: true,
   }) 
+
+  function printReport() {
+    var tgl_awal = $('#tgl_awal').val();
+    var tgl_akhir = $('#tgl_akhir').val();
+    var link = "<?= site_url() ?>" + "/Laporan/cetak_laporan_penjualan?tanggal_awal=" + tgl_awal + "&tanggal_akhir=" + tgl_akhir;
+    window.open(link, '_blank', 'width=1024, height=768')
+  }
 </script>
 <script src="<?= base_url('assets/js/pages/laporan_penjualan.js') ?>"></script>
