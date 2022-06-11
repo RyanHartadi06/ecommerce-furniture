@@ -35,9 +35,9 @@
   </div>
 </div>
 <!-- DATA SORT -->
-<input type="hidden" name="hidden_id_th" id="hidden_id_th" value="#column_nama">
+<input type="hidden" name="hidden_id_th" id="hidden_id_th" value="#column_jumlah">
 <input type="hidden" name="hidden_page" id="hidden_page" value="1">
-<input type="hidden" name="hidden_column_name" id="hidden_column_name" value="p.nama">
+<input type="hidden" name="hidden_column_name" id="hidden_column_name" value="o.jumlah_terjual">
 <input type="hidden" name="hidden_sort_type" id="hidden_sort_type" value="desc">
 <div id="div_modal"></div>
 <script>
@@ -102,5 +102,13 @@ function sort_table(id, column) {
   $('#hidden_sort_type').val(sort);
   $('#hidden_page').val(1);
   pageLoad(1);
+}
+
+function printReport() {
+  var tgl_awal = $('#tgl_awal').val();
+  var tgl_akhir = $('#tgl_akhir').val();
+  var link = "<?= site_url() ?>" + "/Laporan/cetak_laporan_produk_terjual?tanggal_awal=" + tgl_awal + "&tanggal_akhir=" +
+    tgl_akhir;
+  window.open(link, '_blank', 'width=1024, height=768')
 }
 </script>

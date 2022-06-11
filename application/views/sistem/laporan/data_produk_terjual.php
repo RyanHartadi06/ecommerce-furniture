@@ -18,6 +18,7 @@
         <th width="3%" class="text-center">No. </th>
         <th width="10%" class="sortable text-center" id="column_kode" data-sort="" onclick="sort_table('#column_kode','p.kode')">Kode Produk </th>
         <th width="40%" class="sortable" id="column_nama_produk" data-sort="" onclick="sort_table('#column_nama_produk','p.nama')">Produk </th>
+        <th width="10%" class="text-center">Satuan </th>
         <th width="5%" class="text-center">Jumlah </th>
       </tr>
       </thead>
@@ -28,8 +29,9 @@
         foreach ($list->result() as $row) { $no++; ?>
           <tr>
             <td class="text-center"><?= $no ?>.</td>
-            <td class="text-center"><?= $row->kode ?></td>
-            <td><?= $row->nama ?></td>
+            <td class="text-center"><?= $row->kode_produk ?></td>
+            <td><?= $row->nama_produk ?></td>
+            <td class="text-center"><?= $row->satuan ?></td>
             <td class="text-center"><?= $row->jumlah_terjual ?></td>
           </tr>
         <?php 
@@ -37,7 +39,7 @@
         }else{
         ?>
         <tr>
-          <td colspan="3">Data tidak ditemukan!</td>
+          <td colspan="5">Data tidak ditemukan!</td>
         </tr>
       <?php } ?>
     </tbody>

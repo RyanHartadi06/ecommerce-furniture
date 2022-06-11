@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 limit $limit offset $offset
               ";
             }else{
-              $q .= " order by o.tanggal desc ";
+              $q .= " order by x.tanggal desc ";
             }
           
             $query = $this->db->query($q);
@@ -90,15 +90,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $key = $filter['q']; 
           
             $q = "
-                SELECT p.kode, p.nama, COALESCE(o.jumlah_terjual, 0) AS jumlah_terjual FROM m_produk p
+                SELECT p.kode as kode_produk, p.nama as nama_produk, s.nama as satuan, COALESCE(o.jumlah_terjual, 0) AS jumlah_terjual FROM m_produk p
                 LEFT JOIN (
                   SELECT od.id_produk, SUM(qty) AS jumlah_terjual FROM orders o
                   LEFT JOIN order_detail od ON o.id = od.id_order
                   WHERE o.tanggal BETWEEN '$tgl_awal' AND '$tgl_akhir'
                   GROUP BY od.id_produk 
                 )o ON p.id = o.id_produk
+                LEFT JOIN m_satuan s ON p.id_satuan = s.id
                 WHERE concat(p.nama) like '%$key%' 
-                AND STATUS = '1' 
+                AND p.status = '1' 
             "; 
   
             if($with_pagination){
@@ -107,7 +108,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 limit $limit offset $offset
               ";
             }else{
-              $q .= " order by o.tanggal desc ";
+              $q .= " order by o.jumlah_terjual desc ";
             }
           
             $query = $this->db->query($q);

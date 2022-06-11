@@ -91,6 +91,60 @@ class Laporan extends CI_Controller {
     $this->load->view('sistem/laporan/data_produk_terjual',$data);
   }
 
+  public function cetak_laporan_penjualan() {
+    $data['title'] = "Laporan Penjualan"; 
+    $tanggal_awal = $this->input->get("tanggal_awal");
+    $tanggal_akhir = $this->input->get("tanggal_akhir");
+    
+    $filter = array(
+      'with_pagination' => false,
+      'tanggal_awal' => format_date($tanggal_awal, 'Y-m-d'),
+      'tanggal_akhir' => format_date($tanggal_akhir, 'Y-m-d'),
+      'sortby' => 'nama',
+      'sorttype' => 'asc',
+      'offset' => 1,
+      'limit' => 1000,
+      'q' => "",
+    );
+
+    $data['report'] = $this->Laporan_m->get_laporan_penjualan($filter)->result();
+    $data['tanggal_awal'] = $tanggal_awal;
+    $data['tanggal_akhir'] = $tanggal_akhir;
+    $data['aplikasi'] = $this->apl;
+
+    $this->load->library('pdf');
+    $this->pdf->setPaper('A4', 'potrait');
+    $this->pdf->filename = "Laporan Penjualan.pdf";
+    $this->pdf->load_view('sistem/laporan/cetak_laporan_penjualan.php', $data);
+  }
+
+  public function cetak_laporan_produk_terjual() {
+    $data['title'] = "Laporan Produk Terjual"; 
+    $tanggal_awal = $this->input->get("tanggal_awal");
+    $tanggal_akhir = $this->input->get("tanggal_akhir");
+    
+    $filter = array(
+      'with_pagination' => false,
+      'tanggal_awal' => format_date($tanggal_awal, 'Y-m-d'),
+      'tanggal_akhir' => format_date($tanggal_akhir, 'Y-m-d'),
+      'sortby' => 'tanggal',
+      'sorttype' => 'desc',
+      'offset' => 1,
+      'limit' => 1000,
+      'q' => "",
+    );
+
+    $data['report'] = $this->Laporan_m->get_laporan_produk_terjual($filter)->result();
+    $data['tanggal_awal'] = $tanggal_awal;
+    $data['tanggal_akhir'] = $tanggal_akhir;
+    $data['aplikasi'] = $this->apl;
+
+    $this->load->library('pdf');
+    $this->pdf->setPaper('A4', 'potrait');
+    $this->pdf->filename = "Laporan Produk Terjual.pdf";
+    $this->pdf->load_view('sistem/laporan/cetak_laporan_produk_terjual.php', $data);
+  }
+
 }
 
 /* End of file Laporan.php */
