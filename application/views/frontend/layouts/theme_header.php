@@ -48,17 +48,16 @@
         <ul class="navbar-nav attr-nav align-items-center">
           <?php
           if($role=="PELANGGAN"){ ?>
-          <li><a href="<?= site_url('/Account') ?>" class="nav-link"><i class="linearicons-user"></i></a></li>
-          <?php }else if($role=="ADMIN"){ ?>
-          <li><a href="<?= site_url('/dashboard') ?>" class="nav-link"><i class="linearicons-home"></i></a></li>
+            <li><a href="<?= site_url('/Account') ?>" class="nav-link"><i class="linearicons-user"></i></a></li>
+            <li>
+              <a class="nav-link cart_trigger" href="<?= site_url('order/cart_list') ?>">
+                <i class="linearicons-bag2"></i>
+                <span id="cart-count"></span>
+              </a>
+            </li>
+          <?php }else if($role=="ADMIN" || $role=="OWNER"){ ?>
+            <li><a href="<?= site_url('/dashboard') ?>" class="nav-link"><i class="linearicons-home"></i></a></li>
           <?php } ?>
-          <!-- <li><a href="#" class="nav-link"><i class="linearicons-heart"></i><span class="wishlist_count">0</span></a></li> -->
-          <li>
-            <a class="nav-link cart_trigger" href="<?= site_url('order/cart_list') ?>">
-              <i class="linearicons-bag2"></i>
-              <span id="cart-count"></span>
-            </a>
-          </li>
         </ul>
       </div>
     </div>

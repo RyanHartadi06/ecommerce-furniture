@@ -7,7 +7,7 @@
       </div>
       <div class="col-12 col-xl-4">
         <div class="justify-content-end d-flex">
-          <div class="dropdown flex-md-grow-1 flex-xl-grow-0">
+          <!-- <div class="dropdown flex-md-grow-1 flex-xl-grow-0">
             <button class="btn btn-sm btn-light bg-white dropdown-toggle" type="button" id="dropdownMenuDate2"
               data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
               <i class="mdi mdi-calendar"></i> Today (10 Jan 2021)
@@ -18,7 +18,7 @@
               <a class="dropdown-item" href="#">June - August</a>
               <a class="dropdown-item" href="#">August - November</a>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -29,36 +29,32 @@
   <div class="col-md-3 mb-4 stretch-card transparent">
     <div class="card card-tale">
       <div class="card-body">
-        <p class="mb-0">Dashboard</p>
-        <p class="fs-30 mb-0">10</p>
-        <span>10.00%</span>
+        <p class="mb-0">Total Pesanan</p>
+        <p class="fs-30 mb-0"><?= $dashboard['total_pesanan'] ?></p>
       </div>
     </div>
   </div>
   <div class="col-md-3 mb-4 stretch-card transparent">
     <div class="card card-dark-blue">
       <div class="card-body">
-        <p class="mb-0">Dashboard</p>
-        <p class="fs-30 mb-0">10</p>
-        <span>22.00%</span>
+        <p class="mb-0">Pesanan Selesai</p>
+        <p class="fs-30 mb-0"><?= $dashboard['pesanan_selesai'] ?></p>
       </div>
     </div>
   </div>
   <div class="col-md-3 mb-4 mb-lg-0 stretch-card transparent">
     <div class="card card-light-blue">
       <div class="card-body">
-        <p class="mb-0">Dashboard</p>
-        <p class="fs-30 mb-0">10</p>
-        <span>2.00%</span>
+        <p class="mb-0">Total Produk</p>
+        <p class="fs-30 mb-0"><?= $dashboard['total_produk'] ?></p>
       </div>
     </div>
   </div>
   <div class="col-md-3 stretch-card transparent">
     <div class="card card-light-danger">
       <div class="card-body">
-        <p class="mb-0">Dashboard</p>
-        <p class="fs-30 mb-0">10</p>
-        <span>0.22%</span>
+        <p class="mb-0">Total Pelanggan</p>
+        <p class="fs-30 mb-0"><?= $dashboard['total_pelanggan'] ?></p>
       </div>
     </div>
   </div>
