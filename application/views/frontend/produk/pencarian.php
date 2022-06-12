@@ -8,7 +8,37 @@
         </div>
       </div>
     </div>
-    <div class="row">
+    <div style="background-color:#f1f1f1; padding:20px; border-radius:4px;">
+      <div class="row">
+        <div class="col-md-3">
+          <select class="form-control" name="id_jenis" id="id_jenis" onchange="getProduk(1)">
+            <option value="">All Jenis</option>
+            <?php foreach ($jenis as $j) { ?>
+            <option value="<?= $j->id ?>"><?= $j->nama ?></option>
+            <?php } ?>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <select class="form-control" name="id_kategori" id="id_kategori" onchange="getProduk(1)">
+            <option value="">All Kategori</option>
+            <?php foreach ($kategori as $k) { ?>
+            <option value="<?= $k->id ?>"><?= $k->nama ?></option>
+            <?php } ?>
+          </select>
+        </div>
+        <div class="col-md-3 text-right pt-2">Sort By</div>
+        <div class="col-md-3">
+          <select class="form-control" name="sortby" id="sortby" onchange="getProduk(1)">
+            <option value="created_at|desc" selected>Terbaru</option>
+            <option value="nama|asc">Nama</option>
+            <option value="harga|asc">Harga Terkecil</option>
+            <option value="harga|desc">Harga Terbesar</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="row mt-4">
       <div class="col-12">
         <!-- List Produk -->
         <div id="list-produk"></div>
@@ -19,26 +49,38 @@
 <input type="hidden" id="q_produk" value="<?= $keyword ?>">
 
 <script>
-  $(document).ready(function() {
-    getProduk()
-  })
+$(document).ready(function() {
+  getProduk(1);
+})
 
-  function getProduk() {
-    var q = $('#q_produk').val();
-    $.ajax({
-      url: site_url + "/Produk/fetch_data_produk",
-      type: 'GET',
-      dataType: 'html',
-      data: {
-        search:q,
-        sortby: 'created_at',
-        sorttype: 'desc',
-        limit: 20,
-      },
-      beforeSend: function() {},
-      success: function(result) {
-        $('#list-produk').html(result);
-      }
-    });
-  }
+function getProduk(pg) {
+  var q = $('#q_produk').val();
+  var id_jenis = $('#id_jenis').val();
+  var id_kategori = $('#id_kategori').val();
+  var sorting = $('#sortby').val();
+
+  var split = sorting.split("|");
+  var sortby = (split[0]) ? split[0] : 'created_at';
+  var sorttype = (split[1]) ? split[1] : 'desc';
+
+  $.ajax({
+    url: site_url + "/Produk/fetch_data_produk",
+    type: 'GET',
+    dataType: 'html',
+    data: {
+      page: pg,
+      search: q,
+      sortby: sortby,
+      sorttype: sorttype,
+      id_jenis: id_jenis,
+      id_kategori: id_kategori,
+      limit: 16,
+      func_name:'getProduk'
+    },
+    beforeSend: function() {},
+    success: function(result) {
+      $('#list-produk').html(result);
+    }
+  });
+}
 </script>

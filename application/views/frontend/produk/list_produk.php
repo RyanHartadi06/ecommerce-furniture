@@ -7,8 +7,11 @@
         <!-- <span class="pr_flash">New</span> -->
         <div class="product_img">
           <a href="<?= site_url('Produk/detail/'.$row->id) ?>">
-            <img style="height:290px; object-fit:cover;" src="<?= ($row->foto!="") ? base_url($row->foto) : base_url('assets/images/icons/no-product.png') ?>" alt="el_img3">
-            <img style="height:290px; object-fit:cover;" class="product_hover_img" src="<?= ($row->foto!="") ? base_url($row->foto) : base_url('assets/images/icons/no-product.png') ?>"
+            <img style="height:290px; object-fit:cover;"
+              src="<?= ($row->foto!="") ? base_url($row->foto) : base_url('assets/images/icons/no-product.png') ?>"
+              alt="el_img3">
+            <img style="height:290px; object-fit:cover;" class="product_hover_img"
+              src="<?= ($row->foto!="") ? base_url($row->foto) : base_url('assets/images/icons/no-product.png') ?>"
               alt="el_hover_img3">
           </a>
           <div class="product_action_box">
@@ -41,6 +44,26 @@
     </div>
   </div>
   <?php } ?>
+
+</div>
+<!-- Pagination -->
+<div class="row">
+  <br>
+  <div class="col-xs-12 col-md-6" style="padding-top:5px; color:#333;">
+    Menampilkan data
+    <?php $batas_akhir = (($paging['current'])*$paging['limit']);
+          if ($batas_akhir > $paging['count_row']) {
+              $batas_akhir = $paging['count_row'];
+          }
+          echo ((($paging['current']-1)*$paging['limit'])+1).' - '.$batas_akhir.' dari total '.$paging['count_row']; ?>
+    data
+  </div>
+  <br>
+  <div class="col-xs-12 col-md-6">
+    <div style="float:right;">
+      <?php echo $paging['list']; ?>
+    </div>
+  </div>
 </div>
 <?php }else{ ?>
 <div class="alert alert-warning">
