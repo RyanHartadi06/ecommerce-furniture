@@ -24,7 +24,9 @@
       <div class="col-lg-6 col-md-6 mb-4 mb-md-0">
         <div class="product-image">
           <div class="product_img_box">
-            <img id="product_img" src='<?= base_url($data['foto']) ?>' data-zoom-image="<?= base_url($data['foto']) ?>"
+            <img id="product_img"
+              src='<?= ($data['foto']!="") ? base_url($data['foto']) : base_url('assets/images/icons/no-product.png') ?>'
+              data-zoom-image="<?= ($data['foto']!="") ? base_url($data['foto']) : base_url('assets/images/icons/no-product.png') ?>"
               alt="product_img1" />
             <a href="#" class="product_img_zoom" title="Zoom">
               <span class="linearicons-zoom-in"></span>
@@ -68,10 +70,11 @@
           <form id="form-cart">
             <div class="cart_extra">
               <input type="hidden" id="id_produk" name="id_produk" value="<?= $data['id'] ?>">
+              <input type="hidden" id="stok_produk" name="stok_produk" value="<?= $data['stok'] ?>">
               <div class="cart-product-quantity">
                 <div class="quantity">
                   <input type="button" value="-" class="minus">
-                  <input type="text" name="qty" value="1" title="Qty" class="qty" size="4">
+                  <input type="text" id="qty_produk" name="qty" value="1" title="Qty" class="qty" size="4">
                   <input type="button" value="+" class="plus">
                 </div>
               </div>
@@ -155,9 +158,12 @@
               <!-- <span class="pr_flash">New</span> -->
               <div class="product_img">
                 <a href="<?= site_url('Produk/detail/'.$ps->id) ?>">
-                  <img style="height:290px; object-fit:cover;" src="<?= ($ps->foto!="") ? base_url($ps->foto) : base_url('assets/images/icons/no-product.png') ?>" alt="el_img3">
+                  <img style="height:290px; object-fit:cover;"
+                    src="<?= ($ps->foto!="") ? base_url($ps->foto) : base_url('assets/images/icons/no-product.png') ?>"
+                    alt="el_img3">
                   <img style="height:290px; object-fit:cover;" class="product_hover_img"
-                    src="<?= ($ps->foto!="") ? base_url($ps->foto) : base_url('assets/images/icons/no-product.png') ?>" alt="el_hover_img3">
+                    src="<?= ($ps->foto!="") ? base_url($ps->foto) : base_url('assets/images/icons/no-product.png') ?>"
+                    alt="el_hover_img3">
                 </a>
                 <div class="product_action_box">
                   <ul class="list_none pr_action_btn">
@@ -190,7 +196,7 @@ $(document).ready(function() {
   getUlasan(1);
 })
 
-function getUlasan(page=1) {
+function getUlasan(page = 1) {
   var limit = 5;
   var id_produk = $('#id_produk').val();
   $.ajax({
@@ -198,12 +204,12 @@ function getUlasan(page=1) {
     type: 'GET',
     dataType: 'html',
     data: {
-      page : page,
-      sortby : 'created_at',
-      sorttype : 'desc',
-      limit : limit,
-      id_produk : id_produk,
-      func_name : 'getUlasan'
+      page: page,
+      sortby: 'created_at',
+      sorttype: 'desc',
+      limit: limit,
+      id_produk: id_produk,
+      func_name: 'getUlasan'
     },
     beforeSend: function() {},
     success: function(result) {
@@ -214,30 +220,46 @@ function getUlasan(page=1) {
 
 $(document).on('submit', '#form-cart', function(event) {
   event.preventDefault();
-  var formData = new FormData($('#form-cart')[0]);
+  var stok = parseInt($('#stok_produk').val());
+  var qty = parseInt($('#qty_produk').val());
 
-  $.ajax({
-    url: '<?= site_url() ?>' + '/Order/add_cart',
-    method: 'POST',
-    dataType: 'json',
-    data: formData,
-    async: true,
-    processData: false,
-    contentType: false,
-    success: function(data) {
-      if (data.success == true) {
-        Toast.fire({
-          icon: 'success',
-          title: data.message
-        });
-        loadNotifikasiCart();
-      } else {
-        window.location.href = site_url + "/Auth";
+  if(stok==0){
+    Swal.fire({
+      icon: 'error',
+      title: 'Maaf...',
+      text: "Stok produk saat ini kosong !"
+    });
+  } else if (qty > stok) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Maaf...',
+      text: "Stok saat ini hanya tersisa "+ stok +" Item !"
+    });
+  } else {
+    var formData = new FormData($('#form-cart')[0]);
+    $.ajax({
+      url: '<?= site_url() ?>' + '/Order/add_cart',
+      method: 'POST',
+      dataType: 'json',
+      data: formData,
+      async: true,
+      processData: false,
+      contentType: false,
+      success: function(data) {
+        if (data.success == true) {
+          ToastFast.fire({
+            icon: 'success',
+            title: data.message
+          });
+          loadNotifikasiCart();
+        } else {
+          window.location.href = site_url + "/Auth";
+        }
+      },
+      fail: function(event) {
+        alert(event);
       }
-    },
-    fail: function(event) {
-      alert(event);
-    }
-  });
+    });
+  }
 });
 </script>

@@ -111,37 +111,54 @@ $(document).on('submit', '#form-checkout', function (event) {
 			text: "Harap pilih alamat pengiriman. Jika belum memiliki alamat Anda dapat menambahkan alamat di account user"
 		});
 	} else {
-		$.ajax({
-			url: site_url + '/Order/save',
-			method: 'POST',
-			dataType: 'json',
-			data: formData,
-			async: true,
-			processData: false,
-			contentType: false,
-			success: function (data) {
-				if (data.success == true) {
-					Toast.fire({
-						icon: 'success',
-						title: data.message
+		Swal.fire({
+			title: 'Buat Pesanan',
+			text: "Apakah Anda yakin menyimpan pesanan !",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3498db',
+			cancelButtonColor: '#95a5a6',
+			confirmButtonText: 'Simpan',
+			cancelButtonText: 'Batal',
+			showLoaderOnConfirm: true,
+			preConfirm: function () {
+				return new Promise(function (resolve) {
+					$.ajax({
+						url: site_url + '/Order/save',
+						method: 'POST',
+						dataType: 'json',
+						data: formData,
+						async: true,
+						processData: false,
+						contentType: false,
+						success: function (data) {
+							if (data.success == true) {
+								Toast.fire({
+									icon: 'success',
+									title: data.message
+								});
+								$('#modal-checkout').modal('hide');
+								setTimeout(function () {
+									window.location.href = site_url + "/Order/order_complete";
+								}, 1000);
+							} else {
+								Swal.fire({
+									icon: 'error',
+									title: 'Oops...',
+									text: data.message
+								});
+							}
+						},
+						fail: function (event) {
+							alert(event);
+						}
 					});
-					$('#modal-checkout').modal('hide');
-					setTimeout(function () {
-						window.location.href = site_url + "/Order/order_complete";
-					}, 1000);
-				} else {
-					Swal.fire({
-						icon: 'error',
-						title: 'Oops...',
-						text: data.message
-					});
-				}
+				});
 			},
-			fail: function (event) {
-				alert(event);
-			}
+			allowOutsideClick: false
 		});
 	}
+	event.preventDefault();
 });
 
 $(document).on('input', ".qty", function () {

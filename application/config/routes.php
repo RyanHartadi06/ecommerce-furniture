@@ -64,7 +64,7 @@ $route['master/jenis-produk'] = 'Jenis_produk';
 
 // Laporan
 $route['laporan/penjualan'] = 'Laporan/penjualan';
-$route['laporan/produk-terjual'] = 'Laporan/produk_terjual';
+$route['laporan/product-terjual'] = 'Laporan/produk_terjual';
 
 // Pengaturan
 $route['pengaturan/user'] = 'User';

@@ -35,9 +35,10 @@ class Produk extends CI_Controller {
 
     $data['modeform'] = 'ADD';
     $data['kode'] = $this->M_main->get_no_otomatis_v3('m_produk', 'kode', 'P');
-    $data['jenis'] = $this->M_main->get_all('m_jenis_produk')->result();
-    $data['kategori'] = $this->M_main->get_all('m_kategori_produk')->result();
-    $data['satuan'] = $this->M_main->get_all('m_satuan')->result();
+    $data['jenis'] = $this->Jenis_produk_m->get_all()->result();
+    $data['kategori'] = $this->Kategori_m->get_all()->result();
+    $data['satuan'] = $this->Satuan_m->get_all()->result();
+
     $data['content'] = "produk/form.php";    
     $this->parser->parse('sistem/template', $data);
   }
@@ -51,9 +52,9 @@ class Produk extends CI_Controller {
     $data['modeform'] = 'UPDATE';
     $data['data'] = $this->M_main->get_where('m_produk', 'id', $id)->row_array();
     $data['kode'] = $this->M_main->get_no_otomatis_v3('m_produk', 'kode', 'P');
-    $data['jenis'] = $this->M_main->get_all('m_jenis_produk')->result();
-    $data['kategori'] = $this->M_main->get_all('m_kategori_produk')->result();
-    $data['satuan'] = $this->M_main->get_all('m_satuan')->result();
+    $data['jenis'] = $this->Jenis_produk_m->get_all()->result();
+    $data['kategori'] = $this->Kategori_m->get_all()->result();
+    $data['satuan'] = $this->Satuan_m->get_all()->result();
     $data['content'] = "produk/form.php";    
     $this->parser->parse('sistem/template', $data);
   }
