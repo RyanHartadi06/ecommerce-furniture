@@ -98,6 +98,7 @@
             LEFT JOIN order_detail od ON pr.id_produk_detail = od.id
             LEFT JOIN m_produk p ON od.id_produk = p.id
             LEFT JOIN users us ON pr.id_user = us.id
+            WHERE p.status = '1'
             GROUP BY p.kode, p.nama, us.username     
             ORDER BY us.username ASC
         ");

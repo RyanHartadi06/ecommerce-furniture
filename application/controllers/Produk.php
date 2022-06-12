@@ -278,7 +278,7 @@ class Produk extends CI_Controller {
       $result = $rec->getRecommendation($matrix, $username);
     }
  
-    print_r($rec->getRecommendation($matrix, $username));
+    // print_r($rec->getRecommendation($matrix, $username));
       //hasil yang akan ditampilka di view dihalaman rekomendasi produk
     $produk_result = array();
     foreach ($result as $key => $value) {
