@@ -5,6 +5,7 @@
           $query = $this->db->query("
               SELECT count(*) as jml FROM orders o
               LEFT JOIN m_pelanggan p ON o.id_pelanggan = p.id
+              LEFT JOIN pelanggan_alamat al ON o.id_alamat = al.id
               WHERE concat(o.no_invoice, p.nama) like '%$key%'     
           ")->row_array();
           return $query;
@@ -12,9 +13,10 @@
 
       function get_list_data($key="",  $limit="", $offset="", $column="", $sort="", $status="1"){
           $query = $this->db->query("
-              SELECT o.*, p.kode AS kode_pelanggan, p.nama AS nama_pelanggan, p.no_telp, p.alamat, os.keterangan as nama_status FROM orders o
+              SELECT o.*, p.kode AS kode_pelanggan, p.nama AS nama_pelanggan, al.no_telp, al.alamat, os.keterangan as nama_status FROM orders o
               LEFT JOIN m_pelanggan p ON o.id_pelanggan = p.id
               LEFT JOIN order_status os ON o.status = os.id
+              LEFT JOIN pelanggan_alamat al ON o.id_alamat = al.id
               WHERE concat(o.no_invoice, p.nama) like '%$key%' 
               order by $column $sort
               limit $limit offset $offset
@@ -24,9 +26,11 @@
 
       function get_pesanan_by_id($id_order){
         $query = $this->db->query("
-            SELECT o.*, p.kode AS kode_pelanggan, p.nama AS nama_pelanggan, p.no_telp, p.alamat, os.keterangan as nama_status FROM orders o
+            SELECT o.*, p.kode AS kode_pelanggan, p.nama AS nama_pelanggan, os.keterangan as nama_status, 
+            al.no_telp, al.alamat, al.penerima, al.kode_pos, al.keterangan FROM orders o
             LEFT JOIN m_pelanggan p ON o.id_pelanggan = p.id
             LEFT JOIN order_status os ON o.status = os.id
+            LEFT JOIN pelanggan_alamat al ON o.id_alamat = al.id
             WHERE o.id = '$id_order'
         ");
         return $query;
@@ -102,10 +106,12 @@
 
       function get_pesanan_by_pelanggan($id_user){
         $query = $this->db->query("
-            SELECT o.*, p.kode AS kode_pelanggan, p.nama AS nama_pelanggan, p.no_telp, p.alamat, os.keterangan as nama_status FROM orders o
+            SELECT o.*, p.kode AS kode_pelanggan, p.nama AS nama_pelanggan, al.no_telp, al.alamat, os.keterangan as nama_status FROM orders o
             LEFT JOIN m_pelanggan p ON o.id_pelanggan = p.id
             LEFT JOIN order_status os ON o.status = os.id
+            LEFT JOIN pelanggan_alamat al ON o.id_alamat = al.id
             WHERE p.id_user = '$id_user'
+            order by o.created_at desc
         ");
         return $query;
       }

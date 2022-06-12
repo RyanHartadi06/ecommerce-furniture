@@ -12,7 +12,7 @@ td {
         <?php 
         $id_role = $this->session->userdata("auth_id_role");
         if($id_role=='ADMIN'){ ?>
-          <a class="float-right btn btn-primary" onclick="loadModalStatus()" href="javascript:;">Update Status</a>
+        <a class="float-right btn btn-primary" onclick="loadModalStatus()" href="javascript:;">Update Status</a>
         <?php } ?>
       </div>
       <div class="card-body">
@@ -32,17 +32,7 @@ td {
               <tr>
                 <td>Tanggal</td>
                 <td>:</td>
-                <td><?= $order['tanggal'] ?></td>
-              </tr>
-              <tr>
-                <td>No Telepon</td>
-                <td>:</td>
-                <td><?= $order['no_telp'] ?></td>
-              </tr>
-              <tr>
-                <td>Alamat</td>
-                <td>:</td>
-                <td><?= $order['alamat'] ?></td>
+                <td><?= format_date($order['tanggal'], 'd-m-Y') ?></td>
               </tr>
               <tr>
                 <td>Catatan/Keterangan</td>
@@ -52,7 +42,39 @@ td {
               <tr>
                 <td>Status</td>
                 <td>:</td>
-                <td><?= $order['nama_status'] ?></td>
+                <td>
+                  <div class="badge badge-success">
+                    <?= $order['nama_status'] ?>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="3"><b>Alamat Pengiriman</b></td>
+              </tr>
+              <tr>
+                <td>Alamat</td>
+                <td>:</td>
+                <td><?= $order['alamat'] ?></td>
+              </tr>
+              <tr>
+                <td>No Telepon</td>
+                <td>:</td>
+                <td><?= $order['no_telp'] ?></td>
+              </tr>
+              <tr>
+                <td>Kode Pos</td>
+                <td>:</td>
+                <td><?= $order['kode_pos'] ?></td>
+              </tr>
+              <tr>
+                <td>Penerima</td>
+                <td>:</td>
+                <td><?= $order['penerima'] ?></td>
+              </tr>
+              <tr>
+                <td>Keterangan Alamat</td>
+                <td>:</td>
+                <td><?= $order['keterangan'] ?></td>
               </tr>
             </table>
           </div>

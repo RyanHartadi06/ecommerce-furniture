@@ -34,17 +34,16 @@
           <tr>
             <td class="text-center"><?= $no ?>.</td>
             <td><?= $row->no_invoice ?></td>
-            <td><?= $row->tanggal ?></td>
+            <td><?= format_date($row->tanggal, 'd/m/Y') ?></td>
             <td>
               <?= $row->nama_pelanggan ?> <small>(<?= $row->kode_pelanggan ?>)</small>
             </td>
             <td><?= $row->no_telp ?></td>
             <td><?= $row->alamat ?></td>
             <td class="text-right"><?= rupiah($row->total) ?></td>
-            <td class="text-center"><?= $row->nama_status ?></td>
+            <td class="text-center"><b><?= $row->nama_status ?></b></td>
             <td class="text-center">
               <a href="<?= site_url('Order/detail_pesanan/'.$row->id) ?>" data-id="<?=$row->id?>" data-name="<?=$row->nama_pelanggan?>" class="btn btn-sm btn-info btn-detail" data-toggle="tooltip" title="Detail Order"><i class="fa fa-eye"></i></a>	    
-              <!-- <a href="javascript:;" data-id="<?=$row->id?>" data-name="<?=$row->nama_pelanggan?>" class="btn btn-sm btn-warning btn-edit" data-toggle="tooltip" title="Edit Order"><i style="color:#fff;" class="fa fa-edit"></i></a> -->
             </td>
           </tr>
         <?php 
