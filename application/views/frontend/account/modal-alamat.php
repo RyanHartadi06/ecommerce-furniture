@@ -22,11 +22,11 @@
           </div>
           <div class="form-group">
             <label for="penerima">Penerima</label>
-            <input type="text" class="form-control" id="penerima" name="penerima" placeholder="Nama Peneriman" value="<?= isset($data) ? $data['penerima'] : '' ?>" required>
+            <input type="text" class="form-control" id="penerima" name="penerima" placeholder="Nama Penerima" value="<?= isset($data) ? $data['penerima'] : '' ?>" required>
           </div>
           <div class="form-group">
             <label for="keterangan">keterangan</label>
-            <textarea class="form-control" name="keterangan" id="keterangan" rows="2" placeholder="Alamat"><?= isset($data) ? $data['keterangan'] : '' ?></textarea>
+            <textarea class="form-control" name="keterangan" id="keterangan" rows="2" placeholder="Keterangan"><?= isset($data) ? $data['keterangan'] : '' ?></textarea>
           </div>
           <!-- <span>Alamat Utama</span> -->
           <div class="form-group">
