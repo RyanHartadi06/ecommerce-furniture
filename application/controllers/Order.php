@@ -202,8 +202,16 @@ class Order extends CI_Controller {
         'id_cart'=>$row->id_cart
       );
       $this->db->insert('order_detail', $data_detail);
-    
-      // update cart
+      
+      // Update stok produk
+      $produk_item = $this->M_main->get_where('m_produk', 'id', $row->id_produk)->row_array();
+      $stok_sisa = $produk_item['stok'] - $row->qty;
+      $this->db->where('id', $row->id_produk);
+      $this->db->update('m_produk', array(
+        'stok' => $stok_sisa,
+      ));
+
+      // update status cart bahwa telah dicheckout 
       $this->db->where('id', $row->id_cart);
       $this->db->update('cart', array(
         'qty' => $row->qty,
