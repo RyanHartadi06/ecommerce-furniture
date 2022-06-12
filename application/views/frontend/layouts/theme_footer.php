@@ -41,14 +41,14 @@
           <div class="widget">
             <h6 class="widget_title">Social</h6>
             <ul class="social_icons">
-              <li><a href="#" class="sc_facebook"><i class="ion-social-facebook"></i></a></li>
-              <!-- <li><a href="#" class="sc_twitter"><i class="ion-social-twitter"></i></a></li>
-              <li><a href="#" class="sc_google"><i class="ion-social-googleplus"></i></a></li> -->
-              <li><a href="#" class="sc_youtube"><i class="ion-social-youtube-outline"></i></a></li>
-              <li><a href="https://www.instagram.com/Mebel_anggitajaya/" class="sc_instagram"><i class="ion-social-instagram-outline"></i></a></li>
+              <li><a target="_blank" href="#" class="sc_facebook"><i class="ion-social-facebook"></i></a></li>
+              <!-- <li><a target="_blank" href="#" class="sc_twitter"><i class="ion-social-twitter"></i></a></li>
+              <li><a target="_blank" href="#" class="sc_google"><i class="ion-social-googleplus"></i></a></li> -->
+              <li><a target="_blank" href="#" class="sc_youtube"><i class="ion-social-youtube-outline"></i></a></li>
+              <li><a target="_blank" href="https://www.instagram.com/Mebel_anggitajaya/" class="sc_instagram"><i class="ion-social-instagram-outline"></i></a></li>
             </ul>
             <br>
-            <ul><a href="https://api.whatsapp.com/send?phone=6282128830799&text=Halo%20Admin%20Anggita%20Jaya,%20Saya%20mau%20tanya%20....."><button class="btn btn-sm btn-success">
+            <ul><a target="_blank" href="https://api.whatsapp.com/send?phone=6282128830799&text=Halo%20Admin%20Anggita%20Jaya,%20Saya%20mau%20tanya%20....."><button class="btn btn-sm btn-success">
               <div class="flex items-center justify-self-center"><i class="ion-social-whatsapp-outline"></i>Hubungi WhatsApp Kami</div></button></a>
             </ul>
             
