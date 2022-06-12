@@ -79,8 +79,8 @@
               </form>
             </div>
             <div class="text-center mt-1">
-              <span class="text-muted text-sm-left d-block d-sm-inline-block" style="font-size:13px;">Copyright © 2021
-                Ecommerce Furniture</span>
+              <span class="text-muted text-sm-left d-block d-sm-inline-block" style="font-size:13px;">Copyright © 2022
+                Ecommerce Anggita Jaya</span>
             </div>
           </div>
         </div>
