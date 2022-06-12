@@ -1,3 +1,8 @@
+<style>
+.swal2-container {
+  z-index: 99999 !important;
+}
+</style>
 <!-- START SECTION BREADCRUMB -->
 <div class="breadcrumb_section bg_gray page-title-mini">
   <div class="container">
@@ -19,7 +24,6 @@
 <!-- END SECTION BREADCRUMB -->
 
 <div class="main_content">
-
   <!-- Content -->
   <div class="section">
     <div class="container">
@@ -103,41 +107,56 @@
                   </tfoot>
                 </table>
               </div>
+              <br>
+              <div class="heading_s1">
+                <h4>Detail Order</h4>
+              </div>
+
               <div class="form-group">
                 <label for="keterangan">Keterangan / Catatan</label>
-                <textarea class="form-control" name="keterangan" id="keterangan" rows="2"></textarea>
+                <textarea class="form-control" name="keterangan" id="keterangan" rows="2"
+                  placeholder="Catatan . . ."></textarea>
               </div>
-              <!-- <hr>
-            <div class="payment_method">
-              <div class="heading_s1">
-                <h4>Transfer Bank</h4>
-              </div>
-              <div class="payment_option">
-                <div class="custome-radio">
-                  <input class="form-check-input" type="radio" name="payment_option" id="exampleRadios3" value="option3"
-                    checked="">
-                  <label class="form-check-label" for="exampleRadios3">Bank Mandiri</label>
-                  <p data-method="option3" class="payment-text">
-                    No. Rekening : 86779709098 (AN Anggita Jaya)
-                  </p>
+              <hr>
+              <!-- alamat -->
+              <p class="mb-2">Alamat</p>
+              <div class="payment_method">
+                <div class="payment_option">
+                  <?php
+                  $no=0;
+                  $utama="";
+                  if(count($alamat)>0){
+                    foreach ($alamat as $al) { 
+                      $no++; 
+                      if($al->is_utama=='1'){
+                        $utama = $al->id;
+                      }
+                    ?>
+                    <div class="custome-radio">
+                      <input class="form-check-input check-alamat" type="radio" name="payment_option"
+                        id="exampleRadios<?= $al->id ?>" value="<?= $al->id ?>"
+                        <?= ($al->is_utama=='1') ? ' checked' : '' ?>>
+                      <label class="form-check-label" for="exampleRadios<?= $al->id ?>"><?= $al->alamat ?>
+                        <?= ($al->is_utama=='1') ? ' (Utama)' : '' ?></label>
+                      <p data-method="<?= $al->id ?>" class="payment-text">
+                        <span>Penerima : <?= $al->penerima ?></span><br>
+                        <span>Keterangan : <?= $al->keterangan ?></span>
+                      </p>
+                    </div>
+                  <?php }}else{ ?>
+                    Jika Anda belum memiliki alamat Anda dapat menambahkan alamat <br> <i>di Account > Alamat <a style="text-decoration:underline;" href="<?= site_url('Account') ?>">account</a></i> 
+                  <?php } ?>
                 </div>
-                <div class="custome-radio">
-                  <input class="form-check-input" type="radio" name="payment_option" id="exampleRadios4"
-                    value="option4">
-                  <label class="form-check-label" for="exampleRadios4">Bank BCA</label>
-                  <p data-method="option4" class="payment-text">
-                    No. Rekening : 86779709098 (AN Anggita Jaya)
-                  </p>
-                </div>
               </div>
-            </div> -->
+              <input type="hidden" id="alamat-pengiriman" name="alamat_pengiriman" value="<?= $utama ?>">
+              <!-- End alamat -->
             </div>
             <input id="order-detail-json" type="hidden">
             <!--  -->
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-            <button type="submit" class="btn btn-primary">Buat Pesan</button>
+            <button type="submit" class="btn btn-primary">Buat Pesanan</button>
           </div>
         </form>
       </div>

@@ -7,6 +7,7 @@ class Order extends CI_Controller {
     parent::__construct();
     $this->apl = get_apl();
     $this->load->model('Order_m');
+    $this->load->model('Pelanggan_m');
     $this->load->model('M_main');
   }
 
@@ -58,6 +59,8 @@ class Order extends CI_Controller {
   public function cart_list (){
     must_login();
     $data['title'] = "Cart | ".$this->apl['nama_sistem'];
+    $id_user = $this->session->userdata('auth_id_user');
+    $data['alamat'] = $this->Pelanggan_m->get_pelanggan_alamat($id_user)->result();
     $data['content'] = "order/cart.php";    
     $this->parser->parse('frontend/template_produk', $data);
   }
@@ -158,6 +161,7 @@ class Order extends CI_Controller {
     $id_user = $this->session->userdata('auth_id_user');
     $keterangan = $this->input->post('keterangan');
     $order_detail = $this->input->post('order_detail');
+    $alamat_pengiriman = $this->input->post('alamat_pengiriman');
     $order_detail = json_decode($order_detail);
     
     $pelanggan = $this->M_main->get_where('m_pelanggan', 'id_user', $id_user)->row_array();
@@ -178,6 +182,7 @@ class Order extends CI_Controller {
       'id_pelanggan'=>$id_pelanggan,
       'total'=>$total,
       'keterangan'=>$keterangan,  
+      'id_alamat' => $alamat_pengiriman,
       'status'=>'1',
       'created_at'=>date('Y-m-d H:i:s'),
       'updated_at'=>date('Y-m-d H:i:s')

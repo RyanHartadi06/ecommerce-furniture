@@ -35,6 +35,7 @@
             LEFT JOIN m_pelanggan p ON pa.id_pelanggan = p.id
             WHERE p.id_user = '$id_user'
             and pa.status = '1'
+            order by pa.is_utama desc
         ");
         return $query;
       }

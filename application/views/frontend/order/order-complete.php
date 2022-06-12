@@ -32,6 +32,12 @@
             <p>
             Terima kasih atas pesanan Anda! Pesanan Anda akan diproses dan divalidasi setelah Anda menyelesaikan pembayaran.
             </p>
+            
+            Note Pembayaran : <br>
+            BANK BCA <br>
+            Rekening : 56789067867
+            AN. Anggita Jaya
+            <br><br>
             <a href="<?= site_url('/') ?>" class="btn btn-fill-out">Kembali Ke Home</a>
           </div>
         </div>
