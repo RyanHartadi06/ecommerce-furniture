@@ -16,10 +16,7 @@
           </a>
           <div class="product_action_box">
             <ul class="list_none pr_action_btn">
-              <!-- <li class="add-to-cart"><a href="#"><i class="icon-basket-loaded"></i> Add To Cart</a></li>
-              <li><a href="javascript:;" class="popup-ajax"><i class="icon-magnifier-add"></i></a>
-              </li>
-              <li><a href="#"><i class="icon-heart"></i></a></li> -->
+              <!-- No tag li -->
             </ul>
           </div>
         </div>
@@ -27,17 +24,15 @@
           <h6 class="product_title"><a href="<?= site_url('Produk/detail/'.$row->id) ?>"><?= $row->nama ?></a></h6>
           <div class="product_price">
             <span class="price"><?= rupiah($row->harga) ?></span>
-            <!-- <del>$99.00</del> -->
           </div>
           <div class="rating_wrap">
             <div class="rating">
-              <div class="product_rate" style="width:87%"></div>
+              <div class="product_rate" style="width:<?= $row->rata_rata_rating*20 ?>%"></div>
             </div>
-            <span class="rating_num">(25)</span>
+            <span class="rating_num">(<?= $row->total_rating ?>)</span>
           </div>
           <div class="pr_desc">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit massa enim.
-              Nullam id varius nunc id varius nunc.</p>
+            <p></p>
           </div>
         </div>
       </div>
