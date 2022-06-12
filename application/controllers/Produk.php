@@ -12,6 +12,9 @@ class Produk extends CI_Controller {
     $this->load->model('Produk_m');
     $this->load->model('Order_m');
     $this->load->model('User_m');
+    $this->load->model('Jenis_produk_m');
+    $this->load->model('Kategori_m');
+    $this->load->model('Satuan_m');
   }
   //untuk menampilkan halaman produk
   public function index()
@@ -62,14 +65,19 @@ class Produk extends CI_Controller {
     $offset = ($limit*$pg)-$limit;
     $column = $this->input->get("sortby");
     $sort   = $this->input->get("sorttype");
+
+    $filter = array(
+      'id_jenis' => "",
+      'id_kategori' => "",
+    );
     
     $page              = array();
     $page['limit']     = $limit;
-    $page['count_row'] = $this->Produk_m->get_list_count($key)['jml'];
+    $page['count_row'] = $this->Produk_m->get_list_count($key, $filter)['jml'];
     $page['current']   = $pg;
     $page['list']      = gen_paging($page);
     $data['paging']    = $page;
-    $data['list']      = $this->Produk_m->get_list_data($key, $limit, $offset, $column, $sort);
+    $data['list']      = $this->Produk_m->get_list_data($key, $limit, $offset, $column, $sort, $filter);
 
     $this->load->view('sistem/produk/list_data',$data);
   }
@@ -197,14 +205,23 @@ class Produk extends CI_Controller {
     $offset = ($limit*$pg)-$limit;
     $column = $this->input->get("sortby");
     $sort   = $this->input->get("sorttype");
+    $func_name = $this->input->get("func_name");
+    $id_jenis = ($this->input->get("id_jenis")!="") ? $this->input->get("id_jenis") : "";
+    $id_kategori = ($this->input->get("id_kategori")!="") ? $this->input->get("id_kategori") : "";
     
+    $filter = array(
+      'id_jenis' => $id_jenis,
+      'id_kategori' => $id_kategori,
+    );
+
     $page              = array();
+    $page['load_func_name'] = $func_name;
     $page['limit']     = $limit;
-    $page['count_row'] = $this->Produk_m->get_list_count($key)['jml'];
+    $page['count_row'] = $this->Produk_m->get_list_count($key, $filter)['jml'];
     $page['current']   = $pg;
     $page['list']      = gen_paging($page);
     $data['paging']    = $page;
-    $data['list']      = $this->Produk_m->get_list_data($key, $limit, $offset, $column, $sort);
+    $data['list']      = $this->Produk_m->get_list_data($key, $limit, $offset, $column, $sort, $filter);
 
     $this->load->view('frontend/produk/list_produk', $data);
   }
@@ -224,6 +241,8 @@ class Produk extends CI_Controller {
     $data['title'] = "Cari Produk | ".$this->apl['nama_sistem'];
     $q = $this->input->get("keyword");
     $data['keyword'] = $q; 
+    $data['jenis'] = $this->Jenis_produk_m->get_all()->result();
+    $data['kategori'] = $this->Kategori_m->get_all()->result();
     $data['content'] = "produk/pencarian.php";    
     $this->parser->parse('frontend/template_produk', $data);
   }

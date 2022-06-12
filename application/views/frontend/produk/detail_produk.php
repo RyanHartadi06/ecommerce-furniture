@@ -55,9 +55,9 @@
             </div>
             <div class="rating_wrap">
               <div class="rating">
-                <div class="product_rate" style="width:80%"></div>
+                <div class="product_rate" style="width:<?= $data['rata_rata_rating']*20 ?>%"></div>
               </div>
-              <span class="rating_num">(21)</span>
+              <span class="rating_num">(<?= $data['total_rating'] ?>)</span>
             </div>
             <div class="pr_desc">
               <p> </p>
@@ -79,18 +79,18 @@
                 <button type="submit" class="btn btn-fill-out btn-addtocart" type="button">
                   <i class="icon-basket-loaded"></i> Tambah ke keranjang
                 </button>
-                <a class="add_wishlist" href="javascript:;"><i class="icon-heart"></i></a>
               </div>
             </div>
           </form>
           <hr />
           <ul class="product-meta">
-            <li>SKU: <a href="#"><?= $data['kode'] ?></a></li>
-            <li>Category: <a href="#"><?= $data['kategori_produk'] ?></a></li>
-            <li>Jenis: <a href="#" rel="tag"><?= $data['jenis_produk'] ?></a> </li>
+            <li><b>SKU:</b> <?= $data['kode'] ?></li>
+            <li><b>Kategori:</b> <?= $data['kategori_produk'] ?></li>
+            <li><b>Jenis:</b> <?= $data['jenis_produk'] ?></li>
+            <li><b>Stok:</b> <?= $data['stok'] ?></li>
           </ul>
 
-          <div class="product_share">
+          <!-- <div class="product_share">
             <span>Share:</span>
             <ul class="social_icons">
               <li><a href="#"><i class="ion-social-facebook"></i></a></li>
@@ -99,7 +99,7 @@
               <li><a href="#"><i class="ion-social-youtube-outline"></i></a></li>
               <li><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
             </ul>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -161,10 +161,6 @@
                 </a>
                 <div class="product_action_box">
                   <ul class="list_none pr_action_btn">
-                    <!-- <li class="add-to-cart"><a href="#"><i class="icon-basket-loaded"></i> Add To Cart</a></li>
-                    <li><a href="javascript:;" class="popup-ajax"><i class="icon-magnifier-add"></i></a>
-                    </li>
-                    <li><a href="#"><i class="icon-heart"></i></a></li> -->
                   </ul>
                 </div>
               </div>
@@ -173,13 +169,12 @@
                 </h6>
                 <div class="product_price">
                   <span class="price"><?= rupiah($ps->harga) ?></span>
-                  <!-- <del>$99.00</del> -->
                 </div>
                 <div class="rating_wrap">
                   <div class="rating">
-                    <div class="product_rate" style="width:87%"></div>
+                    <div class="product_rate" style="width:<?= $ps->rata_rata_rating*20 ?>%"></div>
                   </div>
-                  <span class="rating_num">(25)</span>
+                  <span class="rating_num">(<?= $ps->total_rating ?>)</span>
                 </div>
               </div>
             </div>

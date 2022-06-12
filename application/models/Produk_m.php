@@ -1,32 +1,64 @@
 <?php 
     defined('BASEPATH') OR exit('No direct script access allowed');
     class Produk_m extends CI_Model {
-      function get_list_count($key="", $status="1"){
-          $query = $this->db->query("
-              SELECT count(*) as jml FROM m_produk p
-              LEFT JOIN m_jenis_produk jp ON p.id_jenis_produk = jp.id 
-              LEFT JOIN m_kategori_produk kp ON p.id_kategori_produk = kp.id
-              LEFT JOIN m_satuan s ON p.id_satuan = s.id
-              WHERE concat(p.kode, p.nama, jp.nama, kp.nama, s.nama, p.deskripsi) like '%$key%' 
-              and p.status = '$status'
-          ")->row_array();
+      function get_list_count($key="", $filter=array()){
+          $id_jenis = $filter['id_jenis'];
+          $id_kategori = $filter['id_kategori'];
+        
+          $q = "
+            SELECT count(*) as jml FROM m_produk p
+            LEFT JOIN m_jenis_produk jp ON p.id_jenis_produk = jp.id 
+            LEFT JOIN m_kategori_produk kp ON p.id_kategori_produk = kp.id
+            LEFT JOIN m_satuan s ON p.id_satuan = s.id
+            WHERE concat(p.kode, p.nama, jp.nama, kp.nama, s.nama, p.deskripsi) like '%$key%' 
+            and p.status = '1'          
+          "; 
+
+          if($id_jenis!=""){
+              $q .= " and p.id_jenis_produk = '$id_jenis' ";
+          }
+          
+          if($id_kategori!=""){
+              $q .= " and p.id_kategori_produk = '$id_kategori' ";
+          }
+        
+          $query = $this->db->query($q)->row_array();
           return $query;
       }
 
-      function get_list_data($key="",  $limit="", $offset="", $column="", $sort="", $status="1"){
-          $query = $this->db->query("
+      function get_list_data($key="",  $limit="", $offset="", $column="", $sort="", $filter=array()){
+          $id_jenis = $filter['id_jenis'];
+          $id_kategori = $filter['id_kategori'];
+
+          $q = "
               SELECT p.*, jp.nama AS jenis_produk, kp.nama AS kategori_produk, s.nama AS satuan,  (
                 select foto from m_produk_image where id_produk = p.id
                 order by created_at asc limit 1 
-              ) as foto FROM m_produk p
+              ) as foto, COALESCE(r.total_rating, 0) AS total_rating, COALESCE(r.rata_rata_rating, 0) AS rata_rata_rating FROM m_produk p
               LEFT JOIN m_jenis_produk jp ON p.id_jenis_produk = jp.id 
               LEFT JOIN m_kategori_produk kp ON p.id_kategori_produk = kp.id
               LEFT JOIN m_satuan s ON p.id_satuan = s.id
+              LEFT JOIN (
+                SELECT p.kode, sum(pr.rating) AS total_rating, TRUNCATE(avg(pr.rating), 1) AS rata_rata_rating FROM produk_rating pr
+                LEFT JOIN order_detail od ON pr.id_produk_detail = od.id
+                LEFT JOIN m_produk p ON od.id_produk = p.id
+                LEFT JOIN users us ON pr.id_user = us.id
+                GROUP BY p.kode
+              ) r ON p.kode = r.kode
               WHERE concat(p.kode, p.nama, jp.nama, kp.nama, s.nama, p.deskripsi) like '%$key%' 
-              and p.status = '$status'
-              order by $column $sort
-              limit $limit offset $offset
-          ");
+              and p.status = '1'
+          ";
+
+          if($id_jenis!=""){
+              $q .= " and p.id_jenis_produk = '$id_jenis' ";
+          }
+          
+          if($id_kategori!=""){
+              $q .= " and p.id_kategori_produk = '$id_kategori' ";
+          }
+
+          $q .= " order by $column $sort limit $limit offset $offset ";
+          $query = $this->db->query($q);
           return $query;
       }
 
@@ -42,10 +74,17 @@
             SELECT p.*, jp.nama AS jenis_produk, kp.nama AS kategori_produk, s.nama AS satuan, (
               select foto from m_produk_image where id_produk = p.id
               order by created_at asc limit 1 
-            ) as foto FROM m_produk p
+            ) as foto, COALESCE(r.total_rating, 0) AS total_rating, COALESCE(r.rata_rata_rating, 0) AS rata_rata_rating FROM m_produk p
             LEFT JOIN m_jenis_produk jp ON p.id_jenis_produk = jp.id 
             LEFT JOIN m_kategori_produk kp ON p.id_kategori_produk = kp.id
             LEFT JOIN m_satuan s ON p.id_satuan = s.id
+            LEFT JOIN (
+              SELECT p.kode, sum(pr.rating) AS total_rating, TRUNCATE(avg(pr.rating), 1) AS rata_rata_rating FROM produk_rating pr
+              LEFT JOIN order_detail od ON pr.id_produk_detail = od.id
+              LEFT JOIN m_produk p ON od.id_produk = p.id
+              LEFT JOIN users us ON pr.id_user = us.id
+              GROUP BY p.kode
+            ) r ON p.kode = r.kode
             WHERE p.id = '$id'
         ");
         return $query;
@@ -56,10 +95,17 @@
           SELECT p.*, jp.nama AS jenis_produk, kp.nama AS kategori_produk, s.nama AS satuan,  (
             select foto from m_produk_image where id_produk = p.id
             order by created_at asc limit 1 
-          ) as foto FROM m_produk p
+          ) as foto, COALESCE(r.total_rating, 0) AS total_rating, COALESCE(r.rata_rata_rating, 0) AS rata_rata_rating FROM m_produk p
           LEFT JOIN m_jenis_produk jp ON p.id_jenis_produk = jp.id 
           LEFT JOIN m_kategori_produk kp ON p.id_kategori_produk = kp.id
           LEFT JOIN m_satuan s ON p.id_satuan = s.id
+          LEFT JOIN (
+            SELECT p.kode, sum(pr.rating) AS total_rating, TRUNCATE(avg(pr.rating), 1) AS rata_rata_rating FROM produk_rating pr
+            LEFT JOIN order_detail od ON pr.id_produk_detail = od.id
+            LEFT JOIN m_produk p ON od.id_produk = p.id
+            LEFT JOIN users us ON pr.id_user = us.id
+            GROUP BY p.kode
+          ) r ON p.kode = r.kode
           where p.id_kategori_produk = '$id_kategori'
           and p.status = '1'
         ";
