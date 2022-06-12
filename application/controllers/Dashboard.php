@@ -7,6 +7,7 @@ class Dashboard extends CI_Controller {
     parent::__construct();
     $this->apl = get_apl();
     $this->load->model('Menu_m');
+    $this->load->model('Dashboard_m');
     must_login();
   }
   
@@ -15,6 +16,7 @@ class Dashboard extends CI_Controller {
     $this->Menu_m->role_has_access($this->nama_menu);
     $data['title'] = $this->nama_menu." | ".$this->apl['nama_sistem'];
 
+    $data['dashboard'] = $this->Dashboard_m->get_dashboard();
     $data['content'] = "home/index.php";    
     $this->parser->parse('sistem/template', $data);
   }
