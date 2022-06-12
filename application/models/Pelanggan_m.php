@@ -31,7 +31,7 @@
 
       function get_pelanggan_alamat($id_user){
         $query = $this->db->query("
-            SELECT pa.id, pa.id_pelanggan, pa.alamat, pa.kode_pos, pa.penerima, pa.is_utama, pa.keterangan FROM pelanggan_alamat pa
+            SELECT pa.id, pa.id_pelanggan, pa.alamat, pa.kode_pos, pa.penerima, pa.no_telp, pa.is_utama, pa.keterangan FROM pelanggan_alamat pa
             LEFT JOIN m_pelanggan p ON pa.id_pelanggan = p.id
             WHERE p.id_user = '$id_user'
             and pa.status = '1'

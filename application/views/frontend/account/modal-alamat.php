@@ -17,6 +17,10 @@
             <textarea class="form-control" name="alamat" id="alamat" rows="2" placeholder="Alamat" required><?= isset($data) ? $data['alamat'] : '' ?></textarea>
           </div>
           <div class="form-group">
+            <label for="kode_pos">No Telepon</label>
+            <input type="text" class="form-control" id="no_telp" name="no_telp" placeholder="No Telepon" value="<?= isset($data) ? $data['no_telp'] : '' ?>" required>
+          </div>
+          <div class="form-group">
             <label for="kode_pos">Kode Pos</label>
             <input type="text" class="form-control" id="kode_pos" name="kode_pos" placeholder="Kode Pos" value="<?= isset($data) ? $data['kode_pos'] : '' ?>" required>
           </div>

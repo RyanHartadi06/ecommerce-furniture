@@ -44,13 +44,15 @@ class Account extends CI_Controller {
     $this->load->view('frontend/account/modal-alamat',$data);
   }
 
-  public function save_alamat(){
+  public function save_alamat()
+  {
     $id_user = $this->session->userdata('auth_id_user');
     $pelanggan = $this->M_main->get_where('m_pelanggan','id_user',$id_user)->row_array();
 
     $id = $this->input->post('id_alamat');
     $id_pelanggan = $pelanggan['id'];
     $alamat = $this->input->post('alamat');
+    $no_telp = $this->input->post('no_telp');
     $kode_pos = $this->input->post('kode_pos');
     $penerima = strip_tags(trim($this->input->post('penerima')));
     $is_utama = ($this->input->post('is_utama')!="") ? $this->input->post('is_utama') : 0;
@@ -61,6 +63,7 @@ class Account extends CI_Controller {
         'alamat'=>$alamat,
         'kode_pos'=>$kode_pos,
         'penerima'=>$penerima,
+        'no_telp'=>$no_telp,
         'is_utama'=>$is_utama,
         'keterangan'=>$keterangan,
         'updated_at'=>date('Y-m-d H:i:s')
@@ -79,6 +82,7 @@ class Account extends CI_Controller {
         'alamat'=>$alamat,
         'kode_pos'=>$kode_pos,
         'penerima'=>$penerima,
+        'no_telp'=>$no_telp,
         'is_utama'=>$is_utama,
         'keterangan'=>$keterangan,  
         'status'=>'1',

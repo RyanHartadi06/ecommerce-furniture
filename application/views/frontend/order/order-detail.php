@@ -74,16 +74,6 @@
                       <td><?= $order['tanggal'] ?></td>
                     </tr>
                     <tr>
-                      <td>No Telepon</td>
-                      <td>:</td>
-                      <td><?= $order['no_telp'] ?></td>
-                    </tr>
-                    <tr>
-                      <td>Alamat</td>
-                      <td>:</td>
-                      <td><?= $order['alamat'] ?></td>
-                    </tr>
-                    <tr>
                       <td>Catatan/Keterangan</td>
                       <td>:</td>
                       <td><?= $order['keterangan'] ?></td>
@@ -91,7 +81,39 @@
                     <tr>
                       <td>Status</td>
                       <td>:</td>
-                      <td><?= $order['nama_status'] ?></td>
+                      <td>
+                        <div class="badge badge-success">
+                          <?= $order['nama_status'] ?>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="3"><b>Alamat Pengiriman</b></td>
+                    </tr>
+                    <tr>
+                      <td>Alamat</td>
+                      <td>:</td>
+                      <td><?= $order['alamat'] ?></td>
+                    </tr>
+                    <tr>
+                      <td>No Telepon</td>
+                      <td>:</td>
+                      <td><?= $order['no_telp'] ?></td>
+                    </tr>
+                    <tr>
+                      <td>Kode Pos</td>
+                      <td>:</td>
+                      <td><?= $order['kode_pos'] ?></td>
+                    </tr>
+                    <tr>
+                      <td>Penerima</td>
+                      <td>:</td>
+                      <td><?= $order['penerima'] ?></td>
+                    </tr>
+                    <tr>
+                      <td>Keterangan Alamat</td>
+                      <td>:</td>
+                      <td><?= $order['keterangan'] ?></td>
                     </tr>
                   </table>
                 </div>
