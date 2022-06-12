@@ -209,6 +209,7 @@ class Produk extends CI_Controller {
     $func_name = $this->input->get("func_name");
     $id_jenis = ($this->input->get("id_jenis")!="") ? $this->input->get("id_jenis") : "";
     $id_kategori = ($this->input->get("id_kategori")!="") ? $this->input->get("id_kategori") : "";
+    $show_pagination = ($this->input->get("show_pagination")!="") ? $this->input->get("show_pagination") : true;
     
     $filter = array(
       'id_jenis' => $id_jenis,
@@ -223,6 +224,7 @@ class Produk extends CI_Controller {
     $page['list']      = gen_paging($page);
     $data['paging']    = $page;
     $data['list']      = $this->Produk_m->get_list_data($key, $limit, $offset, $column, $sort, $filter);
+    $data['show_pagination'] = $show_pagination;
 
     $this->load->view('frontend/produk/list_produk', $data);
   }

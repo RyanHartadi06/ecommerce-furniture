@@ -13,6 +13,10 @@
         <div id="list-produk"></div>
       </div>
     </div>
+    <br>
+    <div class="text-center">
+      <a href="<?= site_url('Produk/search') ?>" class="btn btn-fill-out">Tampilkan Semua Produk</a>
+    </div>
   </div>
 </div>
 
@@ -29,7 +33,8 @@
       data: {
         sortby: 'created_at',
         sorttype: 'desc',
-        limit: 20,
+        limit: 12,
+        show_pagination: false
       },
       beforeSend: function() {},
       success: function(result) {

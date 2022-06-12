@@ -42,24 +42,27 @@
 
 </div>
 <!-- Pagination -->
-<div class="row">
-  <br>
-  <div class="col-xs-12 col-md-6" style="padding-top:5px; color:#333;">
-    Menampilkan data
-    <?php $batas_akhir = (($paging['current'])*$paging['limit']);
-          if ($batas_akhir > $paging['count_row']) {
-              $batas_akhir = $paging['count_row'];
-          }
-          echo ((($paging['current']-1)*$paging['limit'])+1).' - '.$batas_akhir.' dari total '.$paging['count_row']; ?>
-    data
-  </div>
-  <br>
-  <div class="col-xs-12 col-md-6">
-    <div style="float:right;">
-      <?php echo $paging['list']; ?>
+<?php  
+if($show_pagination===true){ ?>
+  <div class="row">
+    <br>
+    <div class="col-xs-12 col-md-6" style="padding-top:5px; color:#333;">
+      Menampilkan data
+      <?php $batas_akhir = (($paging['current'])*$paging['limit']);
+            if ($batas_akhir > $paging['count_row']) {
+                $batas_akhir = $paging['count_row'];
+            }
+            echo ((($paging['current']-1)*$paging['limit'])+1).' - '.$batas_akhir.' dari total '.$paging['count_row']; ?>
+      data
+    </div>
+    <br>
+    <div class="col-xs-12 col-md-6">
+      <div style="float:right;">
+        <?php echo $paging['list']; ?>
+      </div>
     </div>
   </div>
-</div>
+<?php } ?>
 <?php }else{ ?>
 <div class="alert alert-warning">
   Data produk tidak ditemukan !
