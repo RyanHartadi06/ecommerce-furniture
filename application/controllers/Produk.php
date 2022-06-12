@@ -13,7 +13,7 @@ class Produk extends CI_Controller {
     $this->load->model('Order_m');
     $this->load->model('User_m');
   }
-  
+  //untuk menampilkan halaman produk
   public function index()
   {
     must_login();
@@ -23,7 +23,7 @@ class Produk extends CI_Controller {
     $data['content'] = "produk/index.php";    
     $this->parser->parse('sistem/template', $data);
   }
-
+    //digunakan untuk menampilkan form create produk
   public function create()
   {
     must_login();
@@ -38,7 +38,7 @@ class Produk extends CI_Controller {
     $data['content'] = "produk/form.php";    
     $this->parser->parse('sistem/template', $data);
   }
-
+    //untuk menamapilkan form edit produk
   public function edit($id)
   {
     must_login();
@@ -54,7 +54,7 @@ class Produk extends CI_Controller {
     $data['content'] = "produk/form.php";    
     $this->parser->parse('sistem/template', $data);
   }
-  
+  //untuk menapilkan tabel data
   public function fetch_data(){
     $pg     = ($this->input->get("page") != "") ? $this->input->get("page") : 1;
     $key	  = ($this->input->get("search") != "") ? strtoupper(quotes_to_entities($this->input->get("search"))) : "";
@@ -73,13 +73,13 @@ class Produk extends CI_Controller {
 
     $this->load->view('sistem/produk/list_data',$data);
   }
-
+//untuk menampilkan gambar produk
   public function load_image(){
     $id = $this->input->post('id_produk');
     $data['foto_produk'] = $this->M_main->get_where('m_produk_image', 'id_produk', $id);
     $this->load->view('sistem/produk/list_image', $data);
   }
-
+//untuk menyimpan tambah produk dan update produk
   public function save(){
       $id = $this->input->post('id');
       $kode = strip_tags(trim($this->input->post('kode')));
@@ -129,7 +129,7 @@ class Produk extends CI_Controller {
       }
       echo json_encode($response);   
   }
-
+//untuk mengapus data produk
   public function delete($id){
     if($id){
       $object = array(
@@ -147,7 +147,7 @@ class Produk extends CI_Controller {
     }
     echo json_encode($response);
   }
-
+//untuk menambahkan foto produk
   public function upload_foto(){
       $id_produk = $this->input->post('id_produk');
       $foto = do_upload_file('produk', 'file', 'assets/uploads/produk/', 'jpg|jpeg|png');
@@ -188,7 +188,8 @@ class Produk extends CI_Controller {
     echo json_encode($response);
   }
 
-  // Ecommerce
+  // Ecommerce 
+  //untuk menampilkan data di produk di landing page/halaman utama
   public function fetch_data_produk(){
     $pg     = ($this->input->get("page") != "") ? $this->input->get("page") : 1;
     $key	  = ($this->input->get("search") != "") ? strtoupper(quotes_to_entities($this->input->get("search"))) : "";
@@ -207,7 +208,7 @@ class Produk extends CI_Controller {
 
     $this->load->view('frontend/produk/list_produk', $data);
   }
-
+//untuk menaampilkan detail produk
   public function detail ($id){
     $data['title'] = "Detail Produk | ".$this->apl['nama_sistem'];
     
@@ -218,7 +219,7 @@ class Produk extends CI_Controller {
     $data['content'] = "produk/detail_produk.php";    
     $this->parser->parse('frontend/template_produk', $data);
   }
-
+//untuk menampilkan hasil pencarian produk
   public function search (){
     $data['title'] = "Cari Produk | ".$this->apl['nama_sistem'];
     $q = $this->input->get("keyword");
@@ -226,7 +227,7 @@ class Produk extends CI_Controller {
     $data['content'] = "produk/pencarian.php";    
     $this->parser->parse('frontend/template_produk', $data);
   }
-  
+  //untuk menampilkan hasil rekomendasi produk untuk user yang sudah login
   public function rekomendasi (){
     $data['title'] = "Rekomendasi Produk | ".$this->apl['nama_sistem'];
 
@@ -234,7 +235,7 @@ class Produk extends CI_Controller {
     $is_login = $this->session->userdata('auth_is_login');
     $produk = $this->Order_m->get_rating_produk()->result_array();
     $user = $this->User_m->get_all()->result_array();
-    
+    //untuk mengelompokkan data rating dari masing-masing user
     $matrix=array();
     foreach ($produk as $row) {
       $matrix[$row['username']][$row['kode']]=$row['rating'];  
@@ -247,7 +248,7 @@ class Produk extends CI_Controller {
         $matrix[$u['username']] = array();
       }
     }
-
+      //memanggil fungsi sistem rekomendasi lalu memasukkan matrix dan username dari user yang login untuk mendapatkan hasil rekomendasi produk
     $result = array();
     if($is_login){
       $this->load->library('SistemRekomendasi');
@@ -256,7 +257,7 @@ class Produk extends CI_Controller {
     }
  
     // print_r($rec->getRecommendation($matrix, $username));
-
+      //hasil yang akan ditampilka di view dihalaman rekomendasi produk
     $produk_result = array();
     foreach ($result as $key => $value) {
       $get_produk = $this->Produk_m->get_produk_by_kode($key)->row_array(); 

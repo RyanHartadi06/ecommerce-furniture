@@ -87,6 +87,7 @@
        * Function Recommendation
        * 
        */
+      //untuk mengambil data rating produk dari masing-masing user
       function get_rating_produk(){
         $query = $this->db->query("
             SELECT p.kode, p.nama AS nama_produk, sum(pr.rating) AS rating, us.username FROM produk_rating pr
