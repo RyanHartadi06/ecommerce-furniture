@@ -278,12 +278,15 @@ class Produk extends CI_Controller {
       $result = $rec->getRecommendation($matrix, $username);
     }
  
-    // print_r($rec->getRecommendation($matrix, $username));
+    print_r($rec->getRecommendation($matrix, $username));
       //hasil yang akan ditampilka di view dihalaman rekomendasi produk
     $produk_result = array();
     foreach ($result as $key => $value) {
-      $get_produk = $this->Produk_m->get_produk_by_kode($key)->row_array(); 
-      $produk_result[]=$get_produk;
+      $get_produk = $this->Produk_m->get_produk_by_kode($key); 
+      if($get_produk->num_rows()>0){
+        $pp = $get_produk->row_array();
+        $produk_result[]=$pp;
+      }
     }
 
     $data['rekomendasi'] = $produk_result;
