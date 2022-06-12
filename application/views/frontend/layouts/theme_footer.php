@@ -7,7 +7,7 @@
             <div class="footer_logo">
               <a href="#"><img src="<?= base_url('assets/images/logo---.png') ?>" alt="logo" /></a>
             </div>
-            <p class="mb-3">Mebel Anggita Jaya adalah usaha yang bergerak dalam bidang penjualan mebel dan juga spesial jasa pembuatan jok kursi dan sofa.  Selain itu juga menerima pesanan pembuatan jok mobil dan motor.
+            <p class="mb-3">Anggita Jaya adalah sebuah platform penjualan online atau e-commerce untuk menghubungkan masyarakat dan pelanggan dapat melakukan pemesanan online berkualitas, lengkap dengan garansi resmi yang memberikan keamanan dan kenyamanan berbelanja online bagi penggunanya. 
             </p>
             <ul class="contact_info">
               <li>
@@ -30,11 +30,10 @@
           <div class="widget">
             <h6 class="widget_title">Menu</h6>
             <ul class="widget_links">
-              <li><a href="#">Home</a></li>
-              <li><a href="#">Rekomendasi Produk</a></li>
-              <li><a href="#">About</a></li>
-              <li><a href="#">Contact Us</a></li>
-              <li><a href="#">FAQ</a></li>
+              <li><a href="<?= site_url("/") ?>">Home</a></li>
+              <li><a href="<?= site_url('Produk/rekomendasi') ?>">Rekomendasi Produk</a></li>
+              <li><a href="<?= site_url("/Home/about") ?>">About Us</a></li>
+              <li><a href="<?= site_url("/Home/contact") ?>">Contact Us</a></li>
             </ul>
           </div>
         </div>
@@ -43,11 +42,16 @@
             <h6 class="widget_title">Social</h6>
             <ul class="social_icons">
               <li><a href="#" class="sc_facebook"><i class="ion-social-facebook"></i></a></li>
-              <li><a href="#" class="sc_twitter"><i class="ion-social-twitter"></i></a></li>
-              <li><a href="#" class="sc_google"><i class="ion-social-googleplus"></i></a></li>
+              <!-- <li><a href="#" class="sc_twitter"><i class="ion-social-twitter"></i></a></li>
+              <li><a href="#" class="sc_google"><i class="ion-social-googleplus"></i></a></li> -->
               <li><a href="#" class="sc_youtube"><i class="ion-social-youtube-outline"></i></a></li>
-              <li><a href="#" class="sc_instagram"><i class="ion-social-instagram-outline"></i></a></li>
+              <li><a href="https://www.instagram.com/Mebel_anggitajaya/" class="sc_instagram"><i class="ion-social-instagram-outline"></i></a></li>
             </ul>
+            <br>
+            <ul><a href="https://api.whatsapp.com/send?phone=6282128830799&text=Halo%20Admin%20Anggita%20Jaya,%20Saya%20mau%20tanya%20....."><button class="btn btn-sm btn-success">
+              <div class="flex items-center justify-self-center"><i class="ion-social-whatsapp-outline"></i>Hubungi WhatsApp Kami</div></button></a>
+            </ul>
+            
           </div>
         </div>
       </div>
@@ -68,7 +72,7 @@
     <div class="container">
       <div class="row">
         <div class="col-md-6">
-          <p class="text-center text-md-left mb-md-0">© 2022 Ecommerce Furniture All Rights Reserved</p>
+          <p class="text-center text-md-left mb-md-0">© 2022 Ecommerce Anggita Jaya All Rights Reserved</p>
         </div>
         <div class="col-lg-6"></div>
       </div>

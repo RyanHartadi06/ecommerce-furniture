@@ -21,10 +21,24 @@ class Home extends CI_Controller {
   public function detail()
   {
     $data['title'] = "Detail Produk | ".$this->apl['nama_sistem'];
-
     $data['content'] = "produk/detail_produk.php";    
     $this->parser->parse('frontend/template_produk', $data);
   }    
+  
+  public function about()
+  {
+    $data['title'] = "About | ".$this->apl['nama_sistem']; 
+    $data['content'] = "home/about.php";    
+    $this->parser->parse('frontend/template_produk', $data);
+  } 
+
+  public function contact()
+  {
+    $data['title'] = "Contact | ".$this->apl['nama_sistem']; 
+    $data['content'] = "home/contact.php";    
+    $this->parser->parse('frontend/template_produk', $data);
+  } 
+
 }
 
 /* End of file Home.php */

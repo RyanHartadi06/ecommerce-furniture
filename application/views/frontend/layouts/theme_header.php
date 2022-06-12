@@ -319,8 +319,8 @@
                 </li> -->
                 <li><a class="nav-link nav_item" href="<?= site_url("/") ?>">Home</a></li>
                 <li><a class="nav-link nav_item" href="<?= site_url('Produk/rekomendasi') ?>">Rekomendasi Produk</a></li>
-                <li><a class="nav-link nav_item" href="#">About</a></li>
-                <li><a class="nav-link nav_item" href="#">Contact Us</a></li>
+                <li><a class="nav-link nav_item" href="<?= site_url("/Home/about") ?>">About Us</a></li>
+                <li><a class="nav-link nav_item" href="<?= site_url("/Home/contact") ?>">Contact Us</a></li>
               </ul>
             </div>
             <!-- <div class="contact_phone contact_support">
