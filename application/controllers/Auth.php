@@ -81,6 +81,7 @@ class Auth extends CI_Controller {
       echo json_response($response);
   }
 
+  // Function untuk registrasi akun
   public function daftar_akun()
   {
       $this->form_validation->set_rules('username', 'username', 'trim|required');
@@ -135,11 +136,14 @@ class Auth extends CI_Controller {
             'created_at'=>date('Y-m-d H:i:s')
           );
           
-          $this->session->set_flashdata('success', 'Registrasi berhasil, silahkan login menggunakan username/email dan password anda ! <a href="'.site_url('Auth').'">login</a>');
-          $this->db->insert('m_pelanggan', $data_object);      
+          $this->db->insert('m_pelanggan', $data_object);
+          // Message
+          $this->session->set_flashdata('success', 'Registrasi berhasil, Silahkan cek email Anda untuk verifikasi pendaftaran akun !');
 
+          // Kirim email verifikasi
           $response['success'] = TRUE;
-          $response['message'] = "Registrasi akun berhasil!";
+          $response['message_email'] = api_register($id_user, $nama, $email);		    
+          $response['message'] = "Registrasi berhasil, Silahkan cek email Anda untuk verifikasi pendaftaran akun !";
         }
       }
       echo json_response($response);
@@ -181,7 +185,7 @@ class Auth extends CI_Controller {
 					$data['aplikasi'] = $this->apl;
 					$data['title'] = "Berhasil Registrasi Akun | ".$this->apl['nama_sistem'];
 					$data['user'] = $user;
-					$this->parser->parse('front/success-verifikasi', $data);
+					$this->parser->parse('auth/success-verifikasi', $data);
 				}else{
 					$data['success'] == FALSE;
 					redirect(site_url());

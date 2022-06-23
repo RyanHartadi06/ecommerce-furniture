@@ -125,7 +125,7 @@
                                                 Selangkah lagi untuk mengaktifkan Akun Anda, dengan memverifikasi Akun,
                                                 Anda dapat Melakukan pemesanan barang secara <i>online</i> !</b></p>
                                               <div style="font-weight: 200; text-align: center; margin: 25px;">
-                                                <a href="<?=$root_apl.'/Register/verifikasi/'.$id_user?>"
+                                                <a href="<?=$root_apl.'/Auth/verifikasi/'.$id_user?>"
                                                   style="padding:0.6em 1em;border-radius:600px;font-size:14px;text-decoration:none;font-weight:bold"
                                                   class="button-color">Verifikasi Sekarang</a>
                                               </div>
