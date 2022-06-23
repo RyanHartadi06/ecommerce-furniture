@@ -124,5 +124,16 @@
         return $query;
       }
 
+      function get_data_pesanan_dikirim(){
+          $query = $this->db->query("
+              SELECT o.*, p.kode AS kode_pelanggan, p.nama AS nama_pelanggan FROM orders o
+              LEFT JOIN m_pelanggan p ON o.id_pelanggan = p.id
+              LEFT JOIN status_pengiriman sp ON o.id = sp.id_order
+              WHERE o.STATUS = '3'
+              AND sp.tanggal IS NULL
+          ");
+          return $query;
+      }
+
     }
 ?>

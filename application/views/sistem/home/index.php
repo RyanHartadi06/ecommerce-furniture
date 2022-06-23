@@ -1,3 +1,4 @@
+<?php $role = $this->session->userdata("auth_id_role"); ?>
 <div class="row">
   <div class="col-md-12 grid-margin">
     <div class="row">
@@ -25,37 +26,39 @@
   </div>
 </div>
 <br>
-<div class="row">
-  <div class="col-md-3 mb-4 stretch-card transparent">
-    <div class="card card-tale">
-      <div class="card-body">
-        <p class="mb-0">Total Pesanan</p>
-        <p class="fs-30 mb-0"><?= $dashboard['total_pesanan'] ?></p>
+<?php if($role=='ADMIN' || $role=='OWNER'){ ?>
+  <div class="row">
+    <div class="col-md-3 mb-4 stretch-card transparent">
+      <div class="card card-tale">
+        <div class="card-body">
+          <p class="mb-0">Total Pesanan</p>
+          <p class="fs-30 mb-0"><?= $dashboard['total_pesanan'] ?></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-4 stretch-card transparent">
+      <div class="card card-dark-blue">
+        <div class="card-body">
+          <p class="mb-0">Pesanan Selesai</p>
+          <p class="fs-30 mb-0"><?= $dashboard['pesanan_selesai'] ?></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-4 mb-lg-0 stretch-card transparent">
+      <div class="card card-light-blue">
+        <div class="card-body">
+          <p class="mb-0">Total Produk</p>
+          <p class="fs-30 mb-0"><?= $dashboard['total_produk'] ?></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 stretch-card transparent">
+      <div class="card card-light-danger">
+        <div class="card-body">
+          <p class="mb-0">Total Pelanggan</p>
+          <p class="fs-30 mb-0"><?= $dashboard['total_pelanggan'] ?></p>
+        </div>
       </div>
     </div>
   </div>
-  <div class="col-md-3 mb-4 stretch-card transparent">
-    <div class="card card-dark-blue">
-      <div class="card-body">
-        <p class="mb-0">Pesanan Selesai</p>
-        <p class="fs-30 mb-0"><?= $dashboard['pesanan_selesai'] ?></p>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-3 mb-4 mb-lg-0 stretch-card transparent">
-    <div class="card card-light-blue">
-      <div class="card-body">
-        <p class="mb-0">Total Produk</p>
-        <p class="fs-30 mb-0"><?= $dashboard['total_produk'] ?></p>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-3 stretch-card transparent">
-    <div class="card card-light-danger">
-      <div class="card-body">
-        <p class="mb-0">Total Pelanggan</p>
-        <p class="fs-30 mb-0"><?= $dashboard['total_pelanggan'] ?></p>
-      </div>
-    </div>
-  </div>
-</div>
+<?php } ?>
