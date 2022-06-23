@@ -256,7 +256,7 @@ class Order extends CI_Controller {
    */
   public function upload_bukti_pembayaran(){
     $id = $this->input->post('id_order');
-    $foto = do_upload_file('bukti_pembayaran', 'file_upload', 'assets/uploads/bukti_pembayaran/', 'jpg|jpeg|png');
+    $foto = do_upload_file('bukti_pembayaran', 'file_upload', 'assets/uploads/bukti_pembayaran/', 'jpg|jpeg|png|pdf');
     $path = $foto['file_name'];
 
     date_default_timezone_set('Asia/Jakarta');
@@ -271,6 +271,24 @@ class Order extends CI_Controller {
     $response['message'] = "Upload bukti pembayaran berhasil disimpan !";
     echo json_encode($response);
   }
+
+  function preview_dokumen(){
+    $data['file']= $file = $this->input->post('file');
+    $data['judul'] = $this->input->post('judul');
+    
+    $_files = explode(".", $file);
+    $_files2 = explode("/", $file);
+    $data['extensi'] = $_files[1];
+    $data['file_path'] = base_url().$file;
+    $data['file_name'] = $_files2[count($_files2)-1];
+    $this->load->view('frontend/order/modal-preview.php',$data);
+  }
+
+  function download_file($file){
+    $this->load->helper('download');
+    force_download('assets/uploads/bukti_pembayaran/'.$file, NULL);
+  }
+
 }
 
 /* End of file Order.php */

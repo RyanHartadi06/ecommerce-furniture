@@ -26,8 +26,8 @@
         <div class="col-md-8">
           <div class="text-center order_complete">
             <input id="id_order" type="hidden" value="<?= $order['id'] ?>">
-            <i class="fas fa-check-circle"></i>
             <?php if($order['tanggal_upload']!=""){ ?>
+              <i class="fas fa-check-circle"></i>
               <div class="heading_s1">
                 <h3>Pesanan berhasil!</h3>
               </div>
@@ -37,10 +37,10 @@
               <a href="<?= site_url('/') ?>" class="btn btn-fill-out">Kembali ke Home</a>
             <?php }else{ ?>
                 <div class="heading_s1">
-                <h3>Pesanan berhasil dibuat!</h3>
+                <h3>Menunggu Pembayaran!</h3>
               </div>
               <p>
-                Menunggu pembayaran, Pesanan Anda akan diproses dan divalidasi setelah Anda menyelesaikan
+                Pesanan Anda akan diproses dan divalidasi setelah Anda menyelesaikan
                 pembayaran.
               </p>
   
