@@ -5,6 +5,7 @@ class Auth extends CI_Controller {
   public function __construct()
   {
     parent::__construct();
+    $this->apl = get_apl();
     $this->load->model('M_main');
 		$this->load->model('Auth_m');
   }
@@ -113,7 +114,7 @@ class Auth extends CI_Controller {
             'email'=>$email,
             'password'=>$password,
             'id_role'=>'PELANGGAN',
-            'status'=>'1',
+            'status'=>'2',
             'created_at'=>date('Y-m-d H:i:s'),
             'updated_at'=>date('Y-m-d H:i:s')
           );
@@ -151,4 +152,41 @@ class Auth extends CI_Controller {
 		$data['page'] = "Auth";
 		echo json_response($data);
 	}
+
+  /**
+   * Function Registrasi
+   * 
+   */
+
+  public function verifikasi($id_user=NULL){
+		if($id_user==NULL){
+			$data['success'] == FALSE;
+			redirect(site_url());
+		}else{
+			$data_user = $this->M_main->get_where('users','id',$id_user);
+			if($data_user->num_rows()==0){
+				$data['success'] == FALSE;
+				redirect(site_url());
+			}else{
+        date_default_timezone_set('Asia/Jakarta');
+				$user = $data_user->row_array();
+				if($user['status']=='2'){
+					$object_update = array(
+            'status'=>'1',
+            'email_verified_at'=>date('Y-m-d H:i:s'),
+					);
+					$this->db->where('id',$id_user);
+          $this->db->update('users',$object_update);
+          
+					$data['aplikasi'] = $this->apl;
+					$data['title'] = "Berhasil Registrasi Akun | ".$this->apl['nama_sistem'];
+					$data['user'] = $user;
+					$this->parser->parse('front/success-verifikasi', $data);
+				}else{
+					$data['success'] == FALSE;
+					redirect(site_url());
+				}
+			}
+		}
+  }
 }
