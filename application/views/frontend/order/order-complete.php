@@ -25,23 +25,85 @@
       <div class="row justify-content-center">
         <div class="col-md-8">
           <div class="text-center order_complete">
+            <input id="id_order" type="hidden" value="<?= $order['id'] ?>">
             <i class="fas fa-check-circle"></i>
-            <div class="heading_s1">
-              <h3>Pesanan berhasil!</h3>
-            </div>
-            <p>
-            Terima kasih atas pesanan Anda! Pesanan Anda akan diproses dan divalidasi setelah Anda menyelesaikan pembayaran.
-            </p>
-            
-            Note Pembayaran : <br>
-            BANK BCA <br>
-            Rekening : 56789067867
-            AN. Anggita Jaya
-            <br><br>
-            <a href="<?= site_url('/') ?>" class="btn btn-fill-out">Kembali Ke Home</a>
+            <?php if($order['tanggal_upload']!=""){ ?>
+              <div class="heading_s1">
+                <h3>Pesanan berhasil!</h3>
+              </div>
+              <p>
+                Terima kasih atas pesanan Anda! Pesanan Anda akan segera diproses dan divalidasi, untuk bukti pembayaran Anda dapat melihatnya di detail order.
+              </p>
+              <a href="<?= site_url('/') ?>" class="btn btn-fill-out">Kembali ke Home</a>
+            <?php }else{ ?>
+                <div class="heading_s1">
+                <h3>Pesanan berhasil dibuat!</h3>
+              </div>
+              <p>
+                Menunggu pembayaran, Pesanan Anda akan diproses dan divalidasi setelah Anda menyelesaikan
+                pembayaran.
+              </p>
+  
+              Note Pembayaran : <br>
+              BANK BCA <br>
+              Rekening : 56789067867
+              AN. Anggita Jaya
+              <br><br>
+              <a href="javascript:;" onclick="loadModalUpload()" class="btn btn-fill-out">Upload Bukti Pembayaran</a>
+            <?php } ?>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+<div id="div-upload"></div>
+<script>
+function loadModalUpload() {
+  $.ajax({
+    url: "<?= site_url() ?>" + "/Order/modal_upload",
+    type: 'GET',
+    data: {},
+    dataType: 'html',
+    beforeSend: function() {},
+    success: function(result) {
+      $('#div-upload').html(result);
+      $('#modal-bukti-bayar').modal('show');
+    }
+  });
+}
+
+$(document).on('submit', '#form-upload', function(event) {
+  event.preventDefault();
+  var id_order = $('#id_order').val();
+  var formData = new FormData($('#form-upload')[0]);
+  formData.append('id_order', id_order);
+
+  $.ajax({
+    url: "<?= site_url() ?>" + "/Order/upload_bukti_pembayaran",
+    method: 'POST',
+    dataType: 'json',
+    data: formData,
+    async: true,
+    processData: false,
+    contentType: false,
+    success: function(data) {
+      if (data.success == true) {
+        $('#modal-bukti-bayar').modal('hide');
+        setTimeout(function(){ 
+          location.reload();
+        }, 1000);
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: data.message
+        });
+      }
+    },
+    fail: function(event) {
+      alert(event);
+    }
+  });
+});
+</script>

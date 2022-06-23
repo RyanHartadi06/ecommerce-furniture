@@ -139,7 +139,7 @@ $(document).on('submit', '#form-checkout', function (event) {
 								});
 								$('#modal-checkout').modal('hide');
 								setTimeout(function () {
-									window.location.href = site_url + "/Order/order_complete";
+									window.location.href = data.page;
 								}, 1000);
 							} else {
 								Swal.fire({
