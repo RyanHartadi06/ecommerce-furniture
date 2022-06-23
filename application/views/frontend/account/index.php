@@ -1,8 +1,8 @@
 <!-- START MAIN CONTENT -->
 <style>
-  .tab-profile .nav-link.active {
-    background: #dedede !important;
-  }
+.tab-profile .nav-link.active {
+  background: #dedede !important;
+}
 </style>
 <hr>
 <input type="hidden" name="id_user" id="id_user" value="<?= $this->session->userdata('auth_id_user'); ?>">
@@ -44,7 +44,8 @@
                 </div>
                 <div class="card-body">
                   <h3 class="font-weight-bold">Hallo <?= $this->session->userdata("auth_nama_user"); ?></h3>
-                  <h6 class="font-weight-normal mb-0">Selamat datang di aplikasi E-Commerce Mebel Anggita Jaya.</span></h6>
+                  <h6 class="font-weight-normal mb-0">Selamat datang di aplikasi E-Commerce Mebel Anggita Jaya.</span>
+                  </h6>
                 </div>
               </div>
             </div>
@@ -75,13 +76,14 @@
                           <td><?= rupiah($row->total) ?></td>
                           <td><?= $row->nama_status ?></td>
                           <td class="text-center">
-                            <?php if($row->status=='3'){ ?>
-                            <!-- Dikirim -->
-                            <a href="<?= site_url('Rating/penilaian/'.$row->id) ?>" style="color:#fff;"
-                              class="btn btn-warning btn-sm">Terima</a>
+                            <?php if($row->status=='1' && $row->tanggal_upload==""){ ?>
+                              <!-- Upload bukti bayar -->
+                              <a href="<?= site_url('Order/order_complete?id_order='.$row->id) ?>" style="color:#fff;" class="btn btn-warning btn-sm">Upload Bukti</a>
+                            <?php }else if($row->status=='3'){ ?>
+                              <!-- Dikirim -->
+                              <a href="<?= site_url('Rating/penilaian/'.$row->id) ?>" style="color:#fff;" class="btn btn-warning btn-sm">Terima</a>
                             <?php } ?>
-                            <a href="<?= site_url('Order/order_detail/'.$row->id) ?>"
-                              class="btn btn-fill-out btn-sm">Lihat</a>
+                            <a href="<?= site_url('Order/order_detail/'.$row->id) ?>" class="btn btn-fill-out btn-sm">Lihat</a>
                           </td>
                         </tr>
                         <?php  }

@@ -76,6 +76,24 @@ td {
                 <td>:</td>
                 <td><?= $order['keterangan'] ?></td>
               </tr>
+              <?php if($order['tanggal_upload']!=""){ ?>
+                <tr>
+                  <td colspan="3"><b>Bukti Pembayaran</b></td>
+                </tr>
+                <tr>
+                  <td>Tanggal</td>
+                  <td>:</td>
+                  <td><?= format_date($order['tanggal_upload'], 'd-m-Y H:i:s') ?></td>
+                </tr>
+                <tr>
+                  <td>Bukti</td>
+                  <td>:</td>
+                  <td>
+                    <a style="text-decoration:underline;" href="javascript:;"
+                      onclick="previewDokumen('<?= $order['bukti_bayar'] ?>', 'Bukti Pembayaran')">Lihat</a>
+                  </td>
+                </tr>
+              <?php } ?>
             </table>
           </div>
 
@@ -166,7 +184,25 @@ td {
   </div>
 </div>
 
+<div id="div-modal-dokumen"></div>
 <script>
+function previewDokumen(file, judul) {
+  $.ajax({
+    url: '<?= site_url() ?>' + '/Order/preview_dokumen',
+    type: 'post',
+    dataType: 'html',
+    data: {
+      file: file,
+      judul: judul,
+    },
+    beforeSend: function() {},
+    success: function(result) {
+      $('#div-modal-dokumen').html(result);
+      $('#modal-preview').modal('show');
+    }
+  });
+}
+
 function loadModalStatus() {
   $('#modal-status').modal('show');
 }

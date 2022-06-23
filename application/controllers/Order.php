@@ -141,7 +141,9 @@ class Order extends CI_Controller {
    * 
    */
   public function order_complete (){
+    $id_order = $this->input->get('id_order');
     $data['title'] = "Order | ".$this->apl['nama_sistem'];
+    $data['order'] = $this->M_main->get_where('orders', 'id', $id_order)->row_array();
     $data['content'] = "order/order-complete.php";    
     $this->parser->parse('frontend/template_produk', $data);
   }
@@ -153,6 +155,11 @@ class Order extends CI_Controller {
     $data['order_detail'] = $this->Order_m->get_list_pesanan_detail($id_order, $id_user)->result();
     $data['content'] = "order/order-detail.php";    
     $this->parser->parse('frontend/template_produk', $data);
+  }
+
+  public function modal_upload(){
+    $data = [];
+    $this->load->view('frontend/order/modal-upload-pembayaran',$data);
   }
 
   public function save()
@@ -219,9 +226,9 @@ class Order extends CI_Controller {
       ));
     }
 
-
     $response['success'] = TRUE;
     $response['message'] = "Pesanan berhasil disimpan !";
+    $response['page'] = site_url('Order/order_complete?id_order='.$id);
 
     echo json_encode($response);   
   }
@@ -244,6 +251,44 @@ class Order extends CI_Controller {
     echo json_encode($response);   
   }
   
+  /**
+   * Function Untuk Upload Bukti Pembayaran
+   */
+  public function upload_bukti_pembayaran(){
+    $id = $this->input->post('id_order');
+    $foto = do_upload_file('bukti_pembayaran', 'file_upload', 'assets/uploads/bukti_pembayaran/', 'jpg|jpeg|png|pdf');
+    $path = $foto['file_name'];
+
+    date_default_timezone_set('Asia/Jakarta');
+    $object = array(
+      'bukti_bayar' => $path,
+      'tanggal_upload' => date('Y-m-d H:i:s'),
+    );
+    $this->db->where('id', $id);
+    $this->db->update('orders', $object);
+
+    $response['success'] = true;
+    $response['message'] = "Upload bukti pembayaran berhasil disimpan !";
+    echo json_encode($response);
+  }
+
+  function preview_dokumen(){
+    $data['file']= $file = $this->input->post('file');
+    $data['judul'] = $this->input->post('judul');
+    
+    $_files = explode(".", $file);
+    $_files2 = explode("/", $file);
+    $data['extensi'] = $_files[1];
+    $data['file_path'] = base_url().$file;
+    $data['file_name'] = $_files2[count($_files2)-1];
+    $this->load->view('frontend/order/modal-preview.php',$data);
+  }
+
+  function download_file($file){
+    $this->load->helper('download');
+    force_download('assets/uploads/bukti_pembayaran/'.$file, NULL);
+  }
+
 }
 
 /* End of file Order.php */
