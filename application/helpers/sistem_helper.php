@@ -123,22 +123,23 @@ function api_register($id_user,$nama,$email){
       'charset'   => 'utf-8',
       'protocol'  => 'smtp',
       'smtp_host' => 'ssl://smtp.gmail.com',
-      'smtp_user' => $CI->apl['email_instansi'],
-      'smtp_pass' => $CI->apl['pass_instansi'],
+      'smtp_user' => $CI->apl['email_smtp'],
+      'smtp_pass' => $CI->apl['password_email_smtp'],
       'smtp_port' => 465,
       'crlf'      => "\r\n",
       'newline'   => "\r\n"
   ];
 
   $CI->load->library('email', $config); 
-  $CI->email->from($CI->apl['email_instansi'], $CI->apl['nama_sistem']);
+  $CI->email->from($CI->apl['email_smtp'], $CI->apl['nama_sistem']);
   $CI->email->to($email);
   // $CI->email->attach('url_file');
-  $CI->email->subject('Verifikasi Pendaftaran | '.$CI->apl['nama_sistem']);
+  $CI->email->subject('Verifikasi Akun | '.$CI->apl['nama_sistem']);
   $data['id_user'] = $id_user;
   $data['nama'] = $nama;
-  $data['root_apl'] = $CI->apl['url_root'];
-  $body = $CI->load->view('front/login/format-email',$data,TRUE);
+  // $data['root_apl'] = $CI->apl['url_root'];
+  $data['root_apl'] = site_url();
+  $body = $CI->load->view('auth/format-email',$data,TRUE);
   $CI->email->message($body);
   if ($CI->email->send()) {
       $message = 'Sukses! email berhasil dikirim.';
