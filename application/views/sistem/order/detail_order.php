@@ -76,6 +76,8 @@ td {
                 <td>:</td>
                 <td><?= $order['keterangan'] ?></td>
               </tr>
+
+              <!-- Upload Bukti Pembayaran -->
               <?php if($order['tanggal_upload']!=""){ ?>
                 <tr>
                   <td colspan="3"><b>Bukti Pembayaran</b></td>
@@ -91,6 +93,36 @@ td {
                   <td>
                     <a style="text-decoration:underline;" href="javascript:;"
                       onclick="previewDokumen('<?= $order['bukti_bayar'] ?>', 'Bukti Pembayaran')">Lihat</a>
+                  </td>
+                </tr>
+              <?php } ?>
+
+              <!-- Laporan Pengiriman -->
+              <?php if($order['tanggal_pengiriman']!=""){ ?>
+                <tr>
+                  <td colspan="3"><b>Laporan Pengiriman</b></td>
+                </tr>
+                <tr>
+                  <td>Tanggal</td>
+                  <td>:</td>
+                  <td><?= format_date($order['tanggal_pengiriman'], 'd-m-Y H:i:s') ?></td>
+                </tr>
+                <tr>
+                  <td>Penerima</td>
+                  <td>:</td>
+                  <td><?= $order['penerima_pengiriman'] ?></td>
+                </tr>
+                <tr>
+                  <td>Keterangan</td>
+                  <td>:</td>
+                  <td><?= $order['keterangan_pengiriman'] ?></td>
+                </tr>
+                <tr>
+                  <td>Foto</td>
+                  <td>:</td>
+                  <td>
+                    <a style="text-decoration:underline;" href="javascript:;"
+                      onclick="previewDokumen('<?= $order['foto_pengiriman'] ?>', 'Foto Bukti Pengiriman')">Lihat</a>
                   </td>
                 </tr>
               <?php } ?>

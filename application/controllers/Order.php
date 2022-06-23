@@ -9,6 +9,7 @@ class Order extends CI_Controller {
     $this->load->model('Order_m');
     $this->load->model('Pelanggan_m');
     $this->load->model('M_main');
+    $this->load->model('Menu_m');
   }
 
   /**
@@ -287,6 +288,49 @@ class Order extends CI_Controller {
   function download_file($file){
     $this->load->helper('download');
     force_download('assets/uploads/bukti_pembayaran/'.$file, NULL);
+  }
+
+  /**
+   * Function Laporan Pengiriman
+   * 
+   */
+
+  function laporan_pengiriman(){
+    must_login();
+    // $this->Menu_m->role_has_access($this->nama_menu);
+    $data['title'] = "Laporan Pengiriman | ".$this->apl['nama_sistem'];
+    $data['order'] = $this->Order_m->get_data_pesanan_dikirim()->result();
+    $data['content'] = "laporan_pengiriman/form.php";    
+    $this->parser->parse('sistem/template', $data); 
+  }
+
+  public function save_laporan_pengiriman(){
+    $id_user = $this->session->userdata('auth_id_user');
+    $id_order = $this->input->post('id_order');
+    $penerima = strip_tags(trim($this->input->post('penerima')));
+    $keterangan = strip_tags(trim($this->input->post('keterangan')));
+
+    $foto = do_upload_file('laporan_pengiriman', 'foto_bukti', 'assets/uploads/pengiriman/', 'jpg|jpeg|png');
+    $path = $foto['file_name'];
+    
+    date_default_timezone_set('Asia/Jakarta');
+    $id = $this->uuid->v4(false);    
+    $data_object = array(
+        'id'=>$id,
+        'id_order'=>$id_order,
+        'id_user'=>$id_user,
+        'tanggal'=>date('Y-m-d H:i:s'),
+        'foto'=>$path,
+        'penerima'=>$penerima,
+        'keterangan'=>$keterangan,
+        'created_at'=>date('Y-m-d H:i:s'),
+        'updated_at'=>date('Y-m-d H:i:s')
+    );
+    $this->db->insert('status_pengiriman', $data_object);
+    $response['success'] = TRUE;
+    $response['message'] = "Data Berhasil Disimpan";
+    
+    echo json_encode($response);   
   }
 
 }
