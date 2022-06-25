@@ -3,6 +3,11 @@
 td {
   padding: 8px !important;
 }
+.tr-head-order {
+  background-color: #f8f8f9 !important;
+  vertical-align: bottom;
+  border-bottom: 3px solid #dee2e6;
+}
 </style>
 <div class="row">
   <div class="col-12">
@@ -80,6 +85,9 @@ td {
               <!-- Upload Bukti Pembayaran -->
               <?php if($order['tanggal_upload']!=""){ ?>
                 <tr>
+                  <td colspan="3"><br></td>
+                </tr>
+                <tr class="tr-head-order">
                   <td colspan="3"><b>Bukti Pembayaran</b></td>
                 </tr>
                 <tr>

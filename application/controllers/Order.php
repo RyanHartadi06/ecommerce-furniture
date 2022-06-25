@@ -163,6 +163,7 @@ class Order extends CI_Controller {
     $this->load->view('frontend/order/modal-upload-pembayaran',$data);
   }
 
+  // Function Save / Checkout pesanan
   public function save()
   {
     date_default_timezone_set('Asia/Jakarta');
@@ -234,6 +235,7 @@ class Order extends CI_Controller {
     echo json_encode($response);   
   }
   
+  // Function update status pesanan
   public function update_status()
   {
     $id = $this->input->post('id');
@@ -268,11 +270,16 @@ class Order extends CI_Controller {
     $this->db->where('id', $id);
     $this->db->update('orders', $object);
 
+    // kirim notif email upload bukti pembayaran ke toko
+    $notif_email = $this->email_bukti_pembayaran($id);
+
     $response['success'] = true;
+    $response['message_email'] = $notif_email;
     $response['message'] = "Upload bukti pembayaran berhasil disimpan !";
     echo json_encode($response);
   }
 
+  // Function preview dokumen upload (img, pdf)
   function preview_dokumen(){
     $data['file']= $file = $this->input->post('file');
     $data['judul'] = $this->input->post('judul');
@@ -285,6 +292,7 @@ class Order extends CI_Controller {
     $this->load->view('frontend/order/modal-preview.php',$data);
   }
 
+  // Function download file bukti pembayaran
   function download_file($file){
     $this->load->helper('download');
     force_download('assets/uploads/bukti_pembayaran/'.$file, NULL);
@@ -331,6 +339,45 @@ class Order extends CI_Controller {
     $response['message'] = "Data Berhasil Disimpan";
     
     echo json_encode($response);   
+  }
+
+  // Function kirim email upload bukti pembayaran
+  public function email_bukti_pembayaran($id_order){
+    // Data Order
+    $data['order'] = $this->Order_m->get_pesanan_by_id($id_order)->row_array();
+    $data['order_detail'] = $this->Order_m->get_list_pesanan_detail($id_order)->result();
+
+    // Config email
+    $config = [
+        'mailtype'  => 'html',
+        'charset'   => 'utf-8',
+        'protocol'  => 'smtp',
+        'smtp_host' => 'ssl://smtp.gmail.com',
+        'smtp_user' => $this->apl['email_smtp'],
+        'smtp_pass' => $this->apl['password_email_smtp'],
+        'smtp_port' => 465,
+        'crlf'      => "\r\n",
+        'newline'   => "\r\n"
+    ];
+    
+    // Function untuk kirim email
+    $this->load->library('email', $config); 
+    // email sender
+    $this->email->from($this->apl['email_smtp'], $this->apl['nama_sistem']);
+    // email tujuan
+    $this->email->to($this->apl['email_instansi']);
+    $this->email->subject('Upload Bukti Pembayaran | '.$this->apl['nama_sistem']);
+    // Template email
+    $body = $this->load->view('email/email-bukti-bayar', $data, TRUE);
+    // send email
+    $this->email->message($body);
+    if ($this->email->send()) {
+        $message = 'Sukses! email berhasil dikirim.';
+    } else {
+        $message =  'Error! email tidak dapat dikirim.';
+    }
+
+    return $message;
   }
 
 }

@@ -1,3 +1,8 @@
+<style>
+.swal2-container {
+  z-index: 99999 !important;
+}
+</style>
 <!-- START SECTION BREADCRUMB -->
 <div class="breadcrumb_section bg_gray page-title-mini">
   <div class="container">
@@ -27,29 +32,30 @@
           <div class="text-center order_complete">
             <input id="id_order" type="hidden" value="<?= $order['id'] ?>">
             <?php if($order['tanggal_upload']!=""){ ?>
-              <i class="fas fa-check-circle"></i>
-              <div class="heading_s1">
-                <h3>Pesanan berhasil!</h3>
-              </div>
-              <p>
-                Terima kasih atas pesanan Anda! Pesanan Anda akan segera diproses dan divalidasi, untuk bukti pembayaran Anda dapat melihatnya di detail order.
-              </p>
-              <a href="<?= site_url('/') ?>" class="btn btn-fill-out">Kembali ke Home</a>
+            <i class="fas fa-check-circle"></i>
+            <div class="heading_s1">
+              <h3>Pesanan berhasil!</h3>
+            </div>
+            <p>
+              Terima kasih atas pesanan Anda! Pesanan Anda akan segera diproses dan divalidasi, untuk bukti pembayaran
+              Anda dapat melihatnya di detail order.
+            </p>
+            <a href="<?= site_url('/') ?>" class="btn btn-fill-out">Kembali ke Home</a>
             <?php }else{ ?>
-                <div class="heading_s1">
-                <h3>Menunggu Pembayaran!</h3>
-              </div>
-              <p>
-                Pesanan Anda akan diproses dan divalidasi setelah Anda menyelesaikan
-                pembayaran.
-              </p>
-  
-              Note Pembayaran : <br>
-              BANK BCA <br>
-              Rekening : 56789067867
-              AN. Anggita Jaya
-              <br><br>
-              <a href="javascript:;" onclick="loadModalUpload()" class="btn btn-fill-out">Upload Bukti Pembayaran</a>
+            <div class="heading_s1">
+              <h3>Menunggu Pembayaran!</h3>
+            </div>
+            <p>
+              Pesanan Anda akan diproses dan divalidasi setelah Anda menyelesaikan
+              pembayaran.
+            </p>
+
+            Note Pembayaran : <br>
+            BANK BCA <br>
+            Rekening : 56789067867
+            AN. Anggita Jaya
+            <br><br>
+            <a href="javascript:;" onclick="loadModalUpload()" class="btn btn-fill-out">Upload Bukti Pembayaran</a>
             <?php } ?>
           </div>
         </div>
@@ -79,31 +85,46 @@ $(document).on('submit', '#form-upload', function(event) {
   var formData = new FormData($('#form-upload')[0]);
   formData.append('id_order', id_order);
 
-  $.ajax({
-    url: "<?= site_url() ?>" + "/Order/upload_bukti_pembayaran",
-    method: 'POST',
-    dataType: 'json',
-    data: formData,
-    async: true,
-    processData: false,
-    contentType: false,
-    success: function(data) {
-      if (data.success == true) {
-        $('#modal-bukti-bayar').modal('hide');
-        setTimeout(function(){ 
-          location.reload();
-        }, 1000);
-      } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: data.message
+  Swal.fire({
+    text: "Simpan upload bukti pembayaran !",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3498db',
+    cancelButtonColor: '#95a5a6',
+    confirmButtonText: 'Simpan',
+    cancelButtonText: 'Batal',
+    showLoaderOnConfirm: true,
+    preConfirm: function() {
+      return new Promise(function(resolve) {
+        $.ajax({
+          url: "<?= site_url() ?>" + "/Order/upload_bukti_pembayaran",
+          method: 'POST',
+          dataType: 'json',
+          data: formData,
+          async: true,
+          processData: false,
+          contentType: false,
+          success: function(data) {
+            if (data.success == true) {
+              $('#modal-bukti-bayar').modal('hide');
+              setTimeout(function() {
+                location.reload();
+              }, 1000);
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: data.message
+              });
+            }
+          },
+          fail: function(event) {
+            alert(event);
+          }
         });
-      }
+      });
     },
-    fail: function(event) {
-      alert(event);
-    }
+    allowOutsideClick: false
   });
 });
 </script>
