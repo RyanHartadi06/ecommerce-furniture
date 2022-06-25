@@ -5,6 +5,7 @@ class Auth extends CI_Controller {
   public function __construct()
   {
     parent::__construct();
+    $this->apl = get_apl();
     $this->load->model('M_main');
 		$this->load->model('Auth_m');
   }
@@ -80,6 +81,7 @@ class Auth extends CI_Controller {
       echo json_response($response);
   }
 
+  // Function untuk registrasi akun
   public function daftar_akun()
   {
       $this->form_validation->set_rules('username', 'username', 'trim|required');
@@ -113,7 +115,7 @@ class Auth extends CI_Controller {
             'email'=>$email,
             'password'=>$password,
             'id_role'=>'PELANGGAN',
-            'status'=>'1',
+            'status'=>'2',
             'created_at'=>date('Y-m-d H:i:s'),
             'updated_at'=>date('Y-m-d H:i:s')
           );
@@ -134,11 +136,14 @@ class Auth extends CI_Controller {
             'created_at'=>date('Y-m-d H:i:s')
           );
           
-          $this->session->set_flashdata('success', 'Registrasi berhasil, silahkan login menggunakan username/email dan password anda ! <a href="'.site_url('Auth').'">login</a>');
-          $this->db->insert('m_pelanggan', $data_object);      
+          $this->db->insert('m_pelanggan', $data_object);
+          // Message
+          $this->session->set_flashdata('success', 'Registrasi berhasil, Silahkan cek email Anda untuk verifikasi pendaftaran akun !');
 
+          // Kirim email verifikasi tempatnya di sistem_helper nama function api_register
           $response['success'] = TRUE;
-          $response['message'] = "Registrasi akun berhasil!";
+          $response['message_email'] = api_register($id_user, $nama, $email);		    
+          $response['message'] = "Registrasi berhasil, Silahkan cek email Anda untuk verifikasi pendaftaran akun !";
         }
       }
       echo json_response($response);
@@ -151,4 +156,41 @@ class Auth extends CI_Controller {
 		$data['page'] = "Auth";
 		echo json_response($data);
 	}
+
+  /**
+   * Function Registrasi
+   * 
+   */
+
+  public function verifikasi($id_user=NULL){
+		if($id_user==NULL){
+			$data['success'] == FALSE;
+			redirect(site_url());
+		}else{
+			$data_user = $this->M_main->get_where('users','id',$id_user);
+			if($data_user->num_rows()==0){
+				$data['success'] == FALSE;
+				redirect(site_url());
+			}else{
+        date_default_timezone_set('Asia/Jakarta');
+				$user = $data_user->row_array();
+				if($user['status']=='2'){
+					$object_update = array(
+            'status'=>'1',
+            'email_verified_at'=>date('Y-m-d H:i:s'),
+					);
+					$this->db->where('id',$id_user);
+          $this->db->update('users',$object_update);
+          
+					$data['aplikasi'] = $this->apl;
+					$data['title'] = "Berhasil Registrasi Akun | ".$this->apl['nama_sistem'];
+					$data['user'] = $user;
+					$this->parser->parse('auth/success-verifikasi', $data);
+				}else{
+					$data['success'] == FALSE;
+					redirect(site_url());
+				}
+			}
+		}
+  }
 }

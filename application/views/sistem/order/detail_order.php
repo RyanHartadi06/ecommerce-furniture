@@ -3,6 +3,11 @@
 td {
   padding: 8px !important;
 }
+.tr-head-order {
+  background-color: #f8f8f9 !important;
+  vertical-align: bottom;
+  border-bottom: 3px solid #dee2e6;
+}
 </style>
 <div class="row">
   <div class="col-12">
@@ -76,6 +81,64 @@ td {
                 <td>:</td>
                 <td><?= $order['keterangan'] ?></td>
               </tr>
+
+              <!-- Upload Bukti Pembayaran -->
+              <?php if($order['tanggal_upload']!=""){ ?>
+                <tr>
+                  <td colspan="3"><br></td>
+                </tr>
+                <tr class="tr-head-order">
+                  <td colspan="3"><b>Bukti Pembayaran</b></td>
+                </tr>
+                <tr>
+                  <td>Tanggal</td>
+                  <td>:</td>
+                  <td><?= format_date($order['tanggal_upload'], 'd-m-Y H:i:s') ?></td>
+                </tr>
+                <tr>
+                  <td>Bukti</td>
+                  <td>:</td>
+                  <td>
+                    <a style="text-decoration:underline;" href="javascript:;"
+                      onclick="previewDokumen('<?= $order['bukti_bayar'] ?>', 'Bukti Pembayaran')">Lihat</a>
+                  </td>
+                </tr>
+              <?php } ?>
+
+              <!-- Laporan Pengiriman -->
+              <?php if($order['tanggal_pengiriman']!=""){ ?>
+                <tr>
+                  <td colspan="3"><b>Laporan Pengiriman</b></td>
+                </tr>
+                <tr>
+                  <td>Tanggal</td>
+                  <td>:</td>
+                  <td><?= format_date($order['tanggal_pengiriman'], 'd-m-Y H:i:s') ?></td>
+                </tr>
+                <tr>
+                  <td>Kurir / Pengirim</td>
+                  <td>:</td>
+                  <td><?= $order['nama_kurir'] ?></td>
+                </tr>
+                <tr>
+                  <td>Penerima</td>
+                  <td>:</td>
+                  <td><?= $order['penerima_pengiriman'] ?></td>
+                </tr>
+                <tr>
+                  <td>Keterangan</td>
+                  <td>:</td>
+                  <td><?= $order['keterangan_pengiriman'] ?></td>
+                </tr>
+                <tr>
+                  <td>Foto</td>
+                  <td>:</td>
+                  <td>
+                    <a style="text-decoration:underline;" href="javascript:;"
+                      onclick="previewDokumen('<?= $order['foto_pengiriman'] ?>', 'Foto Bukti Pengiriman')">Lihat</a>
+                  </td>
+                </tr>
+              <?php } ?>
             </table>
           </div>
 
@@ -166,7 +229,25 @@ td {
   </div>
 </div>
 
+<div id="div-modal-dokumen"></div>
 <script>
+function previewDokumen(file, judul) {
+  $.ajax({
+    url: '<?= site_url() ?>' + '/Order/preview_dokumen',
+    type: 'post',
+    dataType: 'html',
+    data: {
+      file: file,
+      judul: judul,
+    },
+    beforeSend: function() {},
+    success: function(result) {
+      $('#div-modal-dokumen').html(result);
+      $('#modal-preview').modal('show');
+    }
+  });
+}
+
 function loadModalStatus() {
   $('#modal-status').modal('show');
 }

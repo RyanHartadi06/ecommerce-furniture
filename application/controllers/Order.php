@@ -9,6 +9,7 @@ class Order extends CI_Controller {
     $this->load->model('Order_m');
     $this->load->model('Pelanggan_m');
     $this->load->model('M_main');
+    $this->load->model('Menu_m');
   }
 
   /**
@@ -141,7 +142,9 @@ class Order extends CI_Controller {
    * 
    */
   public function order_complete (){
+    $id_order = $this->input->get('id_order');
     $data['title'] = "Order | ".$this->apl['nama_sistem'];
+    $data['order'] = $this->M_main->get_where('orders', 'id', $id_order)->row_array();
     $data['content'] = "order/order-complete.php";    
     $this->parser->parse('frontend/template_produk', $data);
   }
@@ -155,6 +158,12 @@ class Order extends CI_Controller {
     $this->parser->parse('frontend/template_produk', $data);
   }
 
+  public function modal_upload(){
+    $data = [];
+    $this->load->view('frontend/order/modal-upload-pembayaran',$data);
+  }
+
+  // Function Save / Checkout pesanan
   public function save()
   {
     date_default_timezone_set('Asia/Jakarta');
@@ -219,13 +228,14 @@ class Order extends CI_Controller {
       ));
     }
 
-
     $response['success'] = TRUE;
     $response['message'] = "Pesanan berhasil disimpan !";
+    $response['page'] = site_url('Order/order_complete?id_order='.$id);
 
     echo json_encode($response);   
   }
   
+  // Function update status pesanan
   public function update_status()
   {
     $id = $this->input->post('id');
@@ -244,6 +254,136 @@ class Order extends CI_Controller {
     echo json_encode($response);   
   }
   
+  /**
+   * Function Untuk Upload Bukti Pembayaran
+   * Digunakan untuk upload bukti pembayaran oleh pelanggan
+   */
+  public function upload_bukti_pembayaran(){
+    $id = $this->input->post('id_order');
+    $foto = do_upload_file('bukti_pembayaran', 'file_upload', 'assets/uploads/bukti_pembayaran/', 'jpg|jpeg|png|pdf');
+    $path = $foto['file_name'];
+    
+    // Simpan ke DB
+    date_default_timezone_set('Asia/Jakarta');
+    $object = array(
+      'bukti_bayar' => $path,
+      'tanggal_upload' => date('Y-m-d H:i:s'),
+    );
+    $this->db->where('id', $id);
+    $this->db->update('orders', $object);
+
+    // kirim notif email upload bukti pembayaran ke toko
+    $notif_email = $this->email_bukti_pembayaran($id);
+
+    $response['success'] = true;
+    $response['message_email'] = $notif_email;
+    $response['message'] = "Upload bukti pembayaran berhasil disimpan !";
+    echo json_encode($response);
+  }
+
+  // Function preview dokumen upload (img, pdf)
+  function preview_dokumen(){
+    $data['file']= $file = $this->input->post('file');
+    $data['judul'] = $this->input->post('judul');
+    
+    $_files = explode(".", $file);
+    $_files2 = explode("/", $file);
+    $data['extensi'] = $_files[1];
+    $data['file_path'] = base_url().$file;
+    $data['file_name'] = $_files2[count($_files2)-1];
+    $this->load->view('frontend/order/modal-preview.php',$data);
+  }
+
+  // Function download file bukti pembayaran
+  function download_file($file){
+    $this->load->helper('download');
+    force_download('assets/uploads/bukti_pembayaran/'.$file, NULL);
+  }
+
+  /**
+   * Function Laporan Pengiriman
+   * Digunakan untuk menampilkan halaman kurir dan untuk laporan pengiriman
+   */
+
+  function laporan_pengiriman(){
+    must_login();
+    // $this->Menu_m->role_has_access($this->nama_menu);
+    $data['title'] = "Laporan Pengiriman | ".$this->apl['nama_sistem'];
+    $data['order'] = $this->Order_m->get_data_pesanan_dikirim()->result();
+    $data['content'] = "laporan_pengiriman/form.php";    
+    $this->parser->parse('sistem/template', $data); 
+  }
+
+  // Digunakan untuk proses simpan laporan pengiriman
+  public function save_laporan_pengiriman(){
+    $id_user = $this->session->userdata('auth_id_user');
+    $id_order = $this->input->post('id_order');
+    $penerima = strip_tags(trim($this->input->post('penerima')));
+    $keterangan = strip_tags(trim($this->input->post('keterangan')));
+
+    // Upload file
+    $foto = do_upload_file('laporan_pengiriman', 'foto_bukti', 'assets/uploads/pengiriman/', 'jpg|jpeg|png');
+    $path = $foto['file_name'];
+    
+    date_default_timezone_set('Asia/Jakarta');
+    $id = $this->uuid->v4(false);    
+    $data_object = array(
+        'id'=>$id,
+        'id_order'=>$id_order,
+        'id_user'=>$id_user,
+        'tanggal'=>date('Y-m-d H:i:s'),
+        'foto'=>$path,
+        'penerima'=>$penerima,
+        'keterangan'=>$keterangan,
+        'created_at'=>date('Y-m-d H:i:s'),
+        'updated_at'=>date('Y-m-d H:i:s')
+    );
+    $this->db->insert('status_pengiriman', $data_object);
+    $response['success'] = TRUE;
+    $response['message'] = "Data Berhasil Disimpan";
+    
+    echo json_encode($response);   
+  }
+
+  // Function kirim notif email upload bukti pembayaran
+  public function email_bukti_pembayaran($id_order){
+    // Data Order
+    $data['order'] = $this->Order_m->get_pesanan_by_id($id_order)->row_array();
+    $data['order_detail'] = $this->Order_m->get_list_pesanan_detail($id_order)->result();
+
+    // Config email
+    $config = [
+        'mailtype'  => 'html',
+        'charset'   => 'utf-8',
+        'protocol'  => 'smtp',
+        'smtp_host' => 'ssl://smtp.gmail.com',
+        'smtp_user' => $this->apl['email_smtp'],
+        'smtp_pass' => $this->apl['password_email_smtp'],
+        'smtp_port' => 465,
+        'crlf'      => "\r\n",
+        'newline'   => "\r\n"
+    ];
+    
+    // Function untuk kirim email
+    $this->load->library('email', $config); 
+    // email sender
+    $this->email->from($this->apl['email_smtp'], $this->apl['nama_sistem']);
+    // email tujuan
+    $this->email->to($this->apl['email_instansi']);
+    $this->email->subject('Upload Bukti Pembayaran | '.$this->apl['nama_sistem']);
+    // Template email
+    $body = $this->load->view('email/email-bukti-bayar', $data, TRUE);
+    // send email
+    $this->email->message($body);
+    if ($this->email->send()) {
+        $message = 'Sukses! email berhasil dikirim.';
+    } else {
+        $message =  'Error! email tidak dapat dikirim.';
+    }
+
+    return $message;
+  }
+
 }
 
 /* End of file Order.php */
