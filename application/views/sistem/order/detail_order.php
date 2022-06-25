@@ -116,6 +116,11 @@ td {
                   <td><?= format_date($order['tanggal_pengiriman'], 'd-m-Y H:i:s') ?></td>
                 </tr>
                 <tr>
+                  <td>Kurir / Pengirim</td>
+                  <td>:</td>
+                  <td><?= $order['nama_kurir'] ?></td>
+                </tr>
+                <tr>
                   <td>Penerima</td>
                   <td>:</td>
                   <td><?= $order['penerima_pengiriman'] ?></td>

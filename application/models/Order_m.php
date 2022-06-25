@@ -28,7 +28,7 @@
         $query = $this->db->query("
             SELECT o.*, p.kode AS kode_pelanggan, p.nama AS nama_pelanggan, os.keterangan as nama_status, 
             al.no_telp, al.alamat, al.penerima, al.kode_pos, al.keterangan, sp.penerima AS penerima_pengiriman, 
-            sp.tanggal AS tanggal_pengiriman, sp.foto AS foto_pengiriman, sp.keterangan AS keterangan_pengiriman FROM orders o
+            sp.tanggal AS tanggal_pengiriman, sp.foto AS foto_pengiriman, sp.keterangan AS keterangan_pengiriman, us.nama as nama_kurir FROM orders o
             LEFT JOIN m_pelanggan p ON o.id_pelanggan = p.id
             LEFT JOIN order_status os ON o.status = os.id
             LEFT JOIN pelanggan_alamat al ON o.id_alamat = al.id
