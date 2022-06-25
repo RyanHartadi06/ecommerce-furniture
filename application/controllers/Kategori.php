@@ -12,7 +12,7 @@ class Kategori extends CI_Controller {
     $this->load->model('Kategori_m');
     must_login();
   }
-  
+  //fungsi index digunakan untuk menampilkan halaman view satuan
   public function index()
   {
     $this->Menu_m->role_has_access($this->nama_menu);
@@ -21,7 +21,7 @@ class Kategori extends CI_Controller {
     $data['content'] = "kategori/index.php";    
     $this->parser->parse('sistem/template', $data);
   }
-  
+  //fungsi untuk menamapilkan data ke dalam table
   public function fetch_data(){
     $pg     = ($this->input->get("page") != "") ? $this->input->get("page") : 1;
     $key	  = ($this->input->get("search") != "") ? strtoupper(quotes_to_entities($this->input->get("search"))) : "";
@@ -37,10 +37,10 @@ class Kategori extends CI_Controller {
     $page['list']      = gen_paging($page);
     $data['paging']    = $page;
     $data['list']      = $this->Kategori_m->get_list_data($key, $limit, $offset, $column, $sort);
-
+// untuk memanggil halaman view
     $this->load->view('sistem/kategori/list_data',$data);
   }
-
+//load modal fungsi untuk menampilkan form input datanya seperti tambah yg ada di satuan
   public function load_modal(){
     $id = $this->input->post('id');
     if ($id!=""){

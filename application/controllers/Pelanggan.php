@@ -12,7 +12,7 @@ class Pelanggan extends CI_Controller {
     $this->load->model('Pelanggan_m');
     must_login();
   }
-  
+  //untuk menambahkan halaman view pelanggan
   public function index()
   {
     $this->Menu_m->role_has_access($this->nama_menu);
@@ -21,7 +21,7 @@ class Pelanggan extends CI_Controller {
     $data['content'] = "pelanggan/index.php";    
     $this->parser->parse('sistem/template', $data);
   }
-  
+  //untuk menambah kan data ke dalam table
   public function fetch_data(){
     $pg     = ($this->input->get("page") != "") ? $this->input->get("page") : 1;
     $key	  = ($this->input->get("search") != "") ? strtoupper(quotes_to_entities($this->input->get("search"))) : "";
@@ -37,10 +37,10 @@ class Pelanggan extends CI_Controller {
     $page['list']      = gen_paging($page);
     $data['paging']    = $page;
     $data['list']      = $this->Pelanggan_m->get_list_data($key, $limit, $offset, $column, $sort);
-
+//untuk memanggil halaman view
     $this->load->view('sistem/pelanggan/list_data',$data);
   }
-
+//untuk menambahkan form input datanya
   public function load_modal(){
     $id = $this->input->post('id');
     $data['kode'] = $this->M_main->get_kode_master_v3('CS', 'kode', 'm_pelanggan');
