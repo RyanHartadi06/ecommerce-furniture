@@ -256,12 +256,14 @@ class Order extends CI_Controller {
   
   /**
    * Function Untuk Upload Bukti Pembayaran
+   * Digunakan untuk upload bukti pembayaran oleh pelanggan
    */
   public function upload_bukti_pembayaran(){
     $id = $this->input->post('id_order');
     $foto = do_upload_file('bukti_pembayaran', 'file_upload', 'assets/uploads/bukti_pembayaran/', 'jpg|jpeg|png|pdf');
     $path = $foto['file_name'];
-
+    
+    // Simpan ke DB
     date_default_timezone_set('Asia/Jakarta');
     $object = array(
       'bukti_bayar' => $path,
@@ -300,7 +302,7 @@ class Order extends CI_Controller {
 
   /**
    * Function Laporan Pengiriman
-   * 
+   * Digunakan untuk menampilkan halaman kurir dan untuk laporan pengiriman
    */
 
   function laporan_pengiriman(){
@@ -312,12 +314,14 @@ class Order extends CI_Controller {
     $this->parser->parse('sistem/template', $data); 
   }
 
+  // Digunakan untuk proses simpan laporan pengiriman
   public function save_laporan_pengiriman(){
     $id_user = $this->session->userdata('auth_id_user');
     $id_order = $this->input->post('id_order');
     $penerima = strip_tags(trim($this->input->post('penerima')));
     $keterangan = strip_tags(trim($this->input->post('keterangan')));
 
+    // Upload file
     $foto = do_upload_file('laporan_pengiriman', 'foto_bukti', 'assets/uploads/pengiriman/', 'jpg|jpeg|png');
     $path = $foto['file_name'];
     
@@ -341,7 +345,7 @@ class Order extends CI_Controller {
     echo json_encode($response);   
   }
 
-  // Function kirim email upload bukti pembayaran
+  // Function kirim notif email upload bukti pembayaran
   public function email_bukti_pembayaran($id_order){
     // Data Order
     $data['order'] = $this->Order_m->get_pesanan_by_id($id_order)->row_array();

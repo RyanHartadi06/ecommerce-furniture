@@ -140,7 +140,7 @@ class Auth extends CI_Controller {
           // Message
           $this->session->set_flashdata('success', 'Registrasi berhasil, Silahkan cek email Anda untuk verifikasi pendaftaran akun !');
 
-          // Kirim email verifikasi
+          // Kirim email verifikasi tempatnya di sistem_helper nama function api_register
           $response['success'] = TRUE;
           $response['message_email'] = api_register($id_user, $nama, $email);		    
           $response['message'] = "Registrasi berhasil, Silahkan cek email Anda untuk verifikasi pendaftaran akun !";

@@ -116,6 +116,8 @@ function kelamin($jenkel){
         echo "-";
     }
 }
+
+// berfungsi untuk kirim email verifikasi atau aktivasi akun user setelah registrasi
 function api_register($id_user,$nama,$email){
   $CI =& get_instance();
   $config = [
