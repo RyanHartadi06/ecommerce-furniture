@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------------
@@ -52,6 +52,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'Home';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+// Frontend Routes
+$route['service'] = 'Home/service';
+$route['track/(:any)'] = 'Home/order_tracking/$1';
+$route['track'] = 'Home/order_tracking';
 
 // Custome Route
 // Master Data

@@ -1,6 +1,6 @@
 <?php
-  $is_login = $this->session->userdata('auth_is_login'); 
-  $role = $this->session->userdata('auth_id_role'); 
+$is_login = $this->session->userdata('auth_is_login');
+$role = $this->session->userdata('auth_id_role');
 ?>
 <header class="header_wrap">
   <div class="top-header">
@@ -16,11 +16,11 @@
         <div class="col-md-6">
           <div class="text-center text-md-right">
             <ul class="header_list">
-              <?php if($is_login){ ?>
-              <li><a href="javascript:;" onclick="logout()"><i class="ti-lock"></i><span>Logout</span></a></li>
-              <?php }else{ ?>
-              <li><a href="<?= site_url('Auth/register') ?>"><i class="ti-user"></i><span>Register</span></a></li>
-              <li><a href="<?= site_url('Auth') ?>"><i class="ti-user"></i><span>Login</span></a></li>
+              <?php if ($is_login) { ?>
+                <li><a href="javascript:;" onclick="logout()"><i class="ti-lock"></i><span>Logout</span></a></li>
+              <?php } else { ?>
+                <li><a href="<?= site_url('Auth/register') ?>"><i class="ti-user"></i><span>Register</span></a></li>
+                <li><a href="<?= site_url('Auth') ?>"><i class="ti-user"></i><span>Login</span></a></li>
               <?php } ?>
             </ul>
           </div>
@@ -40,14 +40,14 @@
           <form id="form-pencarian" action="<?= site_url('Produk/search') ?>">
             <div class="input-group">
               <input class="form-control" id="keyword_produk" name="keyword" placeholder="Cari Produk . . ."
-               type="text" value="<?= (isset($_GET['keyword'])) ? $_GET['keyword'] : '' ?>">
+                type="text" value="<?= (isset($_GET['keyword'])) ? $_GET['keyword'] : '' ?>">
               <button type="submit" class="search_btn3"><i class="ti-search"></i></button>
             </div>
           </form>
         </div>
         <ul class="navbar-nav attr-nav align-items-center">
           <?php
-          if($role=="PELANGGAN"){ ?>
+          if ($role == "PELANGGAN") { ?>
             <li><a href="<?= site_url('/Account') ?>" class="nav-link"><i class="linearicons-user"></i></a></li>
             <li>
               <a class="nav-link cart_trigger" href="<?= site_url('order/cart_list') ?>">
@@ -55,7 +55,7 @@
                 <span id="cart-count"></span>
               </a>
             </li>
-          <?php }else if($role=="ADMIN" || $role=="OWNER"){ ?>
+          <?php } else if ($role == "ADMIN" || $role == "OWNER") { ?>
             <li><a href="<?= site_url('/dashboard') ?>" class="nav-link"><i class="linearicons-home"></i></a></li>
           <?php } ?>
         </ul>
@@ -318,6 +318,7 @@
                 </li> -->
                 <li><a class="nav-link nav_item" href="<?= site_url("/") ?>">Home</a></li>
                 <li><a class="nav-link nav_item" href="<?= site_url('Produk/rekomendasi') ?>">Rekomendasi Produk</a></li>
+                <li><a class="nav-link nav_item" href="<?= site_url('Service/index') ?>">Layanan Servis</a></li>
                 <li><a class="nav-link nav_item" href="<?= site_url("/Home/about") ?>">About Us</a></li>
                 <li><a class="nav-link nav_item" href="<?= site_url("/Home/contact") ?>">Contact Us</a></li>
               </ul>
@@ -333,9 +334,9 @@
   </div>
 </header>
 <script>
-// $(document).on('submit', '#form-pencarian', function(event) {
-//     event.preventDefault();
-//     var q = $('#keyword_produk').val();
+  // $(document).on('submit', '#form-pencarian', function(event) {
+  //     event.preventDefault();
+  //     var q = $('#keyword_produk').val();
 
-// });
+  // });
 </script>
