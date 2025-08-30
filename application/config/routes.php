@@ -67,6 +67,10 @@ $route['master/kategori-produk'] = 'Kategori';
 $route['master/produk'] = 'Produk';
 $route['master/jenis-produk'] = 'Jenis_produk';
 
+// Service Management
+$route['admin/service-orders'] = 'Service_order';
+$route['admin/service-orders/detail/(:num)'] = 'Service_order/detail_service_order/$1';
+
 // Laporan
 $route['laporan/penjualan'] = 'Laporan/penjualan';
 $route['laporan/product-terjual'] = 'Laporan/produk_terjual';
